@@ -1,0 +1,17 @@
+server:
+  port: 8060
+
+spring:
+  application:
+    name: service-provider
+
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: 127.0.0.1
+    instanceId: ${spring.cloud.client.ipAddress:127.0.0.1}:${server.port}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.port:8010}/eureka/
