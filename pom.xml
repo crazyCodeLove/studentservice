@@ -12,6 +12,7 @@
         <module>service-provider</module>
         <module>model</module>
         <module>api</module>
+        <module>discover-client</module>
     </modules>
 
     <parent>

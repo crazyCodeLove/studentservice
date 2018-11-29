@@ -2,13 +2,16 @@ package com.sse.controller;
 
 import com.sse.model.RequestParamBase;
 import com.sse.model.Response;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
- * @author pczhao
  * @email
  * @date 2018-11-05 21:30
  */
@@ -17,7 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentController {
 
     @RequestMapping(value = "/student/1", method = RequestMethod.POST)
-    public Response getStudent(@RequestBody RequestParamBase paramBase) {
+    public Response getStudent(@RequestBody @Valid RequestParamBase paramBase, BindingResult validResult) {
+        if (validResult.hasErrors()) {
+            for (ObjectError error : validResult.getAllErrors()) {
+                System.out.println(error.getDefaultMessage());
+            }
+            return null;
+        }
         System.out.println(paramBase);
         Response result = Response.builder().age(23).name("well").build();
         return result;
