@@ -1,6 +1,5 @@
 package com.sse.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -41,7 +40,7 @@ public class LogParamAspect {
         /** 处理方法数据 */
         log.info("class:" + point.getTarget().getClass().getName());
         log.info("method:" + point.getSignature().getName());
-        log.info("param:" ,point.getArgs());
+        log.info("param:", point.getArgs());
 
 
         Object result = point.proceed();
