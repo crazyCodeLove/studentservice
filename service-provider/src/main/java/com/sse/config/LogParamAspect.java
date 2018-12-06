@@ -1,7 +1,6 @@
 package com.sse.config;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -25,8 +24,6 @@ import java.util.Arrays;
 @Aspect
 @Slf4j
 public class LogParamAspect {
-    ThreadLocal<StringBuilder> logHandler = new ThreadLocal<>();
-    ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     @Pointcut("execution(* com.sse.controller..*.* (..))")
     public void controllerPoint() {
@@ -34,44 +31,43 @@ public class LogParamAspect {
 
     @Around("controllerPoint()")
     public Object aroundController(ProceedingJoinPoint point) throws Throwable {
-        startTime.set(System.currentTimeMillis());
+        long startTime = System.currentTimeMillis();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
-        logHandler.set(new StringBuilder());
+        StringBuilder sb = new StringBuilder();
         /** 通用的请求数据 */
-        logHandler.get().append("session ID:");
-        logHandler.get().append(request.getSession().getId());
-        logHandler.get().append("; url:");
-        logHandler.get().append(request.getRequestURL());
-        logHandler.get().append("; method:");
-        logHandler.get().append(request.getMethod());
-        logHandler.get().append("; query string:");
-        logHandler.get().append(request.getQueryString());
-        logHandler.get().append("; ip:");
-        logHandler.get().append(IpUtil.getIpAddr(request));
+        sb.append("session ID:");
+        sb.append(request.getSession().getId());
+        sb.append("; url:");
+        sb.append(request.getRequestURL());
+        sb.append("; method:");
+        sb.append(request.getMethod());
+        sb.append("; query string:");
+        sb.append(request.getQueryString());
+        sb.append("; ip:");
+        sb.append(IpUtil.getIpAddr(request));
+        sb.append("; params:");
+        sb.append(JSON.toJSONString(request.getParameterMap()));
 
         /** 处理方法数据 */
-        logHandler.get().append("; class:");
-        logHandler.get().append(point.getTarget().getClass().getName());
-        logHandler.get().append("; method:");
-        logHandler.get().append(point.getSignature().getName());
-        logHandler.get().append("; param:");
-        logHandler.get().append(Arrays.toString(point.getArgs()));
-        log.info(logHandler.get().toString());
-        logHandler.remove();
+        sb.append("; callClass:");
+        sb.append(point.getTarget().getClass().getName());
+        sb.append("; callMethod:");
+        sb.append(point.getSignature().getName());
+        sb.append("; args:");
+        sb.append(Arrays.toString(point.getArgs()));
+        log.info(sb.toString());
 
         Object result = point.proceed();
 
-        logHandler.set(new StringBuilder());
-        logHandler.get().append("session ID:");
-        logHandler.get().append(request.getSession().getId());
-        logHandler.get().append("; result:");
-        logHandler.get().append(result);
-        logHandler.get().append("; cost time(ms):");
-        logHandler.get().append(System.currentTimeMillis() - startTime.get());
-        startTime.remove();
-        log.info(logHandler.get().toString());
-        logHandler.remove();
+        sb = new StringBuilder();
+        sb.append("session ID:");
+        sb.append(request.getSession().getId());
+        sb.append("; result:");
+        sb.append(result);
+        sb.append("; cost time(ms):");
+        sb.append(System.currentTimeMillis() - startTime);
+        log.info(sb.toString());
         return result;
     }
 
