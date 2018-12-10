@@ -60,7 +60,7 @@ public class LogParamAspect {
 
         Object result = point.proceed();
 
-        sb = new StringBuilder();
+        sb.setLength(0);
         sb.append("session ID:");
         sb.append(request.getSession().getId());
         sb.append("; result:");
