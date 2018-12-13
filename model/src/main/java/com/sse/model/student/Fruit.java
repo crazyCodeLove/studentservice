@@ -1,8 +1,9 @@
-package com.sse.model;
+package com.sse.model.student;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -15,8 +16,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 public class Fruit {
-    @NotBlank(message = "color 不能为空")
+    @NotBlank(message = "Fruit.color 不能为空")
     private String color;
-    @NotNull(message = "price 不能为空")
+    @NotNull(message = "Fruit.price 不能为空")
     private Integer price;
 }

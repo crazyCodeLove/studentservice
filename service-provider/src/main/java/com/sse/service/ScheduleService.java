@@ -8,18 +8,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author pczhao
+ * @author ZHAOPENGCHENG
  * @email
- * @date 2018-12-13 13:38
+ * @date 2018-12-13 20:47
  */
 
 @EnableScheduling
 @Component
-public class ScheduleTaskService {
+public class ScheduleService extends ServiceBase {
+
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    /**
+     * 秒 分 时 天 月 星期 ，以下表示每天每隔2小时执行一次
+     */
+    @Scheduled(cron = "0 0 0/2 * * ?")
     public void writeTime() {
         System.out.println(sdf.format(new Date()));
     }
+
 }

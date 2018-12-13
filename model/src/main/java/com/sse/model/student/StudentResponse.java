@@ -1,20 +1,19 @@
-package com.sse.model;
+package com.sse.model.student;
 
+import com.sse.model.ResponseBase;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * @email
- * @date 2018-11-05 21:15
+ * @date 2018-11-05 21:16
  */
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Student {
+public class StudentResponse extends ResponseBase {
     private String name;
-    private String address;
+    private Integer age;
 }

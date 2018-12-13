@@ -1,9 +1,11 @@
 server:
   port: 8060
+  servlet:
+    context-path: /student-service-provider
 
 spring:
   application:
-    name: service-provider
+    name: student-service-provider
 
 eureka:
   instance:

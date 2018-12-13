@@ -1,5 +1,6 @@
 package com.sse.util;
 
+import com.sse.exception.ParamRTException;
 import org.hibernate.validator.HibernateValidator;
 
 import javax.validation.ConstraintViolation;
@@ -33,7 +34,7 @@ public class ValidateUtil {
     public static <T> void validate(T obj) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);
         if (constraintViolations.size() > 0) {
-            throw new IllegalArgumentException(constraintViolations.iterator().next().getMessage());
+            throw new ParamRTException(constraintViolations.iterator().next().getMessage());
         }
     }
 }
