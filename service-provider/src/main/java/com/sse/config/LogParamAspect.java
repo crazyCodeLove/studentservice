@@ -25,7 +25,9 @@ import java.util.Arrays;
 @Slf4j
 public class LogParamAspect {
 
-    @Pointcut("execution(* com.sse.controller..*.* (..))")
+    /** 只记录请求的参数 */
+    @Pointcut("execution(* com.sse.controller..*.* (..)) " +
+            "&& @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void controllerPoint() {
     }
 
