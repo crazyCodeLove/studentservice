@@ -36,7 +36,7 @@ public class LogParamAspect {
         long startTime = System.currentTimeMillis();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(200);
         /** 通用的请求数据 */
         sb.append("session ID:");
         sb.append(request.getSession().getId());
