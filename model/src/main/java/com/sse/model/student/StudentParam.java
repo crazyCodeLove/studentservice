@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentParam extends ParamBase {
 
-    @NotNull(message = "StudentParam.id 不能为空")
+    @NotNull(message = "StudentParam.id 不能为null")
     private Integer id;
 
     @NotBlank(message = "StudentParam.name 不能为空")

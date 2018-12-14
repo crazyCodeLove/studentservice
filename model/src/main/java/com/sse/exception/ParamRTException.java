@@ -6,7 +6,7 @@ package com.sse.exception;
  * @date 2018-12-13 20:39
  */
 
-public class ParamRTException extends RTBaseException {
+public class ParamRTException extends RTExceptionBase {
 
     public ParamRTException(String message) {
         super(message);

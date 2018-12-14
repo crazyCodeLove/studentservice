@@ -1,18 +1,21 @@
 package com.sse.config;
 
 import com.alibaba.fastjson.JSON;
+import com.sse.exception.RTExceptionBase;
+import com.sse.model.ParamBase;
 import com.sse.util.IpUtil;
+import com.sse.util.ValidateUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ZHAOPENGCHENG
@@ -25,7 +28,14 @@ import java.util.Arrays;
 @Slf4j
 public class LogParamAspect {
 
-    /** 只记录请求的参数 */
+    /**
+     * 记录请求开始时间
+     */
+//    private ThreadLocal<Long> startTime = new ThreadLocal<>();
+
+    /**
+     * 只记录请求的参数
+     */
     @Pointcut("execution(* com.sse.controller..*.* (..)) " +
             "&& @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void controllerPoint() {
@@ -60,17 +70,38 @@ public class LogParamAspect {
         sb.append(Arrays.toString(point.getArgs()));
         log.info(sb.toString());
 
-        Object result = point.proceed();
-
-        sb.setLength(0);
-        sb.append("session ID:");
-        sb.append(request.getSession().getId());
-        sb.append("; result:");
-        sb.append(result);
-        sb.append("; cost time(ms):");
-        sb.append(System.currentTimeMillis() - startTime);
-        log.info(sb.toString());
+        Object result = null;
+        try {
+            /** 对参数进行统一校验 */
+            validParam(point.getArgs());
+            result = point.proceed();
+        } finally {
+            /** 记录响应 */
+            sb.setLength(0);
+            sb.append("session ID:");
+            sb.append(request.getSession().getId());
+            sb.append("; result:");
+            sb.append(result);
+            sb.append("; cost time(ms):");
+            sb.append(System.currentTimeMillis() - startTime);
+            log.info(sb.toString());
+        }
         return result;
+    }
+
+    /**
+     * 对参数使用 hibernate validator 进行校验
+     *
+     * @param params
+     */
+    public void validParam(Object[] params) {
+        if (params != null) {
+            for (Object obj : params) {
+                if (obj instanceof ParamBase) {
+                    ValidateUtil.validate(obj);
+                }
+            }
+        }
     }
 
 

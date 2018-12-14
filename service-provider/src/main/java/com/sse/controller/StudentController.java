@@ -16,7 +16,6 @@ public class StudentController {
 
     @RequestMapping(value = "/student/1", method = RequestMethod.POST)
     public ResponseBase getStudent(@RequestBody StudentParam studentParam) {
-        ValidateUtil.validate(studentParam);
         System.out.println(studentParam);
         StudentResponse result = new StudentResponse();
         result.setName("json");
