@@ -33,4 +33,11 @@ public class StudentController {
         result.setResult(StudentResponse.builder().name("form").age(15).build());
         return result;
     }
+
+    @RequestMapping(value = "/student/3", method = RequestMethod.GET)
+    public ResponseResultHolder<StudentResponse> getStudentByGetMethod() {
+        ResponseResultHolder<StudentResponse> result = new ResponseResultHolder<>();
+        result.setResult(StudentResponse.builder().name("get method no args").age(26).build());
+        return result;
+    }
 }
