@@ -1,7 +1,7 @@
 package com.sse.model.student;
 
-import com.sse.model.ResponseBase;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentResponse extends ResponseBase {
+@Builder
+public class StudentResponse {
     private String name;
     private Integer age;
 }

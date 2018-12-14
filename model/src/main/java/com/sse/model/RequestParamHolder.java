@@ -1,5 +1,6 @@
 package com.sse.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ParamBase {
+public class RequestParamHolder<T> {
+    private T param;
 }

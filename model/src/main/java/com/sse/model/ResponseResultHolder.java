@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResponseBase {
+public class ResponseResultHolder<T> {
+    T result;
     private ResponseError error;
 
     public static class ResponseError {

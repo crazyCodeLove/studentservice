@@ -1,21 +1,20 @@
 package com.sse.config;
 
 import com.alibaba.fastjson.JSON;
-import com.sse.exception.RTExceptionBase;
-import com.sse.model.ParamBase;
+import com.sse.model.RequestParamHolder;
 import com.sse.util.IpUtil;
 import com.sse.util.ValidateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author ZHAOPENGCHENG
@@ -27,11 +26,6 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @Slf4j
 public class LogParamAspect {
-
-    /**
-     * 记录请求开始时间
-     */
-//    private ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     /**
      * 只记录请求的参数
@@ -97,8 +91,8 @@ public class LogParamAspect {
     public void validParam(Object[] params) {
         if (params != null) {
             for (Object obj : params) {
-                if (obj instanceof ParamBase) {
-                    ValidateUtil.validate(obj);
+                if (obj instanceof RequestParamHolder) {
+                    ValidateUtil.validate(((RequestParamHolder) obj).getParam());
                 }
             }
         }

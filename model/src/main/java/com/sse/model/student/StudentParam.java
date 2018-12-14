@@ -1,7 +1,7 @@
 package com.sse.model.student;
 
-import com.sse.model.ParamBase;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +19,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentParam extends ParamBase {
+@Builder
+public class StudentParam {
 
     @NotNull(message = "StudentParam.id 不能为null")
     private Integer id;

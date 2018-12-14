@@ -2,7 +2,7 @@ package com.sse.config.exceptionHandler;
 
 import com.sse.exception.ParamRTException;
 import com.sse.exception.RTExceptionBase;
-import com.sse.model.ResponseBase;
+import com.sse.model.ResponseResultHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -24,15 +24,15 @@ public class ParamExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = ParamRTException.class)
-    public ResponseBase paramExceptionHandle(RTExceptionBase e) {
+    public ResponseResultHolder paramExceptionHandle(RTExceptionBase e) {
         log.error(e.getMessage());
-        return ResponseBase.builder().error(new ResponseBase.ResponseError(1000, e.getMessage())).build();
+        return ResponseResultHolder.builder().error(new ResponseResultHolder.ResponseError(1000, e.getMessage())).build();
     }
 
     @ExceptionHandler(value = RuntimeException.class)
-    public ResponseBase RuntimeExceptHandler(RuntimeException e) {
+    public ResponseResultHolder RuntimeExceptHandler(RuntimeException e) {
         e.printStackTrace();
-        return ResponseBase.builder().error(new ResponseBase.ResponseError(500, "server internal error, engineers are rushing to repair ...")).build();
+        return ResponseResultHolder.builder().error(new ResponseResultHolder.ResponseError(500, "server internal error, engineers are rushing to repair ...")).build();
     }
 
 }
