@@ -83,7 +83,7 @@ public class HttpClientUtil {
                 String content = response.body().string();
                 EurekaApplication application = mapper.readValue(content, EurekaApplication.class);
                 for (EurekaApplication.Application.Instance instance : application.getApplication().getInstance()) {
-                    if ("UP".equals(instance.getStatus().trim())) {
+                    if ("UP".equals(instance.getStatus().trim().toUpperCase())) {
                         /** 添加所有启动着的服务的首地址 */
                         result.add(instance.getHomePageUrl());
                     }
