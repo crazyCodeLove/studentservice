@@ -4,7 +4,10 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 
 /**
  * @author pczhao
@@ -14,7 +17,7 @@ import java.net.UnknownHostException;
 
 public class IpUtil {
 
-    public static String getIpAddr(HttpServletRequest request) {
+    public static String getRequestIpAddr(HttpServletRequest request) {
         if (null == request) {
             return null;
         }
@@ -42,15 +45,39 @@ public class IpUtil {
         if (!StringUtils.isBlank(ipAddress) && ipAddress.length() > 15) {
             // "***.***.***.***".length() = 15
             String[] ipArrs = StringUtils.split(ipAddress, ",");
-            for (String ipArr : ipArrs)
-            {
-                if (!StringUtils.isBlank(ipArr) && !StringUtils.equalsIgnoreCase("unknown", ipArr))
-                {
+            for (String ipArr : ipArrs) {
+                if (!StringUtils.isBlank(ipArr) && !StringUtils.equalsIgnoreCase("unknown", ipArr)) {
                     ipAddress = ipArr;
                     break;
                 }
             }
         }
         return ipAddress;
+    }
+
+    public static String getLocalIpAddr() {
+        // enumerates all network interfaces
+        try {
+            Enumeration<NetworkInterface> enu = NetworkInterface.getNetworkInterfaces();
+            while (enu.hasMoreElements()) {
+                NetworkInterface ni = enu.nextElement();
+                if (ni.isLoopback()) {
+                    continue;
+                }
+
+                Enumeration<InetAddress> addressEnumeration = ni.getInetAddresses();
+                while (addressEnumeration.hasMoreElements()) {
+                    InetAddress address = addressEnumeration.nextElement();
+                    // ignores all invalidated addresses
+                    if (address.isLinkLocalAddress() || address.isLoopbackAddress() || address.isAnyLocalAddress()) {
+                        continue;
+                    }
+                    return address.getHostAddress();
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("No validated local address!");
     }
 }

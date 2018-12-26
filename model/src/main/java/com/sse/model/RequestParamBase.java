@@ -8,5 +8,6 @@ package com.sse.model;
 
 public class RequestParamBase {
 
-    public void validateParam() {}
+    public void validParamInParam() {
+    }
 }

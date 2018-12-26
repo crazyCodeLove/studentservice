@@ -1,6 +1,7 @@
 package com.sse.config;
 
 import com.alibaba.fastjson.JSON;
+import com.sse.model.RequestParamBase;
 import com.sse.model.RequestParamHolder;
 import com.sse.util.IpUtil;
 import com.sse.util.ValidateUtil;
@@ -51,7 +52,7 @@ public class LogParamAspect {
         sb.append("; query string:");
         sb.append(request.getQueryString());
         sb.append("; ip:");
-        sb.append(IpUtil.getIpAddr(request));
+        sb.append(IpUtil.getRequestIpAddr(request));
         sb.append("; params:");
         sb.append(JSON.toJSONString(request.getParameterMap()));
 
@@ -67,7 +68,7 @@ public class LogParamAspect {
         Object result = null;
         try {
             /** 对参数进行统一校验 */
-            validParam(point.getArgs());
+            validParamInAsp(point.getArgs());
             result = point.proceed();
         } finally {
             /** 记录响应 */
@@ -88,11 +89,17 @@ public class LogParamAspect {
      *
      * @param params
      */
-    public void validParam(Object[] params) {
+    public void validParamInAsp(Object[] params) {
         if (params != null) {
             for (Object obj : params) {
                 if (obj instanceof RequestParamHolder) {
-                    ValidateUtil.validate(((RequestParamHolder) obj).getParam());
+                    Object param = ((RequestParamHolder) obj).getParam();
+                    if (param != null) {
+                        ValidateUtil.validate(param);
+                        if (param instanceof RequestParamBase) {
+                            ((RequestParamBase) param).validParamInParam();
+                        }
+                    }
                 }
             }
         }

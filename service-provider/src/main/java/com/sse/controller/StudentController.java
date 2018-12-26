@@ -1,5 +1,6 @@
 package com.sse.controller;
 
+import com.sse.config.exception.ParamNullException;
 import com.sse.model.RequestParamHolder;
 import com.sse.model.ResponseResultHolder;
 import com.sse.model.student.StudentParam;
@@ -16,6 +17,9 @@ public class StudentController {
 
     @RequestMapping(value = "/student/1", method = RequestMethod.POST)
     public ResponseResultHolder<StudentResponse> getStudent(@RequestBody RequestParamHolder<StudentParam> stuParamHolder) {
+        if (stuParamHolder.getParam() == null) {
+            throw new ParamNullException("参数为空异常");
+        }
         System.out.println(stuParamHolder);
         ResponseResultHolder<StudentResponse> result = new ResponseResultHolder<>();
         result.setResult(StudentResponse.builder().name("json").age(23).build());
