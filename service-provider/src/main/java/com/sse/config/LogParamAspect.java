@@ -3,6 +3,7 @@ package com.sse.config;
 import com.alibaba.fastjson.JSON;
 import com.sse.model.RequestParamBase;
 import com.sse.model.RequestParamHolder;
+import com.sse.model.ResponseResultHolder;
 import com.sse.util.IpUtil;
 import com.sse.util.ValidateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @author ZHAOPENGCHENG
@@ -39,6 +41,7 @@ public class LogParamAspect {
     @Around("controllerPoint()")
     public Object aroundController(ProceedingJoinPoint point) throws Throwable {
         long startTime = System.currentTimeMillis();
+        long endTime, dur;
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
         StringBuilder sb = new StringBuilder(400);
@@ -65,11 +68,11 @@ public class LogParamAspect {
         sb.append(Arrays.toString(point.getArgs()));
         log.info(sb.toString());
 
-        Object result = null;
+        ResponseResultHolder result = null;
         try {
             /** 对参数进行统一校验 */
             validParamInAsp(point.getArgs());
-            result = point.proceed();
+            result = (ResponseResultHolder) point.proceed();
         } finally {
             /** 记录响应 */
             sb.setLength(0);
@@ -78,9 +81,13 @@ public class LogParamAspect {
             sb.append("; result:");
             sb.append(result);
             sb.append("; cost time(ms):");
-            sb.append(System.currentTimeMillis() - startTime);
+            endTime = System.currentTimeMillis();
+            dur = endTime - startTime;
+            sb.append(dur);
             log.info(sb.toString());
         }
+        result.setResponseTime(new Date(endTime));
+        result.setDuration(dur);
         return result;
     }
 

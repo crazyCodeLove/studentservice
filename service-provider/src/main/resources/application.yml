@@ -6,6 +6,13 @@ server:
 spring:
   application:
     name: student-service-provider
+#  对返回的时间进行格式化
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss.SSS
+    time-zone: GMT+8
+    defaultPropertyInclusion: non_null   #非空node才序列化
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false #未定义的key不序列化
 
 eureka:
   instance:

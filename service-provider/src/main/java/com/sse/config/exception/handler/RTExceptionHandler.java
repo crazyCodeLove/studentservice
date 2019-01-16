@@ -28,7 +28,7 @@ public class RTExceptionHandler {
     @ExceptionHandler(value = ParamRTException.class)
     public ResponseResultHolder paramExceptionHandle(RTExceptionBase e) {
         log.error(e.getMessage());
-        return ResponseResultHolder.builder().error(new ResponseResultHolder.ResponseError(1000, e.getMessage())).build();
+        return ResponseResultHolder.error(1000, e.getMessage());
     }
 
     /**
@@ -40,7 +40,7 @@ public class RTExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseResultHolder RuntimeExceptHandler(RuntimeException e) {
         e.printStackTrace();
-        return ResponseResultHolder.builder().error(new ResponseResultHolder.ResponseError(500, "server internal error, engineers are rushing to repair ...")).build();
+        return ResponseResultHolder.error(500, "server internal error, engineers are rushing to repair ...");
     }
 
 }
