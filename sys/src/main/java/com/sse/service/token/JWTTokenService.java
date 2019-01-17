@@ -22,7 +22,7 @@ import java.util.UUID;
  * @date 2019-01-17 9:52
  */
 
-@Service(value = "JWTTokenService")
+@Service
 @Slf4j
 public class JWTTokenService implements TokenService {
 
