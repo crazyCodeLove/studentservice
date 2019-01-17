@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class RTExceptionHandler {
 
+
+
     /**
      * 参数校验错误，错误码统一为：1000，错误原因放到 message 中
      *
