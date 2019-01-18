@@ -1,5 +1,6 @@
 package com.sse.config.exception;
 
+import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.ParamRTException;
 
 /**
@@ -9,23 +10,20 @@ import com.sse.exception.ParamRTException;
  */
 
 public class ParamNullException extends ParamRTException {
-    public ParamNullException() {
-        super();
-    }
 
     public ParamNullException(String message) {
-        super(message);
+        super(ExceptionCodeEnum.PARAM_NULL_EXCEPTION, message);
     }
 
     public ParamNullException(String message, Throwable cause) {
-        super(message, cause);
+        super(ExceptionCodeEnum.PARAM_NULL_EXCEPTION, message, cause);
     }
 
-    public ParamNullException(Throwable cause) {
-        super(cause);
+    public ParamNullException(ExceptionCodeEnum codeEnum, String message) {
+        super(codeEnum, message);
     }
 
-    protected ParamNullException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public ParamNullException(ExceptionCodeEnum codeEnum, String message, Throwable cause) {
+        super(codeEnum, message, cause);
     }
 }

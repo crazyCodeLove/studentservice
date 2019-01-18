@@ -1,8 +1,6 @@
 package com.sse.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.SecureUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.crypto.symmetric.DES;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +29,6 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) throws JsonProcessingException {
-        System.out.println(objectMapper.writeValueAsString(null));
     }
 
     private static void fun10() {
@@ -57,7 +54,6 @@ public class Demo1 {
     }
 
     /**
-     *
      * @param subject
      * @param user
      * @param activeDuration 有效期，单位 ms

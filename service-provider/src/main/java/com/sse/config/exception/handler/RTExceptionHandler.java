@@ -1,7 +1,6 @@
 package com.sse.config.exception.handler;
 
-import com.sse.exception.ParamRTException;
-import com.sse.exception.RTExceptionBase;
+import com.sse.exception.RTException;
 import com.sse.model.ResponseResultHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,17 +19,16 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class RTExceptionHandler {
 
 
-
     /**
-     * 参数校验错误，错误码统一为：1000，错误原因放到 message 中
+     * 自定义异常统一处理
      *
      * @param e
      * @return
      */
-    @ExceptionHandler(value = ParamRTException.class)
-    public ResponseResultHolder paramExceptionHandle(RTExceptionBase e) {
-        log.error(e.getMessage());
-        return ResponseResultHolder.error(1000, e.getMessage());
+    @ExceptionHandler(value = RTException.class)
+    public ResponseResultHolder paramExceptionHandle(RTException e) {
+        log.error(e.getMessage(), e);
+        return ResponseResultHolder.error(e.getCode(), e.getMessage());
     }
 
     /**
@@ -41,7 +39,7 @@ public class RTExceptionHandler {
      */
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseResultHolder RuntimeExceptHandler(RuntimeException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e);
         return ResponseResultHolder.error(500, "server internal error, engineers are rushing to repair ...");
     }
 

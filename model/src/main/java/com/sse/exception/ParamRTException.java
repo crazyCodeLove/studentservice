@@ -6,25 +6,21 @@ package com.sse.exception;
  * @date 2018-12-13 20:39
  */
 
-public class ParamRTException extends RTExceptionBase {
+public class ParamRTException extends RTException {
 
     public ParamRTException(String message) {
-        super(message);
+        super(ExceptionCodeEnum.PARAM_RT_EXCEPTION, message);
     }
 
     public ParamRTException(String message, Throwable cause) {
-        super(message, cause);
+        super(ExceptionCodeEnum.PARAM_RT_EXCEPTION, message, cause);
     }
 
-    public ParamRTException() {
-        super();
+    public ParamRTException(ExceptionCodeEnum codeEnum, String message) {
+        super(codeEnum, message);
     }
 
-    public ParamRTException(Throwable cause) {
-        super(cause);
-    }
-
-    protected ParamRTException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public ParamRTException(ExceptionCodeEnum codeEnum, String message, Throwable cause) {
+        super(codeEnum, message, cause);
     }
 }

@@ -1,6 +1,6 @@
 package com.sse.model.student;
 
-import com.sse.exception.RTExceptionBase;
+import com.sse.exception.RTException;
 import com.sse.model.RequestParamBase;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +38,7 @@ public class StudentParam extends RequestParamBase {
     public void validParamInParam() {
         super.validParamInParam();
         if (id == 12) {
-            throw new RTExceptionBase("test case");
+            throw new RTException("test case");
         }
     }
 }

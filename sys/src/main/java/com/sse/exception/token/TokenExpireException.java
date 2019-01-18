@@ -1,6 +1,7 @@
 package com.sse.exception.token;
 
-import com.sse.exception.RTExceptionBase;
+import com.sse.exception.ExceptionCodeEnum;
+import com.sse.exception.RTException;
 
 /**
  * @author pczhao
@@ -8,24 +9,21 @@ import com.sse.exception.RTExceptionBase;
  * @date 2019-01-17 13:18
  */
 
-public class TokenExpireException extends RTExceptionBase {
-    public TokenExpireException() {
-        super();
-    }
+public class TokenExpireException extends RTException {
 
     public TokenExpireException(String message) {
-        super(message);
+        super(ExceptionCodeEnum.TOKEN_EXPIRE_EXCEPTION, message);
     }
 
     public TokenExpireException(String message, Throwable cause) {
-        super(message, cause);
+        super(ExceptionCodeEnum.TOKEN_EXPIRE_EXCEPTION, message, cause);
     }
 
-    public TokenExpireException(Throwable cause) {
-        super(cause);
+    public TokenExpireException(ExceptionCodeEnum codeEnum, String message) {
+        super(codeEnum, message);
     }
 
-    protected TokenExpireException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
+    public TokenExpireException(ExceptionCodeEnum codeEnum, String message, Throwable cause) {
+        super(codeEnum, message, cause);
     }
 }
