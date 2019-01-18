@@ -36,15 +36,7 @@ public enum ExceptionCodeEnum {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getNote() {
         return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 }
