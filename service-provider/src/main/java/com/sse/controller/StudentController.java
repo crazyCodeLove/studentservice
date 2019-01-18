@@ -33,14 +33,15 @@ public class StudentController {
         System.out.println("name:" + name);
         System.out.println("id:" + id);
         System.out.println("addr:" + addr);
-        ResponseResultHolder<StudentResponse> result = new ResponseResultHolder<>();
-        result.setResult(StudentResponse.builder().name("form").age(15).build());
+        ResponseResultHolder<StudentResponse> result ;
+        result = ResponseResultHolder.setResult(StudentResponse.builder().name("form").age(15).build());
         return result;
     }
 
     @RequestMapping(value = "/student/3", method = RequestMethod.GET)
     public ResponseResultHolder<StudentResponse> getStudentByGetMethod() {
         ResponseResultHolder<StudentResponse> result = new ResponseResultHolder<>();
+
         result.setResult(StudentResponse.builder().name("get method no args").age(26).build());
         return result;
     }

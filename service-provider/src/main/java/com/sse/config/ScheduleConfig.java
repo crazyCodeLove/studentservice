@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
  * @email
  * @date 2018-12-20 14:21
  */
+
 @Configuration
 public class ScheduleConfig implements SchedulingConfigurer {
 

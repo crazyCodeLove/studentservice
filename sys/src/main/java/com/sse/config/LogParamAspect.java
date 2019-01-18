@@ -1,9 +1,11 @@
 package com.sse.config;
 
-import com.alibaba.fastjson.JSON;
+import com.sse.exception.RTException;
 import com.sse.model.RequestParamBase;
 import com.sse.model.RequestParamHolder;
 import com.sse.model.ResponseResultHolder;
+import com.sse.model.log.LogInfo;
+import com.sse.service.LogService;
 import com.sse.util.IpUtil;
 import com.sse.util.ValidateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -30,6 +33,14 @@ import java.util.Date;
 @Slf4j
 public class LogParamAspect {
 
+
+    private LogService logService;
+
+    @Autowired
+    public LogParamAspect(LogService logService) {
+        this.logService = logService;
+    }
+
     /**
      * 只记录请求的参数
      */
@@ -41,53 +52,35 @@ public class LogParamAspect {
     @Around("controllerPoint()")
     public Object aroundController(ProceedingJoinPoint point) throws Throwable {
         long startTime = System.currentTimeMillis();
-        long endTime, dur;
+        long endTime;
+        LogInfo logInfo = new LogInfo();
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (requestAttributes == null) {
+            return null;
+        }
         HttpServletRequest request = requestAttributes.getRequest();
-        StringBuilder sb = new StringBuilder(400);
-        /** 通用的请求数据 */
-        sb.append("session ID:");
-        sb.append(request.getSession().getId());
-        sb.append("; url:");
-        sb.append(request.getRequestURL());
-        sb.append("; method:");
-        sb.append(request.getMethod());
-        sb.append("; query string:");
-        sb.append(request.getQueryString());
-        sb.append("; ip:");
-        sb.append(IpUtil.getRequestIpAddr(request));
-        sb.append("; params:");
-        sb.append(JSON.toJSONString(request.getParameterMap()));
-
-        /** 处理方法数据 */
-        sb.append("; callClass:");
-        sb.append(point.getTarget().getClass().getName());
-        sb.append("; callMethod:");
-        sb.append(point.getSignature().getName());
-        sb.append("; args:");
-        sb.append(Arrays.toString(point.getArgs()));
-        log.info(sb.toString());
-
+        fillLogInfo(request, point, logInfo);
         ResponseResultHolder result = null;
         try {
             /** 对参数进行统一校验 */
             validParamInAsp(point.getArgs());
             result = (ResponseResultHolder) point.proceed();
+            logInfo.setResult(toFixedLengthStr(result.toString()));
+            logInfo.setCode(200);
+        } catch (RTException e) {
+            logInfo.setCode(e.getCode());
+            throw e;
+        }catch (RuntimeException e) {
+            logInfo.setCode(500);
+            throw e;
         } finally {
-            /** 记录响应 */
-            sb.setLength(0);
-            sb.append("session ID:");
-            sb.append(request.getSession().getId());
-            sb.append("; result:");
-            sb.append(result);
-            sb.append("; cost time(ms):");
             endTime = System.currentTimeMillis();
-            dur = endTime - startTime;
-            sb.append(dur);
-            log.info(sb.toString());
+            logInfo.setDuration(endTime - startTime);
+            logInfo.setResponseTime(new Date(endTime));
+            logService.save(logInfo);
         }
         result.setResponseTime(new Date(endTime));
-        result.setDuration(dur);
+        result.setDuration(endTime - startTime);
         return result;
     }
 
@@ -110,6 +103,30 @@ public class LogParamAspect {
                 }
             }
         }
+    }
+
+    private void fillLogInfo(HttpServletRequest request, ProceedingJoinPoint point, LogInfo logInfo) {
+        logInfo.setUrl(toFixedLengthStr(request.getRequestURL().toString()));
+        logInfo.setMethod(request.getMethod());
+        logInfo.setQueryString(toFixedLengthStr(request.getQueryString()));
+        logInfo.setIp(IpUtil.getRequestIpAddr(request));
+
+        logInfo.setCallClass(toFixedLengthStr(point.getTarget().getClass().getName()));
+        logInfo.setCallMethod(toFixedLengthStr(point.getSignature().getName()));
+        logInfo.setArgs(toFixedLengthStr(Arrays.toString(point.getArgs())));
+    }
+
+    /**
+     * 字符串长度不超过 1024 长度
+     *
+     * @param content 内容
+     * @return 结果
+     */
+    private static String toFixedLengthStr(String content) {
+        if (content != null && content.length() > 1024) {
+            return content.substring(0, 1024);
+        }
+        return content;
     }
 
 
