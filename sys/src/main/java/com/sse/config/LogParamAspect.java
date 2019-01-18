@@ -1,5 +1,7 @@
 package com.sse.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.exception.RTException;
 import com.sse.model.RequestParamBase;
 import com.sse.model.RequestParamHolder;
@@ -19,7 +21,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -33,8 +34,8 @@ import java.util.Date;
 @Slf4j
 public class LogParamAspect {
 
-
     private LogService logService;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public LogParamAspect(LogService logService) {
@@ -65,12 +66,12 @@ public class LogParamAspect {
             /** 对参数进行统一校验 */
             validParamInAsp(point.getArgs());
             result = (ResponseResultHolder) point.proceed();
-            logInfo.setResult(toFixedLengthStr(result.toString()));
+            logInfo.setResult(toFixedLengthStr(getObjStr(result.getResult())));
             logInfo.setCode(200);
         } catch (RTException e) {
             logInfo.setCode(e.getCode());
             throw e;
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             logInfo.setCode(500);
             throw e;
         } finally {
@@ -113,7 +114,8 @@ public class LogParamAspect {
 
         logInfo.setCallClass(toFixedLengthStr(point.getTarget().getClass().getName()));
         logInfo.setCallMethod(toFixedLengthStr(point.getSignature().getName()));
-        logInfo.setArgs(toFixedLengthStr(Arrays.toString(point.getArgs())));
+        logInfo.setParams(toFixedLengthStr(getObjStr(request.getParameterMap())));
+
     }
 
     /**
@@ -129,5 +131,14 @@ public class LogParamAspect {
         return content;
     }
 
+    private String getObjStr(Object object) {
+        String result = null;
+        try {
+            result = objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage(), e);
+        }
+        return result;
+    }
 
 }

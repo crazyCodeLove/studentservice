@@ -55,7 +55,7 @@ public class LogInfo {
     /**
      * 处理方法的入参
      */
-    private String args;
+    private String params;
 
     //>>>>>>>>>>>>>>>>>>> 响应信息
 

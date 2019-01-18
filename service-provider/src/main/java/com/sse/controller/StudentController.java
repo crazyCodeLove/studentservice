@@ -21,8 +21,8 @@ public class StudentController {
             throw new ParamNullException("参数为空异常");
         }
         System.out.println(stuParamHolder);
-        ResponseResultHolder<StudentResponse> result = new ResponseResultHolder<>();
-        result.setResult(StudentResponse.builder().name("json").age(23).build());
+        ResponseResultHolder<StudentResponse> result;
+        result = ResponseResultHolder.setResult(StudentResponse.builder().name("json").age(23).build());
         return result;
     }
 
@@ -33,16 +33,15 @@ public class StudentController {
         System.out.println("name:" + name);
         System.out.println("id:" + id);
         System.out.println("addr:" + addr);
-        ResponseResultHolder<StudentResponse> result ;
+        ResponseResultHolder<StudentResponse> result;
         result = ResponseResultHolder.setResult(StudentResponse.builder().name("form").age(15).build());
         return result;
     }
 
     @RequestMapping(value = "/student/3", method = RequestMethod.GET)
     public ResponseResultHolder<StudentResponse> getStudentByGetMethod() {
-        ResponseResultHolder<StudentResponse> result = new ResponseResultHolder<>();
-
-        result.setResult(StudentResponse.builder().name("get method no args").age(26).build());
+        ResponseResultHolder<StudentResponse> result;
+        result = ResponseResultHolder.setResult(StudentResponse.builder().name("get method no args").age(26).build());
         return result;
     }
 }

@@ -5,12 +5,12 @@
         INSERT INTO log
         (
         `url`, `method`, `queryString`, `ip`, `callClass`,
-         `callMethod`, `args`, `result`, `code`, `responseTime`, `duration`
+         `callMethod`, `params`, `result`, `code`, `responseTime`, `duration`
          )
         VALUES
         (
         #{url}, #{method}, #{queryString}, #{ip}, #{callClass},
-        #{callMethod}, #{args}, #{result}, #{code}, #{responseTime}, #{duration}
+        #{callMethod}, #{params}, #{result}, #{code}, #{responseTime}, #{duration}
         );
     </insert>
 
