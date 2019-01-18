@@ -9,9 +9,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author ZHAOPENGCHENG
- * @email
- * @date 2018-12-13 20:47
+ * author ZHAOPENGCHENG
+ * date 2018-12-13 20:47
  */
 
 @EnableScheduling

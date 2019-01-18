@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * @email
- * @date 2018-11-05 21:29
+ * author pczhao
+ * date 2018-11-05 21:29
  */
 
 @Import(ScheduleConfig.class)

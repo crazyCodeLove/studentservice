@@ -4,9 +4,8 @@ import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-17 13:18
+ * author pczhao
+ * date 2019-01-17 13:18
  */
 
 public class TokenExpireException extends RTException {

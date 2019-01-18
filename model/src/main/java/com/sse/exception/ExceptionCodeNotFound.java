@@ -1,9 +1,8 @@
 package com.sse.exception;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-18 18:04
+ * author pczhao
+ * date 2019-01-18 18:04
  */
 
 public class ExceptionCodeNotFound extends RTException{

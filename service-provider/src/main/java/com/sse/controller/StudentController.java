@@ -8,8 +8,8 @@ import com.sse.model.student.StudentResponse;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @email
- * @date 2018-11-05 21:30
+ * author ZHAOPENGCHENG
+ * date 2018-11-05 21:30
  */
 
 @RestController

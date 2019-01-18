@@ -1,9 +1,8 @@
 package com.sse.exception;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-18 17:03
+ * author pczhao
+ * date 2019-01-18 17:03
  */
 
 public class RequestAttributeException extends RTException{

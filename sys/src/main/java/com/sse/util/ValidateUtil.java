@@ -9,9 +9,8 @@ import javax.validation.Validator;
 import java.util.Set;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-12-06 15:13
+ * author pczhao
+ * date 2018-12-06 15:13
  */
 
 public class ValidateUtil {
@@ -29,7 +28,7 @@ public class ValidateUtil {
     /**
      * 注解校验参数
      *
-     * @param obj
+     * @param obj 待校验参数
      */
     public static <T> void validate(T obj) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(obj);

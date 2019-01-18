@@ -2,9 +2,8 @@ package com.sse.exception;
 
 /**
  * 异常错误码汇总
- * @author pczhao
- * @email
- * @date 2019-01-18 10:24
+ * author pczhao
+ * date 2019-01-18 10:24
  */
 
 public enum ExceptionCodeEnum {

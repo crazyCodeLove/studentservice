@@ -1,9 +1,8 @@
 package com.sse.exception;
 
 /**
- * @author ZHAOPENGCHENG
- * @email
- * @date 2018-12-13 20:39
+ * author ZHAOPENGCHENG
+ * date 2018-12-13 20:39
  */
 
 public class ParamRTException extends RTException {

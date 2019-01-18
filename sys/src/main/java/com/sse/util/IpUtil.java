@@ -10,9 +10,8 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-12-06 14:05
+ * author pczhao
+ * date 2018-12-06 14:05
  */
 
 public class IpUtil {
@@ -32,7 +31,7 @@ public class IpUtil {
             ipAddress = request.getRemoteAddr();
             if (StringUtils.equals(ipAddress, "127.0.0.1") || StringUtils.equals(ipAddress, "0:0:0:0:0:0:0:1")) {
                 // 根据网卡取本机配置的IP
-                InetAddress inet = null;
+                InetAddress inet;
                 try {
                     inet = InetAddress.getLocalHost();
                 } catch (UnknownHostException e) {

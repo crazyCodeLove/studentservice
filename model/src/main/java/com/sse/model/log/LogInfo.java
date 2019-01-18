@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-18 14:30
+ * author pczhao
+ * date 2019-01-18 14:30
  */
 
 @Data

@@ -4,9 +4,8 @@ import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-17 13:19
+ * author pczhao
+ * date 2019-01-17 13:19
  */
 
 public class JWTParseException extends RTException {

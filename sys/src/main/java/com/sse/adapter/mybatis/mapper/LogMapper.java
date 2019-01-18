@@ -4,9 +4,8 @@ import com.sse.model.log.LogInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-18 15:53
+ * author pczhao
+ * date 2019-01-18 15:53
  */
 
 @Mapper

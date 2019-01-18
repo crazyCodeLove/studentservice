@@ -14,8 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * @email
- * @date 2018-11-05 21:14
+ * date 2018-11-05 21:14
  */
 
 @Data

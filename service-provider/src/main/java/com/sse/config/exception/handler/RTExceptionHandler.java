@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 自定义异常和运行时异常处理
  *
- * @author ZHAOPENGCHENG
- * @email
- * @date 2018-12-13 20:57
+ * author ZHAOPENGCHENG
+ * date 2018-12-13 20:57
  */
 
 @RestControllerAdvice

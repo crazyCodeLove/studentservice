@@ -19,9 +19,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-12-10 16:13
+ * author pczhao
+ * date 2018-12-10 16:13
  */
 
 public class Demo1 {

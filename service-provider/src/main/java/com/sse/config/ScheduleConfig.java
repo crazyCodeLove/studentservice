@@ -9,9 +9,8 @@ import java.util.concurrent.Executors;
 /**
  * 添加调度系统配置。schedule 为每项任务分配一个线程
  *
- * @author pczhao
- * @email
- * @date 2018-12-20 14:21
+ * author pczhao
+ * date 2018-12-20 14:21
  */
 
 @Configuration

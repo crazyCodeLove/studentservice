@@ -4,9 +4,8 @@ import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-17 13:22
+ * author pczhao
+ * date 2019-01-17 13:22
  */
 
 public class UserParseException extends RTException {

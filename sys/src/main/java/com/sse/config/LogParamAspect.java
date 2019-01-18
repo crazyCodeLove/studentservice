@@ -24,9 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
- * @author ZHAOPENGCHENG
- * @email
- * @date 2018-12-04 22:14
+ * author ZHAOPENGCHENG
+ * date 2018-12-04 22:14
  */
 
 @Configuration
@@ -35,11 +34,12 @@ import java.util.Date;
 public class LogParamAspect {
 
     private LogService logService;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     @Autowired
     public LogParamAspect(LogService logService) {
         this.logService = logService;
+        objectMapper = new ObjectMapper();
     }
 
     /**
@@ -61,9 +61,9 @@ public class LogParamAspect {
         }
         HttpServletRequest request = requestAttributes.getRequest();
         fillLogInfo(request, point, logInfo);
-        ResponseResultHolder result = null;
+        ResponseResultHolder result;
         try {
-            /** 对参数进行统一校验 */
+            // 对参数进行统一校验
             validParamInAsp(point.getArgs());
             result = (ResponseResultHolder) point.proceed();
             logInfo.setResult(toFixedLengthStr(getObjStr(result.getResult())));
@@ -88,7 +88,7 @@ public class LogParamAspect {
     /**
      * 对参数使用 hibernate validator 进行校验
      *
-     * @param params
+     * @param params 请求入参
      */
     public void validParamInAsp(Object[] params) {
         if (params != null) {

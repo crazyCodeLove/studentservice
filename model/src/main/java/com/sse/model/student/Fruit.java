@@ -9,8 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * @email
- * @date 2018-11-15 14:16
+ * date 2018-11-15 14:16
  */
 
 @AllArgsConstructor

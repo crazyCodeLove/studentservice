@@ -4,9 +4,8 @@ import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.ParamRTException;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-12-26 12:30
+ * author pczhao
+ * date 2018-12-26 12:30
  */
 
 public class ParamNullException extends ParamRTException {

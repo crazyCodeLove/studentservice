@@ -15,8 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @email
- * @date 2018-11-06 16:11
+ * date 2018-11-06 16:11
  */
 
 public class HttpClientUtil {
@@ -29,10 +28,10 @@ public class HttpClientUtil {
     /**
      * 获取服务的所有地址（注册在 eureka server 上的服务）
      *
-     * @param eurekaIp
-     * @param eurekaPort
-     * @param servicename
-     * @return
+     * @param eurekaIp ip
+     * @param eurekaPort port
+     * @param servicename name
+     * @return 服务列表
      */
     public static List<String> getAllServiceAddr(String eurekaIp, String eurekaPort, String servicename) {
         List<String> result = new ArrayList<>();

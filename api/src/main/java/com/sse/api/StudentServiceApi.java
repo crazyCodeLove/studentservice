@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-11-05 21:24
+ * author pczhao
+ * date 2018-11-05 21:24
  */
 
 @FeignClient(value = "student-service-provider")

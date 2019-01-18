@@ -4,9 +4,8 @@ import cn.hutool.crypto.SecureUtil;
 import com.sse.model.User;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-17 9:26
+ * author pczhao
+ * date 2019-01-17 9:26
  */
 
 public interface TokenService {

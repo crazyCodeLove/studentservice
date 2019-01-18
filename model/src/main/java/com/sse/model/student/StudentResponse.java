@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @email
- * @date 2018-11-05 21:16
+ * date 2018-11-05 21:16
  */
 
 @Data
