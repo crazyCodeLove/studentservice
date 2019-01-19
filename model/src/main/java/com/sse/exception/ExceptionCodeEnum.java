@@ -7,7 +7,8 @@ package com.sse.exception;
  */
 
 public enum ExceptionCodeEnum {
-    RUN_EXCEPTION(500, "运行时异常"),
+    SUCCESS(200, "请求成功"),
+    RUNTIME_EXCEPTION(500, "运行时异常"),
     RT_EXCEPTION(900, "自定义异常基础类"),
     EXCEPTION_CODE_NOT_FOUND(901, "没有该异常对应的 code"),
     PARAM_RT_EXCEPTION(1000, "参数异常"),
@@ -31,7 +32,7 @@ public enum ExceptionCodeEnum {
                 return e;
             }
         }
-        throw new ExceptionCodeNotFound(code+ " 没有在 ExceptionCodeEnum 中找到");
+        throw new ExceptionCodeNotFound(code + " 没有在 ExceptionCodeEnum 中找到");
     }
 
     public int getCode() {

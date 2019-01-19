@@ -2,6 +2,7 @@ package com.sse.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
 import com.sse.model.RequestParamBase;
 import com.sse.model.RequestParamHolder;
@@ -68,14 +69,14 @@ public class LogParamAspect {
             validParamInAsp(point.getArgs());
             result = (ResponseResultHolder) point.proceed();
             logInfo.setResult(getObjStr(result));
-            logInfo.setCode(200);
+            logInfo.setCode(ExceptionCodeEnum.SUCCESS.getCode());
             logInfo.setMessage("请求成功");
         } catch (RTException e) {
             logInfo.setCode(e.getCode());
             logInfo.setMessage(e.getMessage());
             throw e;
         } catch (RuntimeException e) {
-            logInfo.setCode(500);
+            logInfo.setCode(ExceptionCodeEnum.RUNTIME_EXCEPTION.getCode());
             logInfo.setMessage(e.getMessage());
             throw e;
         } finally {
