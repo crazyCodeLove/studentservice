@@ -21,6 +21,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -66,13 +67,16 @@ public class LogParamAspect {
             // 对参数进行统一校验
             validParamInAsp(point.getArgs());
             result = (ResponseResultHolder) point.proceed();
-            logInfo.setResult(toFixedLengthStr(getObjStr(result.getResult())));
+            logInfo.setResult(getObjStr(result));
             logInfo.setCode(200);
+            logInfo.setMessage("请求成功");
         } catch (RTException e) {
             logInfo.setCode(e.getCode());
+            logInfo.setMessage(e.getMessage());
             throw e;
         } catch (RuntimeException e) {
             logInfo.setCode(500);
+            logInfo.setMessage(e.getMessage());
             throw e;
         } finally {
             endTime = System.currentTimeMillis();
@@ -107,30 +111,29 @@ public class LogParamAspect {
     }
 
     private void fillLogInfo(HttpServletRequest request, ProceedingJoinPoint point, LogInfo logInfo) {
-        logInfo.setUrl(toFixedLengthStr(request.getRequestURL().toString()));
+        logInfo.setUrl((request.getRequestURL().toString()));
         logInfo.setMethod(request.getMethod());
-        logInfo.setQueryString(toFixedLengthStr(request.getQueryString()));
+        logInfo.setQueryString((request.getQueryString()));
         logInfo.setIp(IpUtil.getRequestIpAddr(request));
 
-        logInfo.setCallClass(toFixedLengthStr(point.getTarget().getClass().getName()));
-        logInfo.setCallMethod(toFixedLengthStr(point.getSignature().getName()));
-        logInfo.setParams(toFixedLengthStr(getObjStr(request.getParameterMap())));
+        logInfo.setCallClass((point.getTarget().getClass().getName()));
+        logInfo.setCallMethod((point.getSignature().getName()));
+        String param = "";
+        if (request.getParameterMap().size() > 0 && !"get".equals(request.getMethod().toLowerCase())) {
+            // form 请求
+            param = "paramMap:" + getObjStr(request.getParameterMap()) + "; ";
+        }
+        param += "Args:" + Arrays.toString(point.getArgs());
+        logInfo.setParams(param);
 
     }
 
     /**
-     * 字符串长度不超过 1024 长度
+     * 获取对象的字符串表示
      *
-     * @param content 内容
-     * @return 结果
+     * @param object 一般对象
+     * @return 对象的字符串表示
      */
-    private static String toFixedLengthStr(String content) {
-        if (content != null && content.length() > 1024) {
-            return content.substring(0, 1024);
-        }
-        return content;
-    }
-
     private String getObjStr(Object object) {
         String result = null;
         try {
@@ -139,6 +142,21 @@ public class LogParamAspect {
             log.error(e.getMessage(), e);
         }
         return result;
+    }
+
+    /**
+     * 获取返回结果的 string 表示
+     *
+     * @param response 响应结果
+     * @return 相应对应的字符串
+     */
+    private String getObjStr(ResponseResultHolder response) {
+        if (response != null) {
+            if (response.getResult() != null) {
+                return response.getResult().toString();
+            }
+        }
+        return null;
     }
 
 }

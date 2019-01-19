@@ -68,6 +68,8 @@ public class LogInfo {
      */
     private Integer code;
 
+    private String message;
+
     /**
      * 响应时间
      */

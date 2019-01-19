@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 
 /**
  * 添加调度系统配置。schedule 为每项任务分配一个线程
- *
+ * <p>
  * author pczhao
  * date 2018-12-20 14:21
  */
@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 @Configuration
 public class ScheduleConfig implements SchedulingConfigurer {
 
-    private int THREAD_POOL_SIZE = 20;
+    private final int THREAD_POOL_SIZE = 20;
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {

@@ -2,10 +2,10 @@ package com.sse.service;
 
 import com.sse.adapter.mybatis.mapper.LogMapper;
 import com.sse.model.log.LogInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * author pczhao
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
+@Slf4j
 public class LogService {
 
     private LogMapper logMapper;
@@ -22,9 +23,44 @@ public class LogService {
         this.logMapper = logMapper;
     }
 
+    /**
+     * 先打印详细信息到 log 中，再输出到数据库中。防止数据库错误，日志信息不能记录下来。
+     *
+     * @param logInfo 日志信息
+     */
     @Async
-    @Transactional
     public void save(LogInfo logInfo) {
-        logMapper.save(logInfo);
+        log.info(logInfo.toString());
+        logMapper.save(toFixedLogInfo(logInfo));
+    }
+
+    /**
+     * 字符串长度不超过 1024 长度
+     *
+     * @param content 内容
+     * @return 结果
+     */
+    private static String toFixedLengthStr(String content) {
+        if (content != null && content.length() > 1024) {
+            return content.substring(0, 1024);
+        }
+        return content;
+    }
+
+    private LogInfo toFixedLogInfo(LogInfo srcInfo) {
+        return LogInfo.builder()
+                .url(toFixedLengthStr(srcInfo.getUrl()))
+                .method(srcInfo.getMethod())
+                .queryString(toFixedLengthStr(srcInfo.getQueryString()))
+                .ip(srcInfo.getIp())
+                .callClass(toFixedLengthStr(srcInfo.getCallClass()))
+                .callMethod(toFixedLengthStr(srcInfo.getCallMethod()))
+                .params(toFixedLengthStr(srcInfo.getParams()))
+                .result(toFixedLengthStr(srcInfo.getResult()))
+                .code(srcInfo.getCode())
+                .message(toFixedLengthStr(srcInfo.getMessage()))
+                .responseTime(srcInfo.getResponseTime())
+                .duration(srcInfo.getDuration())
+                .build();
     }
 }
