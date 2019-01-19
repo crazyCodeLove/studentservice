@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 
 public class HttpClientUtil {
-    private static ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     static {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
