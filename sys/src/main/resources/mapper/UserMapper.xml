@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sse.adapter.mybatis.mapper.UserMapper">
+
+    <insert id="save" parameterType="com.sse.model.user.User">
+        INSERT INTO user_info (
+        username,
+        password,
+        email,
+        telphone,
+        birthday,
+        createTime,
+        updateTime
+        )
+        VALUES
+        (
+        #{username},
+        #{password},
+        #{email},
+        #{telphone},
+        #{birthday, jdbcType=TIMESTAMP},
+        #{createTime, jdbcType=TIMESTAMP},
+        #{updateTime, jdbcType=TIMESTAMP}
+        );
+    </insert>
+
+    <update id="update" parameterType="com.sse.model.user.User">
+        UPDATE
+        user_info
+        SET
+        updateTime = #{updateTime, jdbcType=TIMESTAMP},
+        <if test="username != null">
+            username = #{username},
+        </if>
+        <if test="password != null">
+            password = #{password},
+        </if>
+        <if test="email != null">
+            email = #{email},
+        </if>
+        <if test="telphone != null">
+            telphone = #{telphone},
+        </if>
+        <if test="birthday != null">
+            birthday = #{birthday, jdbcType=TIMESTAMP},
+        </if>
+        <where>
+            <include refid="condUid"/>
+        </where>
+    </update>
+
+    <delete id="delete">
+        DELETE FROM
+        user_info
+        <where>
+            <if test="uids != null">
+                uid in
+                <foreach collection="uids" item="uid" separator="," open="(" close=")">
+                    #{uid}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+
+    <select id="get" resultType="com.sse.model.user.User">
+        SELECT *
+        FROM
+        user_info
+        <where>
+            <include refid="condUid"/>
+            <include refid="condUsername"/>
+            <include refid="condPassword"/>
+        </where>
+    </select>
+
+    <select id="getList" resultType="com.sse.model.user.User">
+        SELECT *
+        FROM
+        user_info
+        <where>
+            <include refid="condUid"/>
+            <if test="username != null">
+                and lower(username) like concat('%',lower (#{username}),'%')
+            </if>
+            <include refid="condPassword"/>
+            <if test="email != null">
+                and lower(email) like concat('%',lower (#{email}),'%')
+            </if>
+            <if test="telphone != null">
+                and lower(telphone) like concat('%',lower (#{telphone}),'%')
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday, jdbcType=TIMESTAMP},
+            </if>
+        </where>
+    </select>
+
+    <sql id="condUid">
+        <if test="uid != null">
+            and uid = #{uid, jdbcType=BIGINT}
+        </if>
+    </sql>
+
+    <sql id="condUsername">
+        <if test="username != null">
+            and username = #{username}
+        </if>
+    </sql>
+
+    <sql id="condPassword">
+        <if test="password != null">
+            and password = #{password}
+        </if>
+    </sql>
+
+</mapper>

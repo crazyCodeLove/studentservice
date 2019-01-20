@@ -1,13 +1,13 @@
 package com.sse.service;
 
-import com.sse.model.User;
+import com.sse.model.user.User;
 import com.sse.service.token.JWTTokenService;
 import com.sse.service.token.TokenService;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;
-import java.util.UUID;
+import java.util.Random;
 
 /**
  *
@@ -22,7 +22,7 @@ public class TokenServiceTest {
     @Test
     public void createTokenTest() {
         User srcUser = User.builder()
-                .uid(UUID.randomUUID().toString())
+                .uid(new Random().nextLong())
                 .birthday(new Date())
                 .email("nice@163.com")
                 .password("well")

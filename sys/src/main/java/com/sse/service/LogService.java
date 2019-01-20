@@ -19,6 +19,7 @@ public class LogService {
     // 慢响应时间阈值，单位 ms
     private static final long SLOW_RESPONSE_THRESHOLD = 2000L;
 
+    private static final boolean ALL_TO_DB = true;
     private LogMapper logMapper;
 
     @Autowired
@@ -35,7 +36,11 @@ public class LogService {
     @Async
     public void save(LogInfo logInfo) {
         log.info(logInfo.toString());
-        if (ExceptionCodeEnum.SUCCESS.getCode() != logInfo.getCode() || logInfo.getDuration() > SLOW_RESPONSE_THRESHOLD) {
+        if (!ALL_TO_DB) {
+            if (ExceptionCodeEnum.SUCCESS.getCode() != logInfo.getCode() || logInfo.getDuration() > SLOW_RESPONSE_THRESHOLD) {
+                logMapper.save(toFixedLogInfo(logInfo));
+            }
+        } else {
             logMapper.save(toFixedLogInfo(logInfo));
         }
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
-import com.sse.model.RequestParamBase;
+import com.sse.model.param.RequestParamBase;
 import com.sse.model.RequestParamHolder;
 import com.sse.model.ResponseResultHolder;
 import com.sse.model.log.LogInfo;
@@ -103,6 +103,7 @@ public class LogParamAspect {
                     if (param != null) {
                         ValidateUtil.validate(param);
                         if (param instanceof RequestParamBase) {
+                            ((RequestParamBase) param).preHandle();
                             ((RequestParamBase) param).validParamInParam();
                         }
                     }

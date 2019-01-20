@@ -27,7 +27,12 @@ public class Demo1 {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static void main(String[] args) throws JsonProcessingException {
+    public static void main(String[] args) {
+        System.out.println("" + null + null);
+        System.out.println(SecureUtil.sha256("" + null + null));
+        System.out.println(SecureUtil.sha256("nice to"));
+        System.out.println(SecureUtil.sha256("" + null + null).length());
+        System.out.println(SecureUtil.sha256("nice to").length());
     }
 
     private static void fun10() {
@@ -48,7 +53,7 @@ public class Demo1 {
         System.out.println("token:" + token);
         Claims claims = parseJWT(token, key);
         System.out.println(claims.getSubject());
-        User uout = objectMapper.readValue((String) claims.get("user"), User.class);
+        User uout = objectMapper.readValue((String) claims.get("com/sse/model/user"), User.class);
         System.out.println(uout);
     }
 
@@ -69,7 +74,7 @@ public class Demo1 {
 
         // 创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
         Map<String, Object> claims = new HashMap<>();
-        claims.put("user", objectMapper.writeValueAsString(user));
+        claims.put("com/sse/model/user", objectMapper.writeValueAsString(user));
         JwtBuilder jwtBuilder = Jwts.builder()
                 .setClaims(claims) // payload 自定义属性，如果有私有声明，一定要先设置这个自己创建的私有的声明
                 .setId(UUID.randomUUID().toString())

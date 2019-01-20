@@ -1,7 +1,7 @@
 package com.sse.service.token;
 
 import cn.hutool.crypto.SecureUtil;
-import com.sse.model.User;
+import com.sse.model.user.User;
 
 /**
  * author pczhao
@@ -14,7 +14,7 @@ public interface TokenService {
     String KEY = "123456!@#$";
 
     /** 放到 claims Map 中的用户信息 key */
-    String USER = "user";
+    String USER = "com/sse/model/user";
 
     String getToken(User user, long expireMills);
 

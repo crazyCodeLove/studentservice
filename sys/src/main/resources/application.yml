@@ -26,7 +26,8 @@ mybatis:
 # 显示 sql， 配置到 mapper 所在目录
 logging:
   level:
-    com.sse.adapter.mybatis.mapper: INFO
+    org.hibernate.SQL: INFO
+    com.sse: INFO
 
 eureka:
   instance:
@@ -39,3 +40,6 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:${eureka.port:8010}/eureka/
     enabled: false
+
+secure:
+  key: 1234qwer!@#

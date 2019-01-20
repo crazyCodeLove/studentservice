@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.exception.token.JWTParseException;
 import com.sse.exception.token.TokenExpireException;
 import com.sse.exception.token.UserParseException;
-import com.sse.model.User;
+import com.sse.model.user.User;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @Slf4j
 public class JWTTokenService implements TokenService {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public String getToken(User user, long expireMills) {
@@ -50,7 +50,7 @@ public class JWTTokenService implements TokenService {
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(now) // 签发时间
                 .setExpiration(exp) // 过期时间
-                .setSubject(user.getUid()) // 代表这个JWT的主体，即它的所有人，这个是一个json格式的字符串，可以存放什么userid，roldid之类的，作为什么用户的唯一标志。
+                .setSubject(String.valueOf(user.getUid())) // 代表这个JWT的主体，即它的所有人，这个是一个json格式的字符串，可以存放什么userid，roldid之类的，作为什么用户的唯一标志。
                 .signWith(signatureAlgorithm, getKey()); // 签名算法以及密匙// 生成签名的时候使用的秘钥secret，切记这个秘钥不能外露哦。它就是你服务端的私钥，在任何场景都不应该流露出去。
         // 一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。
         return jwtBuilder.compact();
@@ -58,7 +58,7 @@ public class JWTTokenService implements TokenService {
 
     @Override
     public User parseToken2User(String token) {
-        User user = null;
+        User user;
         try {
             Claims body = Jwts.parser()  //得到DefaultJwtParser
                     .setSigningKey(getKey())  //设置签名的秘钥

@@ -1,11 +1,8 @@
 package com.sse.model.student;
 
 import com.sse.exception.RTException;
-import com.sse.model.RequestParamBase;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.sse.model.param.RequestParamBase;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -17,7 +14,9 @@ import java.util.List;
  * date 2018-11-05 21:14
  */
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

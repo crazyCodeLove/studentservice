@@ -1,4 +1,4 @@
-package com.sse.model;
+package com.sse.model.param;
 
 /**
  * author pczhao
@@ -8,5 +8,8 @@ package com.sse.model;
 public class RequestParamBase {
 
     public void validParamInParam() {
+    }
+
+    public void preHandle(){
     }
 }
