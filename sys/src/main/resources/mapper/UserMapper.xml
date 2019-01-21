@@ -28,7 +28,6 @@
         UPDATE
         user_info
         SET
-        updateTime = #{updateTime, jdbcType=TIMESTAMP},
         <if test="password != null">
             password = #{password},
         </if>
@@ -39,8 +38,9 @@
             telphone = #{telphone},
         </if>
         <if test="birthday != null">
-            birthday = #{birthday, jdbcType=TIMESTAMP}
+            birthday = #{birthday, jdbcType=TIMESTAMP},
         </if>
+        updateTime = #{updateTime, jdbcType=TIMESTAMP}
         <where>
             <include refid="condUid"/>
         </where>
