@@ -97,6 +97,7 @@ public class UserControllerTest {
     public void updateTest() throws Exception {
         UserUpdateParam userUpdateParam = UserUpdateParam.builder()
                 .uid(user.getUid())
+                .email(String.valueOf(random.nextInt(10000000)) + "@163.com")
                 .telphone(String.valueOf(random.nextInt()))
                 .birthday(new Date())
                 .build();
