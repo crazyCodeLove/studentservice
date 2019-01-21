@@ -13,13 +13,13 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    void save( User user);
+    void save(User user);
 
-    void update( User user);
+    void update(User user);
 
-    void delete(List<Long> uids);
+    void delete(@Param("uids") List<Long> uids);
 
-    User get( User user);
+    User get(User user);
 
-    List<User> getList( User user);
+    List<User> getList(User user);
 }

@@ -46,7 +46,7 @@
         </where>
     </update>
 
-    <delete id="delete" parameterType="list">
+    <delete id="delete">
         DELETE FROM
         user_info
         <where>
