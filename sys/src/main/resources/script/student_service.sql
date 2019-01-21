@@ -21,21 +21,21 @@ CREATE TABLE `log` (
   `responseTime` datetime(3) DEFAULT NULL COMMENT '响应时间',
   `duration` int(64) DEFAULT NULL COMMENT '处理时间，单位 ms',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `user_info` */
 
 DROP TABLE IF EXISTS `user_info`;
 
 CREATE TABLE `user_info` (
-  `uid` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `username` varchar(128) COLLATE utf8_bin NOT NULL COMMENT '用户名',
-  `password` varchar(256) COLLATE utf8_bin NOT NULL COMMENT '密码',
+  `uid` int(64) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `username` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '用户名',
+  `password` varchar(256) COLLATE utf8_bin DEFAULT NULL COMMENT '密码',
   `email` varchar(128) COLLATE utf8_bin DEFAULT NULL COMMENT '邮箱',
   `telphone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '电话',
   `birthday` datetime(3) DEFAULT NULL COMMENT '生日',
-  `createTime` datetime(3) DEFAULT NULL COMMENT '创建时间',
-  `updateTime` datetime(3) DEFAULT NULL COMMENT '更新时间',
+  `createTime` datetime(3) DEFAULT NULL COMMENT '创建日期',
+  `updatetime` datetime(3) DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`uid`),
-  UNIQUE KEY `ONLYONE` (`username`,`password`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  UNIQUE KEY `ONLY_ONE` (`username`,`password`(32))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;

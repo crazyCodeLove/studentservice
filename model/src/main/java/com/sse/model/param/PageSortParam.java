@@ -5,7 +5,7 @@ package com.sse.model.param;
  * date  2019-01-20 17:10
  */
 
-public class PageSortParam {
+public class PageSortParam extends RequestParamBase {
 
     /**
      * 页号
@@ -21,6 +21,7 @@ public class PageSortParam {
      * 排序字段
      */
     protected String sort;
+
 
 
 }
