@@ -8,7 +8,7 @@ import com.sse.exception.RTException;
  * date  2019-01-20 10:57
  */
 
-public class UserNotExistException extends RTException {
+public class UserNotExistException extends UserException {
     public UserNotExistException(String message) {
         super(ExceptionCodeEnum.USER_NOT_EXIST_EXCEPTION, message);
     }

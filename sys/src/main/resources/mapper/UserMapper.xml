@@ -29,9 +29,6 @@
         user_info
         SET
         updateTime = #{updateTime, jdbcType=TIMESTAMP},
-        <if test="username != null">
-            username = #{username},
-        </if>
         <if test="password != null">
             password = #{password},
         </if>
@@ -42,14 +39,14 @@
             telphone = #{telphone},
         </if>
         <if test="birthday != null">
-            birthday = #{birthday, jdbcType=TIMESTAMP},
+            birthday = #{birthday, jdbcType=TIMESTAMP}
         </if>
         <where>
             <include refid="condUid"/>
         </where>
     </update>
 
-    <delete id="delete">
+    <delete id="delete" parameterType="list">
         DELETE FROM
         user_info
         <where>
@@ -62,7 +59,7 @@
         </where>
     </delete>
 
-    <select id="get" resultType="com.sse.model.user.User">
+    <select id="get" resultType="com.sse.model.user.User" parameterType="com.sse.model.user.User">
         SELECT *
         FROM
         user_info
@@ -73,7 +70,7 @@
         </where>
     </select>
 
-    <select id="getList" resultType="com.sse.model.user.User">
+    <select id="getList" resultType="com.sse.model.user.User" parameterType="com.sse.model.user.User">
         SELECT *
         FROM
         user_info

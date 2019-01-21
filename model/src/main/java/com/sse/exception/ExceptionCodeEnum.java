@@ -17,8 +17,10 @@ public enum ExceptionCodeEnum {
     JWT_PARSE_EXCEPTION(2000, "JWT 解析异常"),
     TOKEN_EXPIRE_EXCEPTION(2001, "token 过期"),
     USER_PARSE_EXCEPTION(2002, "token 中用户解析异常"),
-    USER_EXIST_EXCEPTION(3000, "用户已存在"),
-    USER_NOT_EXIST_EXCEPTION(3001, "用户不存在"),
+    USER_EXCEPTION(3000, "用户异常"),
+    USER_EXIST_EXCEPTION(3001, "用户已存在"),
+    USER_NOT_EXIST_EXCEPTION(3002, "用户不存在"),
+    USERNAME_CHANGE_EXCEPTION(3003, "用户名更改")
 
 
     ;

@@ -32,9 +32,8 @@ public class ResponseResultHolder<T> {
     /**
      * 包装响应结果并返回
      *
-     * @param result
-     * @param <T>
-     * @return
+     * @param result 响应结果
+     * @param <T> 结果类型
      */
     public static <T> ResponseResultHolder<T> setResult(T result) {
         ResponseResultHolder<T> response = new ResponseResultHolder<>();
@@ -45,7 +44,6 @@ public class ResponseResultHolder<T> {
     /**
      * 无结果响应
      *
-     * @return
      */
     public static ResponseResultHolder ok() {
         return new ResponseResultHolder();
@@ -54,9 +52,8 @@ public class ResponseResultHolder<T> {
     /**
      * 包装异常的响应
      *
-     * @param code
-     * @param msg
-     * @return
+     * @param code 异常状态码
+     * @param msg 异常消息
      */
     public static ResponseResultHolder error(int code, String msg) {
         ResponseResultHolder res = new ResponseResultHolder();

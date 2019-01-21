@@ -2,6 +2,7 @@ package com.sse.service.user;
 
 import com.sse.adapter.mybatis.mapper.UserMapper;
 import com.sse.exception.user.UserExistException;
+import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,23 +41,44 @@ public class UserService {
 
     /**
      * 更新用户数据，不存在则添加
-     *
-     * @param user
-     * @return
+     *不会修改密码
+     * @param user 待修改数据，除了密码
+     * @return 修改后的数据
      */
     @Transactional
     public User update(User user) {
         Date now = new Date();
         user.setUpdateTime(now);
-        if (userMapper.get(User.builder().uid(user.getUid()).build()) == null) {
+        User src;
+        if ((src = userMapper.get(User.builder().uid(user.getUid()).build())) == null) {
             // 用户不存在
             user.setUid(null);
             userMapper.save(user);
             return userMapper.get(user);
         }
         userMapper.update(user);
-        return user;
+        User.changeWithNonNull(src, user);
+        return src;
     }
+
+    /**
+     * 修改密码
+     *
+     * @param user 待修改密码的用户数据：uid 和 password
+     */
+    @Transactional
+    public void changePassword(User user) {
+        Date now = new Date();
+        user.setUpdateTime(now);
+        User src = userMapper.get(User.builder().uid(user.getUid()).build());
+        if (src == null) {
+            // 用户不存在
+            throw new UserNotExistException("用户不存在。uid:" + user.getUid());
+        }
+        user.setUsername(src.getUsername());
+        userMapper.update(User.encrypt(user));
+    }
+
 
     @Transactional
     public void delete(List<Long> uids) {

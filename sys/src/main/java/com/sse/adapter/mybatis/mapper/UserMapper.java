@@ -2,6 +2,7 @@ package com.sse.adapter.mybatis.mapper;
 
 import com.sse.model.user.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,13 +13,13 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    void save(User user);
+    void save( User user);
 
-    void update(User user);
+    void update( User user);
 
     void delete(List<Long> uids);
 
-    User get(User user);
+    User get( User user);
 
-    List<User> getList(User user);
+    List<User> getList( User user);
 }

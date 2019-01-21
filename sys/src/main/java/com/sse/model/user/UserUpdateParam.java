@@ -20,8 +20,6 @@ import java.util.Date;
 public class UserUpdateParam extends RequestParamBase {
     @NotNull(message = "uid 不能为 null")
     private Long uid;
-    private String username;
-    private String password;
     private String email;
     private String telphone;
     private Date birthday;

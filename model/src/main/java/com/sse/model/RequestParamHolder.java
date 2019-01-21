@@ -16,4 +16,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RequestParamHolder<T> {
     private T param;
+
+    public static <T> RequestParamHolder<T> setRequestParam(T t) {
+        RequestParamHolder<T> param = new RequestParamHolder<>();
+        param.setParam(t);
+        return param;
+    }
 }

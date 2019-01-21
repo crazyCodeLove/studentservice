@@ -53,13 +53,25 @@ public class UserController {
         UserUpdateParam updateParam = param.getParam();
         User user = User.builder()
                 .uid(updateParam.getUid())
-                .username(updateParam.getUsername())
-                .password(updateParam.getPassword())
                 .email(updateParam.getEmail())
                 .telphone(updateParam.getTelphone())
                 .birthday(updateParam.getBirthday())
                 .build();
-        return ResponseResultHolder.setResult(userService.update(User.encrypt(user)));
+        return ResponseResultHolder.setResult(userService.update(user));
+    }
+
+    @RequestMapping(value = "/user/password", method = RequestMethod.PUT)
+    public ResponseResultHolder changePassword(@RequestBody RequestParamHolder<UserChangePasswordParam> param) {
+        if (param.getParam() == null) {
+            throw new ParamNullException("请求参数为空");
+        }
+        UserChangePasswordParam updateParam = param.getParam();
+        User user = User.builder()
+                .uid(updateParam.getUid())
+                .password(updateParam.getPassword())
+                .build();
+        userService.changePassword(user);
+        return ResponseResultHolder.ok();
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)

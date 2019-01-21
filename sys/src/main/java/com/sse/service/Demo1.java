@@ -28,11 +28,8 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        System.out.println("" + null + null);
-        System.out.println(SecureUtil.sha256("" + null + null));
-        System.out.println(SecureUtil.sha256("nice to"));
-        System.out.println(SecureUtil.sha256("" + null + null).length());
-        System.out.println(SecureUtil.sha256("nice to").length());
+        System.out.println(UUID.randomUUID().toString().length());
+        System.out.println(UUID.randomUUID().toString());
     }
 
     private static void fun10() {
