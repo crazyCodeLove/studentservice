@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface LogMapper {
     /**
      * 保存请求日志信息到数据库
+     *
      * @param logInfo 请求信息
      */
     void save(LogInfo logInfo);

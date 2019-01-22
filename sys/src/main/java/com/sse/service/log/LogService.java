@@ -1,7 +1,6 @@
-package com.sse.service;
+package com.sse.service.log;
 
 import com.sse.adapter.mybatis.mapper.LogMapper;
-import com.sse.exception.ExceptionCodeEnum;
 import com.sse.model.log.LogInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ public class LogService {
     // 慢响应时间阈值，单位 ms
     private static final long SLOW_RESPONSE_THRESHOLD = 2000L;
 
-    private static final boolean ALL_TO_DB = true;
     private LogMapper logMapper;
 
     @Autowired
@@ -39,14 +37,7 @@ public class LogService {
     @Async
     public void save(LogInfo logInfo) {
         log.info(logInfo.toString());
-        if (!ALL_TO_DB) {
-            if (ExceptionCodeEnum.SUCCESS.getCode() != logInfo.getCode() ||
-                    logInfo.getDuration() > SLOW_RESPONSE_THRESHOLD) {
-                logMapper.save(toFixedLogInfo(logInfo));
-            }
-        } else {
-            logMapper.save(toFixedLogInfo(logInfo));
-        }
+        logMapper.save(toFixedLogInfo(logInfo));
     }
 
     /**

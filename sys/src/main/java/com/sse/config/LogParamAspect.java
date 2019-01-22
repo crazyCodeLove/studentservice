@@ -8,7 +8,7 @@ import com.sse.model.RequestParamHolder;
 import com.sse.model.ResponseResultHolder;
 import com.sse.model.log.LogInfo;
 import com.sse.model.param.RequestParamBase;
-import com.sse.service.LogService;
+import com.sse.service.log.LogService;
 import com.sse.util.IpUtil;
 import com.sse.util.ValidateUtil;
 import lombok.extern.slf4j.Slf4j;
