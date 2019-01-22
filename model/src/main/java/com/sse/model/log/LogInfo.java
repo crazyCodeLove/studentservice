@@ -68,6 +68,9 @@ public class LogInfo {
      */
     private Integer code;
 
+    /**
+     * 响应信息
+     */
     private String message;
 
     /**
@@ -79,4 +82,16 @@ public class LogInfo {
      * 处理时间，单位 ms
      */
     private long duration;
+
+    public void setResponseTime(Date responseTime, long duration) {
+        this.responseTime = responseTime;
+        this.duration = duration;
+    }
+
+    public void setResponseStatus(Integer code, String msg) {
+        this.code = code;
+        this.message = msg;
+    }
+
+
 }

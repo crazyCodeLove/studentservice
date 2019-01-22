@@ -9,7 +9,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- * author pczhao
+ * <p>
+ * 将日志信息异步记录到数据库中
+ * </p>
+ * author pczhao <br/>
  * date 2019-01-18 15:29
  */
 
@@ -37,7 +40,8 @@ public class LogService {
     public void save(LogInfo logInfo) {
         log.info(logInfo.toString());
         if (!ALL_TO_DB) {
-            if (ExceptionCodeEnum.SUCCESS.getCode() != logInfo.getCode() || logInfo.getDuration() > SLOW_RESPONSE_THRESHOLD) {
+            if (ExceptionCodeEnum.SUCCESS.getCode() != logInfo.getCode() ||
+                    logInfo.getDuration() > SLOW_RESPONSE_THRESHOLD) {
                 logMapper.save(toFixedLogInfo(logInfo));
             }
         } else {

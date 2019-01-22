@@ -1,5 +1,6 @@
 package com.sse.config.exception.handler;
 
+import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
 import com.sse.model.ResponseResultHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 自定义异常和运行时异常处理
  * <p>
- * author ZHAOPENGCHENG
+ * author ZHAOPENGCHENG <br/>
  * date 2018-12-13 20:57
  */
 
@@ -31,7 +32,7 @@ public class RTExceptionHandler {
     }
 
     /**
-     * 运行时异常，打印错误信息，并返回500
+     * 运行时异常，打印错误信息，并返回 500 状态码
      *
      * @param e 运行时异常
      * @return 异常结果
@@ -39,7 +40,7 @@ public class RTExceptionHandler {
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseResultHolder RuntimeExceptHandler(RuntimeException e) {
         log.error(e.getMessage(), e);
-        return ResponseResultHolder.error(500, "server internal error, engineers are rushing to repair ...");
+        return ResponseResultHolder.error(ExceptionCodeEnum.RUNTIME_EXCEPTION);
     }
 
 }

@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.exception.ExceptionCodeEnum;
 import com.sse.exception.RTException;
-import com.sse.model.param.RequestParamBase;
 import com.sse.model.RequestParamHolder;
 import com.sse.model.ResponseResultHolder;
 import com.sse.model.log.LogInfo;
+import com.sse.model.param.RequestParamBase;
 import com.sse.service.LogService;
 import com.sse.util.IpUtil;
 import com.sse.util.ValidateUtil;
@@ -69,24 +69,20 @@ public class LogParamAspect {
             validParamInAsp(point.getArgs());
             result = (ResponseResultHolder) point.proceed();
             logInfo.setResult(getObjStr(result));
-            logInfo.setCode(ExceptionCodeEnum.SUCCESS.getCode());
-            logInfo.setMessage("请求成功");
+            logInfo.setResponseStatus(ExceptionCodeEnum.SUCCESS.getCode(), ExceptionCodeEnum.SUCCESS.getNote());
         } catch (RTException e) {
-            logInfo.setCode(e.getCode());
-            logInfo.setMessage(e.getMessage());
+            logInfo.setResponseStatus(e.getCode(), e.getMessage());
             throw e;
         } catch (RuntimeException e) {
-            logInfo.setCode(ExceptionCodeEnum.RUNTIME_EXCEPTION.getCode());
-            logInfo.setMessage(e.getMessage());
+            logInfo.setResponseStatus(ExceptionCodeEnum.RUNTIME_EXCEPTION.getCode(), e.getMessage());
             throw e;
         } finally {
             endTime = System.currentTimeMillis();
-            logInfo.setDuration(endTime - startTime);
-            logInfo.setResponseTime(new Date(endTime));
+            logInfo.setResponseTime(new Date(endTime), endTime - startTime);
             logService.save(logInfo);
         }
-        result.setResponseTime(new Date(endTime));
-        result.setDuration(endTime - startTime);
+        result.setResponseTime(new Date(endTime), endTime - startTime);
+        result.setResponseStatus(logInfo.getCode(), logInfo.getMessage());
         return result;
     }
 

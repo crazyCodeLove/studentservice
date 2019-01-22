@@ -1,5 +1,6 @@
 package com.sse.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.DES;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,8 +29,13 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        System.out.println(UUID.randomUUID().toString().length());
-        System.out.println(UUID.randomUUID().toString());
+        User u = User.builder()
+                .name("google")
+                .age(25)
+                .addr("sh")
+                .build();
+        Map<String, Object> map = BeanUtil.beanToMap(u);
+        System.out.println(map);
     }
 
     private static void fun10() {

@@ -1,5 +1,6 @@
 package com.sse.model;
 
+import com.sse.exception.ExceptionCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,19 +22,29 @@ public class ResponseResultHolder<T> {
      * 响应时间
      */
     protected Date responseTime;
+
     /**
      * 处理时间，单位毫秒
      */
     protected Long duration;
 
+    /**
+     * 响应状态码
+     */
+    protected Integer code;
+
+    /**
+     * 响应消息
+     */
+    protected String message;
+
     protected T result;
-    private ResponseError error;
 
     /**
      * 包装响应结果并返回
      *
      * @param result 响应结果
-     * @param <T> 结果类型
+     * @param <T>    结果类型
      */
     public static <T> ResponseResultHolder<T> setResult(T result) {
         ResponseResultHolder<T> response = new ResponseResultHolder<>();
@@ -43,7 +54,6 @@ public class ResponseResultHolder<T> {
 
     /**
      * 无结果响应
-     *
      */
     public static ResponseResultHolder ok() {
         return new ResponseResultHolder();
@@ -53,50 +63,40 @@ public class ResponseResultHolder<T> {
      * 包装异常的响应
      *
      * @param code 异常状态码
-     * @param msg 异常消息
+     * @param msg  异常消息
      */
     public static ResponseResultHolder error(int code, String msg) {
-        ResponseResultHolder res = new ResponseResultHolder();
-        res.setError(ResponseError.builder().code(code).message(msg).build());
-        return res;
+        return ResponseResultHolder.builder().code(code).message(msg).build();
     }
 
-    @Builder
-    public static class ResponseError {
-        private Integer code;
-        private String message;
-
-        public ResponseError(Integer code, String message) {
-            this.code = code;
-            this.message = message;
-        }
-
-        public ResponseError() {
-        }
-
-        public Integer getCode() {
-            return code;
-        }
-
-        public void setCode(Integer code) {
-            this.code = code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
-        @Override
-        public String toString() {
-            return "ResponseError{" +
-                    "code=" + code +
-                    ", message='" + message + '\'' +
-                    '}';
-        }
+    /**
+     * 包装异常的响应
+     *
+     * @param e 异常信息
+     */
+    public static ResponseResultHolder error(ExceptionCodeEnum e) {
+        return ResponseResultHolder.builder().code(e.getCode()).message(e.getNote()).build();
     }
 
+    /**
+     * 设置响应状态
+     *
+     * @param code 响应状态吗
+     * @param msg  响应信息
+     */
+    public void setResponseStatus(Integer code, String msg) {
+        this.code = code;
+        this.message = msg;
+    }
+
+    /**
+     * 设置响应时间信息
+     *
+     * @param responseTime 响应时间
+     * @param duration     处理时长
+     */
+    public void setResponseTime(Date responseTime, long duration) {
+        this.responseTime = responseTime;
+        this.duration = duration;
+    }
 }

@@ -8,7 +8,7 @@ package com.sse.exception;
 
 public enum ExceptionCodeEnum {
     SUCCESS(200, "请求成功"),
-    RUNTIME_EXCEPTION(500, "运行时异常"),
+    RUNTIME_EXCEPTION(500, "运行时异常，工程师正在抓紧时间抢修，请稍后再试..."),
     RT_EXCEPTION(900, "自定义异常基础类"),
     EXCEPTION_CODE_NOT_FOUND(901, "没有该异常对应的 code"),
     PARAM_RT_EXCEPTION(1000, "参数异常"),
@@ -19,11 +19,7 @@ public enum ExceptionCodeEnum {
     USER_PARSE_EXCEPTION(2002, "token 中用户解析异常"),
     USER_EXCEPTION(3000, "用户异常"),
     USER_EXIST_EXCEPTION(3001, "用户已存在"),
-    USER_NOT_EXIST_EXCEPTION(3002, "用户不存在"),
-    USERNAME_CHANGE_EXCEPTION(3003, "用户名更改")
-
-
-    ;
+    USER_NOT_EXIST_EXCEPTION(3002, "用户不存在");
 
     private int code;
     private String note;
