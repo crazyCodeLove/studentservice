@@ -25,7 +25,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     variables:
-      logTablename: log2019  // log 的表名
+      logTablename: log2019 # log 的表名
 
 # 显示 sql， 配置到 mapper 所在目录
 logging:

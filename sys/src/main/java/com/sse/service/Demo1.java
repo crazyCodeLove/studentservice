@@ -1,10 +1,10 @@
 package com.sse.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.DES;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sse.model.user.UserListParam;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -29,13 +29,8 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        User u = User.builder()
-                .name("google")
-                .age(25)
-                .addr("sh")
-                .build();
-        Map<String, Object> map = BeanUtil.beanToMap(u);
-        System.out.println(map);
+        UserListParam u = UserListParam.builder().pageSize(12).currentPage(2).createTime(new Date()).build();
+        System.out.println(u);
     }
 
     private static void fun10() {

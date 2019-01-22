@@ -11,6 +11,7 @@ public enum ExceptionCodeEnum {
     RUNTIME_EXCEPTION(500, "运行时异常，工程师正在抓紧时间抢修，请稍后再试..."),
     RT_EXCEPTION(900, "自定义异常基础类"),
     EXCEPTION_CODE_NOT_FOUND(901, "没有该异常对应的 code"),
+    PAGE_SIZE_OVERFLOW_EXCEPTION(902, "单页数量超过了最大值"),
 
     PARAM_RT_EXCEPTION(1000, "参数异常"),
     PARAM_NULL_EXCEPTION(1001, "参数为 null"),

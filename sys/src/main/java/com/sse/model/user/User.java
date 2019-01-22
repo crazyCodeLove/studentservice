@@ -1,7 +1,6 @@
 package com.sse.model.user;
 
 import cn.hutool.crypto.SecureUtil;
-import com.sse.config.SecureConfig;
 import lombok.*;
 
 import java.util.Date;
@@ -31,15 +30,18 @@ public class User {
         if (user == null) {
             return null;
         }
-        if (user.getPassword() != null) {
+        if (user.getPassword() != null && user.getUsername() != null) {
             user.setPassword(SecureUtil.sha256("" + user.getPassword() + user.getUsername()));
+        } else {
+            user.setPassword(null);
         }
         return user;
     }
 
     /**
      * 使用 mask 中非 null 字段填充 des 中的对应字段
-     * @param des 待修改数据
+     *
+     * @param des  待修改数据
      * @param mask 修改数据
      */
     public static void changeWithNonNull(User des, User mask) {

@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 队请求数据进行预处理、加密处理
- * author ZHAOPENGCHENG
+ * author ZHAOPENGCHENG <br/>
  * date  2019-01-20 12:27
  */
 
@@ -84,20 +85,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
-    public ResponseResultHolder<List<User>> userList(@RequestBody RequestParamHolder<UserListParam> param) {
+    public ResponseResultHolder<Map<String, Object>> userList(@RequestBody RequestParamHolder<UserListParam> param) {
         if (param.getParam() == null) {
             throw new ParamNullException("请求参数为空");
         }
-        UserListParam ListParam = param.getParam();
-        User user = User.builder()
-                .uid(ListParam.getUid())
-                .username(ListParam.getUsername())
-                .password(ListParam.getPassword())
-                .email(ListParam.getEmail())
-                .telphone(ListParam.getTelphone())
-                .birthday(ListParam.getBirthday())
-                .build();
-        return ResponseResultHolder.setResult(userService.getList(User.encrypt(user)));
+        UserListParam listParam = param.getParam();
+
+        return ResponseResultHolder.setResult(userService.getList(listParam));
     }
 
 

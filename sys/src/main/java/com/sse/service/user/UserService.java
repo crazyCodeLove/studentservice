@@ -1,15 +1,20 @@
 package com.sse.service.user;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sse.adapter.mybatis.mapper.UserMapper;
 import com.sse.exception.user.UserExistException;
 import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
+import com.sse.model.user.UserListParam;
+import com.sse.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 对外提供的一致性是根据 uid 来处理数据库中数据
@@ -41,7 +46,8 @@ public class UserService {
 
     /**
      * 更新用户数据，不存在则添加
-     *不会修改密码
+     * 不会修改密码
+     *
      * @param user 待修改数据，除了密码
      * @return 修改后的数据
      */
@@ -89,7 +95,28 @@ public class UserService {
         return userMapper.get(user);
     }
 
-    public List<User> getList(User user) {
-        return userMapper.getList(user);
+    /**
+     * 相应数据中有两部分组成："page" 对应的值表示分页信息，"list" 对应的值表示当前页数据
+     *
+     * @param listParam 分页请求信息
+     */
+    public Map<String, Object> getList(UserListParam listParam) {
+        Map<String, Object> result;
+        User user = User.builder()
+                .uid(listParam.getUid())
+                .username(listParam.getUsername())
+                .email(listParam.getEmail())
+                .telphone(listParam.getTelphone())
+                .birthday(listParam.getBirthday())
+                .build();
+
+        try {
+            PageHelper.startPage(listParam.getCurrentPage(), listParam.getPageSize(), listParam.getSort());
+            Page<User> r = (Page<User>) userMapper.getList(user);
+            result = PageUtil.toResultMap(r);
+        } finally {
+            PageHelper.clearPage();
+        }
+        return result;
     }
 }

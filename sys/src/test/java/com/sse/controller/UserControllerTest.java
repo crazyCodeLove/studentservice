@@ -27,14 +27,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-21 14:03
+ * author pczhao <br/>
+ * date 2019-01-21 14:03
  */
 
 @RunWith(SpringRunner.class)
@@ -79,7 +76,7 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)) // json 参数和类型
                 .andReturn();
         Assert.assertEquals(mvcResult.getResponse().getStatus(), 200);
-        System.out.println("responseContent:" + mvcResult.getResponse().getContentAsString() +"\n\n");
+        System.out.println("responseContent:" + mvcResult.getResponse().getContentAsString() + "\n\n");
         ResponseResultHolder<User> resultHolder = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), objectMapper.getTypeFactory().constructParametricType(ResponseResultHolder.class, User.class));
         user = resultHolder.getResult();
         saveParamEqualsUser(userSaveParam, user);
