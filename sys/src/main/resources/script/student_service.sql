@@ -21,7 +21,7 @@ CREATE TABLE `log2019` (
   `responseTime` datetime(3) DEFAULT NULL COMMENT '响应时间',
   `duration` int(64) DEFAULT NULL COMMENT '处理时间，单位 ms',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `user_info` */
 
@@ -38,5 +38,5 @@ CREATE TABLE `user_info` (
   `updatetime` datetime(3) DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `USERNAME_INDEX` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='username 也是 unique 索引，需要保证唯一。';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='username 也是 unique 索引，需要保证唯一。';
 
