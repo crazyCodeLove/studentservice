@@ -4,9 +4,9 @@ USE `student_service`;
 
 /*Table structure for table `log` */
 
-DROP TABLE IF EXISTS `log`;
+DROP TABLE IF EXISTS `log2019`;
 
-CREATE TABLE `log` (
+CREATE TABLE `log2019` (
   `id` int(64) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `url` varchar(1024) COLLATE utf8_bin DEFAULT NULL COMMENT '请求 url',
   `method` varchar(64) COLLATE utf8_bin DEFAULT NULL COMMENT '请求方法 post/get/put/delete',
@@ -21,7 +21,7 @@ CREATE TABLE `log` (
   `responseTime` datetime(3) DEFAULT NULL COMMENT '响应时间',
   `duration` int(64) DEFAULT NULL COMMENT '处理时间，单位 ms',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Table structure for table `user_info` */
 
@@ -37,5 +37,6 @@ CREATE TABLE `user_info` (
   `createTime` datetime(3) DEFAULT NULL COMMENT '创建日期',
   `updatetime` datetime(3) DEFAULT NULL COMMENT '修改日期',
   PRIMARY KEY (`uid`),
-  UNIQUE KEY `ONLY_ONE` (`username`,`password`(32))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+  UNIQUE KEY `USERNAME_INDEX` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='username 也是 unique 索引，需要保证唯一。';
+
