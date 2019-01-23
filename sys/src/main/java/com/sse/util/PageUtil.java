@@ -3,7 +3,7 @@ package com.sse.util;
 import com.github.pagehelper.Page;
 import com.sse.model.page.PageResult;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +25,7 @@ public class PageUtil {
      * <code/>
      */
     public static Map<String, Object> toResultMap(Page<?> page) {
-        Map<String, Object> resultMap = new HashMap<>(4);
+        Map<String, Object> resultMap = new LinkedHashMap<>(4);
         resultMap.put("page", PageResult.builder().currentPage(page.getPageNum()).pageSize(page.size()).total(page.getTotal()).build());
         resultMap.put("list", page.getResult());
         return resultMap;

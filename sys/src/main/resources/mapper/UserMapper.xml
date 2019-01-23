@@ -71,7 +71,14 @@
     </select>
 
     <select id="getList" resultType="com.sse.model.user.User" parameterType="com.sse.model.user.User">
-        SELECT *
+        SELECT
+        `uid`,
+        `username`,
+        `email`,
+        `telphone`,
+        `birthday`,
+        `createTime`,
+        `updatetime`
         FROM
         user_info
         <where>
