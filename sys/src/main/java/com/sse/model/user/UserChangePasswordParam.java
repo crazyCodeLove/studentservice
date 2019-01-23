@@ -10,9 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author pczhao
- * @email
- * @date 2019-01-21 20:31
+ * author pczhao <br/>
+ * date 2019-01-21 20:31
  */
 
 @Builder

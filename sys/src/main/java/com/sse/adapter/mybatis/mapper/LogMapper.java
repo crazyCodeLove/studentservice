@@ -4,7 +4,7 @@ import com.sse.model.log.LogInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * author pczhao
+ * author pczhao <br/>
  * date 2019-01-18 15:53
  */
 

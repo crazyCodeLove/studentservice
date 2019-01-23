@@ -17,8 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * <p>
  * 对外提供的一致性是根据 uid 来处理数据库中数据
- * author ZHAOPENGCHENG
+ * </p>
+ * author ZHAOPENGCHENG <br/>
  * date  2019-01-20 9:24
  */
 

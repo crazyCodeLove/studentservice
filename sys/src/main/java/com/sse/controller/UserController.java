@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * <p>
  * 队请求数据进行预处理、加密处理
+ * </p>
  * author ZHAOPENGCHENG <br/>
  * date  2019-01-20 12:27
  */

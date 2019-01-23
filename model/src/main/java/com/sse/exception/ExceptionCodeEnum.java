@@ -1,8 +1,10 @@
 package com.sse.exception;
 
 /**
+ * <p>
  * 异常错误码汇总
- * author pczhao
+ * </p>
+ * author pczhao <br/>
  * date 2019-01-18 10:24
  */
 
