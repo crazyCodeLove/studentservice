@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class User {
     private Long uid;
-    private String username;
+    private String username; // 用户名是唯一的，不可重复。创建后不可更改
     private String password;
     private String email;
     private String telphone;

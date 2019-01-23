@@ -4,7 +4,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.DES;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sse.model.user.UserListParam;
+import com.sse.util.ValidateUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,8 +30,22 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        UserListParam u = UserListParam.builder().pageSize(12).currentPage(2).createTime(new Date()).build();
-        System.out.println(u);
+        fun11();
+    }
+
+    private static void fun11() {
+        Object users = new ArrayList<User>();
+        ((ArrayList<User>)users).add(User.builder().name("nice").age(12).uid("1").build());
+        ((ArrayList<User>)users).add(User.builder().name("well").age(12).uid("2").build());
+        ((ArrayList<User>)users).add(User.builder().name("bad").age(12).build());
+
+        ValidateUtil.validate(users);
+        System.out.println("users");
+        int i = 1;
+        for (Object u : (Collection) users) {
+            ValidateUtil.validate(u);
+            System.out.println(i++);
+        }
     }
 
     private static void fun10() {
@@ -89,6 +104,7 @@ public class Demo1 {
     @NoArgsConstructor
     @AllArgsConstructor
     private static class User {
+        @NotNull(message = "uid 不能为空")
         private String uid;
         private String name;
         private String addr;

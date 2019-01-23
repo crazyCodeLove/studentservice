@@ -59,6 +59,15 @@ public class UserListParam extends PageSortParam {
         if (StringUtils.isBlank(sort)) {
             sort = "uid desc";
         }
+        if (username != null) {
+            username = username.trim();
+        }
+        if (email != null) {
+            email = email.trim();
+        }
+        if (telphone != null) {
+            telphone = telphone.trim();
+        }
         super.preHandle();
     }
 }

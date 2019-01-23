@@ -23,4 +23,15 @@ public class UserChangePasswordParam extends RequestParamBase {
     private Long uid;
     @NotBlank(message = "password 不能为空")
     private String password;
+
+    @Override
+    public void validParamInParam() {
+        super.validParamInParam();
+    }
+
+    @Override
+    public void preHandle() {
+        password = password.trim();
+        super.preHandle();
+    }
 }

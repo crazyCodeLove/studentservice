@@ -22,8 +22,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 /**
  * author ZHAOPENGCHENG <br/>
@@ -97,14 +96,28 @@ public class LogParamAspect {
                 if (obj instanceof RequestParamHolder) {
                     Object param = ((RequestParamHolder) obj).getParam();
                     if (param != null) {
-                        ValidateUtil.validate(param);
-                        if (param instanceof RequestParamBase) {
-                            ((RequestParamBase) param).preHandle();
-                            ((RequestParamBase) param).validParamInParam();
+                        // 对参数进行校验
+                        validParam(param);
+                        // 参数是 List 或者 Set 集合，对集合中的每个参数进行校验
+                        if (param instanceof List ||
+                                param instanceof Set) {
+                            for (Object o : (Collection) param) {
+                                validParam(o);
+                            }
                         }
                     }
                 }
             }
+        }
+    }
+
+    private void validParam(Object param) {
+        // 对参数进行校验
+        ValidateUtil.validate(param);
+        // 对参数进行对象内执行 预处理和验证
+        if (param instanceof RequestParamBase) {
+            ((RequestParamBase) param).preHandle();
+            ((RequestParamBase) param).validParamInParam();
         }
     }
 
@@ -149,10 +162,8 @@ public class LogParamAspect {
      * @return 相应对应的字符串
      */
     private String getObjStr(ResponseResultHolder response) {
-        if (response != null) {
-            if (response.getResult() != null) {
-                return response.getResult().toString();
-            }
+        if (response != null && response.getResult() != null) {
+            return response.getResult().toString();
         }
         return null;
     }

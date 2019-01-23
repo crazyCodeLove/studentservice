@@ -30,8 +30,7 @@ mybatis:
 # 显示 sql， 配置到 mapper 所在目录
 logging:
   level:
-    org.hibernate.SQL: INFO
-    com.sse: INFO
+    com.sse.adapter.mybatis: DEBUG
 
 eureka:
   instance:

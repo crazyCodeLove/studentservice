@@ -24,6 +24,33 @@
         );
     </insert>
 
+    <insert id="saveBatch" parameterType="com.sse.model.user.User">
+        INSERT INTO user_info
+        (
+        username,
+        password,
+        email,
+        telphone,
+        birthday,
+        createTime,
+        updateTime
+        )
+        values
+        <if test="users != null">
+            <foreach collection="users" item="u" separator=",">
+                (
+                #{u.username},
+                #{u.password},
+                #{u.email},
+                #{u.telphone},
+                #{u.birthday},
+                #{u.createTime},
+                #{u.updateTime}
+                )
+            </foreach>
+        </if>
+    </insert>
+
     <update id="update" parameterType="com.sse.model.user.User">
         UPDATE
         user_info
@@ -46,7 +73,7 @@
         </where>
     </update>
 
-    <delete id="delete">
+    <delete id="delete" parameterType="long">
         DELETE FROM
         user_info
         <where>
@@ -95,6 +122,21 @@
             </if>
             <if test="birthday != null">
                 birthday = #{birthday, jdbcType=TIMESTAMP},
+            </if>
+        </where>
+    </select>
+
+    <select id="getUsernameExistSet" resultType="java.lang.String">
+        SELECT
+        username
+        FROM
+        user_info
+        <where>
+            <if test="usernames != null">
+                username in
+                <foreach collection="usernames" item="uname" separator="," open="(" close=")">
+                    #{uname}
+                </foreach>
             </if>
         </where>
     </select>

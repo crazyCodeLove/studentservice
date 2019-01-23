@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,26 @@ public class UserController {
                 .birthday(saveParam.getBirthday())
                 .build();
         return ResponseResultHolder.setResult(userService.save(User.encrypt(user)));
+    }
+
+    @RequestMapping(value = "/user/batch", method = RequestMethod.POST)
+    public ResponseResultHolder<Map<String, Object>> saveBatch(@RequestBody RequestParamHolder<List<UserSaveParam>> param) {
+        if (param.getParam() == null || param.getParam().isEmpty()) {
+            throw new ParamNullException("请求参数为空");
+        }
+        List<UserSaveParam> listSaveParam = param.getParam();
+        List<User> users = new ArrayList<>(listSaveParam.size() * 2);
+        for (UserSaveParam saveParam : listSaveParam) {
+            User u = User.builder()
+                    .username(saveParam.getUsername())
+                    .password(saveParam.getPassword())
+                    .email(saveParam.getEmail())
+                    .telphone(saveParam.getTelphone())
+                    .birthday(saveParam.getBirthday())
+                    .build();
+            users.add(User.encrypt(u));
+        }
+        return ResponseResultHolder.setResult(userService.saveBatch(users));
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.PUT)
@@ -92,7 +113,6 @@ public class UserController {
             throw new ParamNullException("请求参数为空");
         }
         UserListParam listParam = param.getParam();
-
         return ResponseResultHolder.setResult(userService.getList(listParam));
     }
 

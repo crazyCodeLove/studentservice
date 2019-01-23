@@ -12,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.sse.constant.ResponseConstant.Batch.FAILED;
+import static com.sse.constant.ResponseConstant.Batch.SUCCESS;
 
 /**
  * <p>
@@ -25,7 +26,7 @@ import java.util.Map;
  */
 
 @Service
-public class UserService {
+public class UserService implements IUserService {
 
     private UserMapper userMapper;
 
@@ -34,9 +35,15 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
+    /**
+     * 添加用户数据
+     *
+     * @param user 用户数据
+     * @return 数据库中添加的用户数据
+     */
     @Transactional
     public User save(User user) {
-        if (userMapper.get(User.builder().username(user.getUsername()).password(user.getPassword()).build()) != null) {
+        if (userMapper.get(User.builder().username(user.getUsername()).build()) != null) {
             throw new UserExistException(user.getUsername() + " 已存在");
         }
         Date now = new Date();
@@ -44,6 +51,42 @@ public class UserService {
         user.setUpdateTime(now);
         userMapper.save(user);
         return userMapper.get(user);
+    }
+
+    /**
+     * 批量保存用户数据。用户名已存在的到失败列表；重复的第一个添加成功。
+     *
+     * @param users 待添加用户数据
+     * @return 插入结果。失败列表和成功列表
+     */
+    @Transactional
+    public Map<String, Object> saveBatch(List<User> users) {
+        Map<String, Object> result = new LinkedHashMap<>(4);
+        List<User> successUsers = new ArrayList<>(users.size());
+        List<User> failedUsers = new ArrayList<>(users.size());
+        result.put(FAILED, failedUsers);
+        result.put(SUCCESS, successUsers);
+        Set<String> unames = new HashSet<>();
+        for (User u : users) {
+            unames.add(u.getUsername());
+        }
+        unames = userMapper.getUsernameExistSet(unames);
+        List<User> addUsers = new ArrayList<>(users.size());
+        Date now;//创建和更新时间
+        for (User u : users) {
+            if (!unames.contains(u.getUsername())) {
+                now = new Date();
+                unames.add(u.getUsername());
+                u.setCreateTime(now);
+                u.setUpdateTime(now);
+                addUsers.add(u);
+                successUsers.add(u);
+            } else {
+                failedUsers.add(u);
+            }
+        }
+        userMapper.saveBatch(addUsers);
+        return result;
     }
 
     /**
