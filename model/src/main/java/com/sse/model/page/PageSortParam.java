@@ -6,10 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import static com.sse.constant.RequestConstant.Page.*;
+
 /**
- *<p>
+ * <p>
  * 分页参数
- *</p>
+ * </p>
  * author ZHAOPENGCHENG <br/>
  * date  2019-01-20 17:10
  */
@@ -18,22 +20,6 @@ import lombok.ToString;
 @Getter
 @Setter
 public class PageSortParam extends RequestParamBase {
-
-    /**
-     * 请求单页最大数据量为 1000 个
-     */
-    private static final int MAX_PAGE_SIZE = 1000;
-    /**
-     * 默认当前页
-     */
-    private static final int DEFAULT_CURRENT_PAGE = 1;
-
-    /**
-     * 默认单页数量
-     */
-    private static final int DEFAULT_PAGE_SIZE = 20;
-
-
     /**
      * 页号
      */
