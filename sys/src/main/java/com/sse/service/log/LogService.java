@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class LogService {
+public class LogService implements ILogService{
     // 慢响应时间阈值，单位 ms
     private static final long SLOW_RESPONSE_THRESHOLD = 2000L;
 
@@ -35,6 +36,7 @@ public class LogService {
      * @param logInfo 日志信息
      */
     @Async
+    @Transactional
     public void save(LogInfo logInfo) {
         log.info(logInfo.toString());
         logMapper.save(toFixedLogInfo(logInfo));

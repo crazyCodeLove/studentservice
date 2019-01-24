@@ -24,13 +24,20 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     variables:
       logTablename: log2019 # log 的表名
 
 # 显示 sql， 配置到 mapper 所在目录
-logging:
-  level:
-    com.sse.adapter.mybatis: DEBUG
+# 方式一：
+#logging:
+#  level:
+#    com.sse.adapter.mybatis: DEBUG
+
+# 方式二：
+#mybatis:
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 eureka:
   instance:
