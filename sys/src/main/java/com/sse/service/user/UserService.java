@@ -50,7 +50,7 @@ public class UserService implements IUserService {
         user.setCreateTime(now);
         user.setUpdateTime(now);
         userMapper.save(user);
-        return userMapper.get(user);
+        return User.removePassword(userMapper.get(user));
     }
 
     /**
@@ -61,11 +61,10 @@ public class UserService implements IUserService {
      */
     @Transactional
     public Map<String, Object> saveBatch(List<User> users) {
-        Map<String, Object> result = new LinkedHashMap<>(4);
+        Map<String, Object> result = new LinkedHashMap<>(2);
         List<User> successUsers = new ArrayList<>(users.size());
         List<User> failedUsers = new ArrayList<>(users.size());
         result.put(FAILED, failedUsers);
-        result.put(SUCCESS, successUsers);
         Set<String> unames = new HashSet<>();
         for (User u : users) {
             unames.add(u.getUsername());
@@ -80,7 +79,7 @@ public class UserService implements IUserService {
                 u.setUpdateTime(now);
                 successUsers.add(u);
             } else {
-                failedUsers.add(u);
+                failedUsers.add(User.removePassword(u));
             }
         }
         userMapper.saveBatch(successUsers);

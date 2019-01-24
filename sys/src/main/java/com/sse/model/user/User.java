@@ -6,6 +6,7 @@ import lombok.*;
 import java.util.Date;
 
 /**
+ * 对于用户信息中，不能返回给客户端密码。
  * author pczhao <br/>
  * date 2019-01-17 9:28
  */
@@ -33,6 +34,17 @@ public class User {
         if (user.getPassword() != null && user.getUsername() != null) {
             user.setPassword(SecureUtil.sha256("" + user.getPassword() + user.getUsername()));
         } else {
+            user.setPassword(null);
+        }
+        return user;
+    }
+
+    /**
+     * 清空用户的密码
+     * @param user 待清空密码的用户对象
+     */
+    public static User removePassword(User user) {
+        if (user != null) {
             user.setPassword(null);
         }
         return user;

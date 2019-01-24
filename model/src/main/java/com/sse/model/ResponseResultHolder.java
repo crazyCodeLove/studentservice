@@ -19,6 +19,16 @@ import java.util.Date;
 @Builder
 public class ResponseResultHolder<T> {
     /**
+     * 响应状态码
+     */
+    protected Integer code;
+
+    /**
+     * 响应消息
+     */
+    protected String message;
+
+    /**
      * 响应时间
      */
     protected Date responseTime;
@@ -29,15 +39,8 @@ public class ResponseResultHolder<T> {
     protected Long duration;
 
     /**
-     * 响应状态码
+     * 持有的响应结果
      */
-    protected Integer code;
-
-    /**
-     * 响应消息
-     */
-    protected String message;
-
     protected T result;
 
     /**
