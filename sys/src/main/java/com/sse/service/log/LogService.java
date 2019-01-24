@@ -36,7 +36,6 @@ public class LogService implements ILogService{
      * @param logInfo 日志信息
      */
     @Async
-    @Transactional
     public void save(LogInfo logInfo) {
         log.info(logInfo.toString());
         logMapper.save(toFixedLogInfo(logInfo));
