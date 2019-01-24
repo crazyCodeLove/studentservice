@@ -39,4 +39,9 @@ public class StudentParam extends RequestParamBase {
             throw new RTException("test case");
         }
     }
+
+    @Override
+    public void preHandle() {
+        super.preHandle();
+    }
 }

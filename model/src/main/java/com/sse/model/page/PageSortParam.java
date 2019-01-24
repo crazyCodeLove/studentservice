@@ -46,20 +46,20 @@ public class PageSortParam extends RequestParamBase {
 
     @Override
     public void validParamInParam() {
+        super.validParamInParam();
         if (pageSize > MAX_PAGE_SIZE) {
             throw new PageSizeOverFlowException("单页数量超过了最大值：" + MAX_PAGE_SIZE);
         }
-        super.validParamInParam();
     }
 
     @Override
     public void preHandle() {
+        super.preHandle();
         if (pageSize <= 0) {
             this.pageSize = DEFAULT_PAGE_SIZE;
         }
         if (currentPage <= 0) {
             this.currentPage = DEFAULT_CURRENT_PAGE;
         }
-        super.preHandle();
     }
 }

@@ -71,7 +71,6 @@ public class UserService implements IUserService {
             unames.add(u.getUsername());
         }
         unames = userMapper.getUsernameExistSet(unames);
-        List<User> addUsers = new ArrayList<>(users.size());
         Date now;//创建和更新时间
         for (User u : users) {
             if (!unames.contains(u.getUsername())) {
@@ -79,13 +78,12 @@ public class UserService implements IUserService {
                 unames.add(u.getUsername());
                 u.setCreateTime(now);
                 u.setUpdateTime(now);
-                addUsers.add(u);
                 successUsers.add(u);
             } else {
                 failedUsers.add(u);
             }
         }
-        userMapper.saveBatch(addUsers);
+        userMapper.saveBatch(successUsers);
         return result;
     }
 

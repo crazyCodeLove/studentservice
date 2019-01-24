@@ -33,6 +33,7 @@ public class UserSaveParam extends RequestParamBase {
 
     @Override
     public void preHandle() {
+        super.preHandle();
         username = username.trim();
         password = password.trim();
         if (email != null) {
@@ -41,6 +42,5 @@ public class UserSaveParam extends RequestParamBase {
         if (telphone != null) {
             telphone = telphone.trim();
         }
-        super.preHandle();
     }
 }

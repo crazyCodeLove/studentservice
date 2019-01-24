@@ -31,12 +31,12 @@ public class UserUpdateParam extends RequestParamBase {
 
     @Override
     public void preHandle() {
+        super.preHandle();
         if (email != null) {
             email = email.trim();
         }
         if (telphone != null) {
             telphone = telphone.trim();
         }
-        super.preHandle();
     }
 }

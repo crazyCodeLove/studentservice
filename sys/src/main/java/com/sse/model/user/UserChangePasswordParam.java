@@ -31,7 +31,7 @@ public class UserChangePasswordParam extends RequestParamBase {
 
     @Override
     public void preHandle() {
-        password = password.trim();
         super.preHandle();
+        password = password.trim();
     }
 }

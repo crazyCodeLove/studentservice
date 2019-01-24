@@ -55,6 +55,7 @@ public class UserListParam extends PageSortParam {
 
     @Override
     public void preHandle() {
+        super.preHandle();
         // 默认按照 uid 排序
         if (StringUtils.isBlank(sort)) {
             sort = "uid desc";
@@ -68,6 +69,5 @@ public class UserListParam extends PageSortParam {
         if (telphone != null) {
             telphone = telphone.trim();
         }
-        super.preHandle();
     }
 }

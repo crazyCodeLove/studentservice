@@ -25,4 +25,9 @@ public class UserDeleteParam extends RequestParamBase {
     public void validParamInParam() {
         super.validParamInParam();
     }
+
+    @Override
+    public void preHandle() {
+        super.preHandle();
+    }
 }
