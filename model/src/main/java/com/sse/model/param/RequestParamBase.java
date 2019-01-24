@@ -7,9 +7,15 @@ package com.sse.model.param;
 
 public class RequestParamBase {
 
+    /**
+     * 逻辑校验
+     */
     public void validParamInParam() {
     }
 
+    /**
+     * 请求参数预处理
+     */
     public void preHandle(){
     }
 }
