@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 import static com.sse.constant.ResponseConstant.Batch.FAILED;
-import static com.sse.constant.ResponseConstant.Batch.SUCCESS;
 
 /**
  * <p>
@@ -61,7 +60,7 @@ public class UserService implements IUserService {
      */
     @Transactional
     public Map<String, Object> saveBatch(List<User> users) {
-        Map<String, Object> result = new LinkedHashMap<>(2);
+        Map<String, Object> result = new HashMap<>(2);
         List<User> successUsers = new ArrayList<>(users.size());
         List<User> failedUsers = new ArrayList<>(users.size());
         result.put(FAILED, failedUsers);
