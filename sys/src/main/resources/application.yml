@@ -2,6 +2,11 @@ server:
   port: 8060
   servlet:
     context-path: /student-service-provider
+  connection-timeout: 2s # 停止数据发送后多久断开连接
+  tomcat:
+    max-connections: 5000 #最大连接数
+    max-threads: 100  # 最大线程数
+
 
 spring:
   application:
