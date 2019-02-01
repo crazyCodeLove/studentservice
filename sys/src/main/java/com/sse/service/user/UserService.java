@@ -7,8 +7,11 @@ import com.sse.exception.user.UserExistException;
 import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
 import com.sse.model.user.UserListParam;
+import com.sse.service.redis.IRedisService;
+import com.sse.service.redis.RedisService;
 import com.sse.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +31,12 @@ import static com.sse.constant.ResponseConstant.Batch.FAILED;
 public class UserService implements IUserService {
 
     private UserMapper userMapper;
+    private RedisService<User> userRedisService;
 
     @Autowired
-    public UserService(UserMapper userMapper) {
+    public UserService(UserMapper userMapper, RedisService<User> userRedisService) {
         this.userMapper = userMapper;
+        this.userRedisService = userRedisService;
     }
 
     /**
@@ -133,7 +138,13 @@ public class UserService implements IUserService {
     }
 
     public User get(User user) {
-        return userMapper.get(user);
+        User u ;
+        if ((u = userRedisService.get(User.getUserRedisKey(user))) != null) {
+            return u;
+        }
+        u = userMapper.get(user);
+        userRedisService.set(User.getUserRedisKey(u), u);
+        return u;
     }
 
     /**

@@ -82,4 +82,11 @@ public class User {
             des.setUpdateTime(mask.getUpdateTime());
         }
     }
+
+    public static String getUserRedisKey(User user) {
+        if (user != null && user.getUid() != null) {
+            return "user_" + user.getUid();
+        }
+        return "";
+    }
 }

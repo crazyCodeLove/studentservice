@@ -107,6 +107,15 @@ public class UserController {
         return ResponseResultHolder.ok();
     }
 
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ResponseResultHolder<User> getUser(@RequestBody RequestParamHolder<UserGetParam> param) {
+        if (param.getParam() == null) {
+            throw new ParamNullException("请求参数为空");
+        }
+        UserGetParam getParam = param.getParam();
+        return ResponseResultHolder.setResult(userService.get(User.builder().uid(getParam.getUid()).build()));
+    }
+
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     public ResponseResultHolder<Map<String, Object>> userList(@RequestBody RequestParamHolder<UserListParam> param) {
         if (param.getParam() == null) {

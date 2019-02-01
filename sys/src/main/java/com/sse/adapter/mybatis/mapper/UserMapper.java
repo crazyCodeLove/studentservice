@@ -3,6 +3,7 @@ package com.sse.adapter.mybatis.mapper;
 import com.sse.model.user.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import javax.print.DocFlavor;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Set;
  * date  2019-01-20 9:25
  */
 
-@Mapper
+@Repository
 public interface UserMapper {
 
     void save(User user);
