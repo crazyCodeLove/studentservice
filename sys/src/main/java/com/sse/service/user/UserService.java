@@ -144,6 +144,9 @@ public class UserService implements IUserService {
             return u;
         }
         u = userMapper.get(user);
+        if (u == null) {
+            throw new UserNotExistException("用户不存在。uid:" + user.getUid());
+        }
         userRedisService.set(User.getUserRedisKey(u), u);
         return u;
     }
