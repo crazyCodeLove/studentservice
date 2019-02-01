@@ -4,7 +4,7 @@ import com.sse.config.exception.ParamNullException;
 import com.sse.model.RequestParamHolder;
 import com.sse.model.ResponseResultHolder;
 import com.sse.model.user.*;
-import com.sse.service.user.UserService;
+import com.sse.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +26,10 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 

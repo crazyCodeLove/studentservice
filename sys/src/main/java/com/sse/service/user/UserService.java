@@ -11,7 +11,6 @@ import com.sse.service.redis.IRedisService;
 import com.sse.service.redis.RedisService;
 import com.sse.util.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +30,7 @@ import static com.sse.constant.ResponseConstant.Batch.FAILED;
 public class UserService implements IUserService {
 
     private UserMapper userMapper;
-    private RedisService<User> userRedisService;
+    private IRedisService<User> userRedisService;
 
     @Autowired
     public UserService(UserMapper userMapper, RedisService<User> userRedisService) {
@@ -138,7 +137,7 @@ public class UserService implements IUserService {
     }
 
     public User get(User user) {
-        User u ;
+        User u;
         if ((u = userRedisService.get(User.getUserRedisKey(user))) != null) {
             return u;
         }
