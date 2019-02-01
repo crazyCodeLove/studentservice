@@ -18,7 +18,7 @@ public class RequestParamHolder<T> {
     private T param;
 
     public static <T> RequestParamHolder<T> setRequestParam(T t) {
-        RequestParamHolder<T> param = new RequestParamHolder<>();
+        RequestParamHolder<T> param = new RequestParamHolder<T>();
         param.setParam(t);
         return param;
     }

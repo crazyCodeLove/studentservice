@@ -50,7 +50,7 @@ public class ResponseResultHolder<T> {
      * @param <T>    结果类型
      */
     public static <T> ResponseResultHolder<T> setResult(T result) {
-        ResponseResultHolder<T> response = new ResponseResultHolder<>();
+        ResponseResultHolder<T> response = new ResponseResultHolder<T>();
         response.result = result;
         return response;
     }
