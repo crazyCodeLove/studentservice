@@ -1,5 +1,7 @@
 package com.sse.service.redis;
 
+import java.util.List;
+
 /**
  * <p></p>
  * author pczhao  <br/>
@@ -19,4 +21,6 @@ public interface IRedisService<T> {
     T getAndUpdateTime(String key);
 
     void delete(String key);
+
+    void delete(List<String> keys);
 }

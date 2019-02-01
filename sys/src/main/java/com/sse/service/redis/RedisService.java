@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -108,5 +109,14 @@ public class RedisService<T> implements IRedisService<T> {
      */
     public void delete(String key) {
         redisTemplate.delete(key);
+    }
+
+    /**
+     * 批量删除 key 集合
+     *
+     * @param keys 待删除 key 结合
+     */
+    public void delete(List<String> keys) {
+        redisTemplate.delete(keys);
     }
 }

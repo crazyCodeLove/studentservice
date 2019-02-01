@@ -109,6 +109,7 @@ public class UserService implements IUserService {
         }
         userMapper.update(user);
         User.changeWithNonNull(src, user);
+        userRedisService.delete(User.getUserRedisKey(src));
         return src;
     }
 
@@ -134,6 +135,7 @@ public class UserService implements IUserService {
     @Transactional
     public void delete(List<Long> uids) {
         userMapper.delete(uids);
+        userRedisService.delete(User.getUserRedisKeyList(uids));
     }
 
     public User get(User user) {

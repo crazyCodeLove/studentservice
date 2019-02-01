@@ -3,7 +3,9 @@ package com.sse.model.user;
 import cn.hutool.crypto.SecureUtil;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 对于用户信息中，不能返回给客户端密码。
@@ -41,6 +43,7 @@ public class User {
 
     /**
      * 清空用户的密码
+     *
      * @param user 待清空密码的用户对象
      */
     public static User removePassword(User user) {
@@ -83,10 +86,20 @@ public class User {
         }
     }
 
+    private static final String USER_REDIS_PREFIX = "user_";
+
     public static String getUserRedisKey(User user) {
         if (user != null && user.getUid() != null) {
-            return "user_" + user.getUid();
+            return USER_REDIS_PREFIX + user.getUid();
         }
         return "";
+    }
+
+    public static List<String> getUserRedisKeyList(List<Long> keys) {
+        List<String> klist = new ArrayList<>();
+        for (Long k : keys) {
+            klist.add(USER_REDIS_PREFIX + k);
+        }
+        return klist;
     }
 }
