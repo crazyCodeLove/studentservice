@@ -59,7 +59,8 @@ public class RedisService<T> implements IRedisService<T> {
     public void set(String key, T value, long expireTime) {
         if (StringUtils.isNotBlank(key) && value != null) {
             ValueOperations<String, T> valueOperations = redisTemplate.opsForValue();
-            valueOperations.set(key, value, expireTime, TimeUnit.MINUTES);
+            long et = expireTime <= 0 ? DEFAULT_ACTIVE_TIME : expireTime;
+            valueOperations.set(key, value, et, TimeUnit.MINUTES);
         }
     }
 
