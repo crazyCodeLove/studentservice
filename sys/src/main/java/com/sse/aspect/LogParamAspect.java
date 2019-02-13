@@ -1,4 +1,4 @@
-package com.sse.config;
+package com.sse.aspect;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
