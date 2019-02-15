@@ -30,14 +30,14 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        fun11();
+
     }
 
     private static void fun11() {
         Object users = new ArrayList<User>();
-        ((ArrayList<User>)users).add(User.builder().name("nice").age(12).uid("1").build());
-        ((ArrayList<User>)users).add(User.builder().name("well").age(12).uid("2").build());
-        ((ArrayList<User>)users).add(User.builder().name("bad").age(12).build());
+        ((ArrayList<User>) users).add(User.builder().name("nice").age(12).uid("1").build());
+        ((ArrayList<User>) users).add(User.builder().name("well").age(12).uid("2").build());
+        ((ArrayList<User>) users).add(User.builder().name("bad").age(12).build());
 
         ValidateUtil.validate(users);
         System.out.println("users");

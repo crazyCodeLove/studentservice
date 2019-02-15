@@ -35,6 +35,18 @@ spring:
     port: 6379
     password: # 用户密码
     timeout: 2s # 此参数为设置客户端空闲超过timeout，服务端会断开连接
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirms: true
+    virtual-host: /
+    listener:
+      simple:
+        concurrency: 3 # 并发消费者初始化值
+        max-concurrency: 20 # 并发消费者的最大值
+        prefetch: 5 # 每个消费者每次监听时可拉取处理的消息数量
 
 
 mybatis:
@@ -70,3 +82,4 @@ eureka:
 
 secure:
   key: 1234qwer!@#
+

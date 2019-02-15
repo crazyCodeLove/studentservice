@@ -18,7 +18,7 @@ public class StudentController {
     @RequestMapping(value = "/student/1", method = RequestMethod.POST)
     public ResponseResultHolder<StudentResponse> getStudent(@RequestBody RequestParamHolder<StudentParam> stuParamHolder) {
         if (stuParamHolder.getParam() == null) {
-            throw new ParamNullException("参数为空异常");
+            throw new ParamNullException("param is null");
         }
         System.out.println(stuParamHolder);
         ResponseResultHolder<StudentResponse> result;
@@ -48,7 +48,7 @@ public class StudentController {
     @RequestMapping(value = "/student/1", method = RequestMethod.PUT)
     public ResponseResultHolder<StudentResponse> putStudent(@RequestBody RequestParamHolder<StudentParam> stuParamHolder) {
         if (stuParamHolder.getParam() == null) {
-            throw new ParamNullException("参数为空异常");
+            throw new ParamNullException("param is null");
         }
         System.out.println(stuParamHolder);
         ResponseResultHolder<StudentResponse> result;
@@ -59,7 +59,7 @@ public class StudentController {
     @RequestMapping(value = "/student/1", method = RequestMethod.DELETE)
     public ResponseResultHolder<StudentResponse> deleteStudent(@RequestBody RequestParamHolder<StudentParam> stuParamHolder) {
         if (stuParamHolder.getParam() == null) {
-            throw new ParamNullException("参数为空异常");
+            throw new ParamNullException("param is null");
         }
         System.out.println(stuParamHolder);
         ResponseResultHolder<StudentResponse> result;

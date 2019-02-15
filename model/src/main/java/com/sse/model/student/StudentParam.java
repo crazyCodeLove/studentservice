@@ -22,13 +22,13 @@ import java.util.List;
 @Builder
 public class StudentParam extends RequestParamBase {
 
-    @NotNull(message = "StudentParam.id 不能为null")
+    @NotNull(message = "StudentParam.id can not be null")
     private Integer id;
 
-    @NotBlank(message = "StudentParam.name 不能为空")
+    @NotBlank(message = "StudentParam.name can not be blank")
     private String name;
 
-    @NotEmpty(message = "StudentParam.fruits 不能为空")
+    @NotEmpty(message = "StudentParam.fruits can not be empty")
     @Valid
     private List<Fruit> fruits;
 

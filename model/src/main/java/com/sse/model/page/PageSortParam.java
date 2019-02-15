@@ -48,7 +48,7 @@ public class PageSortParam extends RequestParamBase {
     public void validParamInParam() {
         super.validParamInParam();
         if (pageSize > MAX_PAGE_SIZE) {
-            throw new PageSizeOverFlowException("单页数量超过了最大值：" + MAX_PAGE_SIZE);
+            throw new PageSizeOverFlowException("The number of single page exceeds the maximum:" + MAX_PAGE_SIZE);
         }
     }
 

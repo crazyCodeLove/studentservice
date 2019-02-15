@@ -18,9 +18,9 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class Fruit {
 
-    @NotBlank(message = "Fruit.color 不能为空")
+    @NotBlank(message = "Fruit.color can not be blank")
     private String color;
 
-    @NotNull(message = "Fruit.price 不能为空")
+    @NotNull(message = "Fruit.price can not be null")
     private Integer price;
 }
