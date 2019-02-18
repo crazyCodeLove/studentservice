@@ -25,6 +25,7 @@ public class RabbitProducer {
     }
 
     public void sendUser(User user) {
-        mqTemplate.convertAndSend(RabbitConfig.ROUTE_KEY, user);
+        //第一个参数是对列名
+        mqTemplate.convertAndSend(RabbitConfig.DIRECT_QUEUE_NAME, user);
     }
 }

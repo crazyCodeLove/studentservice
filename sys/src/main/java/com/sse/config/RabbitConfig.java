@@ -13,11 +13,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    public static final String ROUTE_KEY = "USER_ADD";
+    /*
+    对列名
+     */
+    public static final String DIRECT_QUEUE_NAME = "userAdd";
 
     @Bean
     public Queue userQueue() {
-        return new Queue(ROUTE_KEY);
+        return new Queue(DIRECT_QUEUE_NAME);
     }
 
 
