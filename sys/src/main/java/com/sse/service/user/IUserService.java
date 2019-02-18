@@ -26,5 +26,10 @@ public interface IUserService {
 
     User get(User user);
 
+    /**
+     * 根据 uid 获取 User 对象
+     */
+    User getByUid(long uid);
+
     Map<String, Object> getList(UserListParam listParam);
 }

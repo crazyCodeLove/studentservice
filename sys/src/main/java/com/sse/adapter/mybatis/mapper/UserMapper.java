@@ -25,6 +25,8 @@ public interface UserMapper {
 
     User get(User user);
 
+    User getByUid(@Param("uid") long uid);
+
     List<User> getList(User user);
 
     /**

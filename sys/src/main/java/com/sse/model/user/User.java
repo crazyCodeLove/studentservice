@@ -88,6 +88,10 @@ public class User {
 
     private static final String USER_REDIS_PREFIX = "user_";
 
+    /**
+     * 根据用户 uid 生成在 redis 中缓存的 key
+     * @param user 含有 uid 的 用户信息
+     */
     public static String getUserRedisKey(User user) {
         if (user != null && user.getUid() != null) {
             return USER_REDIS_PREFIX + user.getUid();
@@ -95,9 +99,21 @@ public class User {
         return "";
     }
 
-    public static List<String> getUserRedisKeyList(List<Long> keys) {
+    /**
+     * 根据用户 uid 生成在 redis 中缓存的 key
+     * @param uid 用户在数据库中的 uid
+     */
+    public static String getUserRedisKey(long uid) {
+        return USER_REDIS_PREFIX + uid;
+    }
+
+    /**
+     * 根据 uid 列表生成 redis 缓存中的 key
+     * @param uids 待缓存的 uid 列表
+     */
+    public static List<String> getUserRedisKeyList(List<Long> uids) {
         List<String> klist = new ArrayList<>();
-        for (Long k : keys) {
+        for (Long k : uids) {
             klist.add(USER_REDIS_PREFIX + k);
         }
         return klist;

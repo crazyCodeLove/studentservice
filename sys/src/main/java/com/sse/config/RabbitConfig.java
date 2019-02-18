@@ -1,5 +1,7 @@
 package com.sse.config;
 
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,6 +12,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
+
+    public static final String ROUTE_KEY = "USER_ADD";
+
+    @Bean
+    public Queue userQueue() {
+        return new Queue(ROUTE_KEY);
+    }
 
 
 }

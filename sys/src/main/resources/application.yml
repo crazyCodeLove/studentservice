@@ -2,10 +2,10 @@ server:
   port: 8060
   servlet:
     context-path: /student-service-provider
-  connection-timeout: 2s # 停止数据发送后多久断开连接
+  connection-timeout: 2s #停止数据发送后多久断开连接
   tomcat:
     max-connections: 5000 #最大连接数
-    max-threads: 100  # 最大线程数
+    max-threads: 100  #最大线程数
 
 spring:
   application:
@@ -16,7 +16,7 @@ spring:
     defaultPropertyInclusion: non_null   #非空属性才序列化
     deserialization:
       FAIL_ON_UNKNOWN_PROPERTIES: false #未定义的key不反序列化
-#  对返回的时间进行格式化
+  #对返回的时间进行格式化
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
@@ -24,29 +24,29 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 
   redis:
-    database: 1 # Redis数据库索引（默认为0）
+    database: 1 #Redis数据库索引（默认为0）
     lettuce:
       pool:
-        max-active: 100 # 连接池最大连接数（使用负值表示没有限制）
-        max-idle: 20 # 连接池中的最大空闲连接
-        min-idle: 10 # 连接池中的最小空闲连接
-        max-wait: 5s # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-active: 100 #连接池最大连接数（使用负值表示没有限制）
+        max-idle: 20 #连接池中的最大空闲连接
+        min-idle: 10 #连接池中的最小空闲连接
+        max-wait: 5s #连接池最大阻塞等待时间（使用负值表示没有限制）
     host: 127.0.0.1
     port: 6379
-    password: # 用户密码
-    timeout: 2s # 此参数为设置客户端空闲超过timeout，服务端会断开连接
+    password: #用户密码
+    timeout: 2s #此参数为设置客户端空闲超过timeout，服务端会断开连接
   rabbitmq:
     host: 127.0.0.1
     port: 5672
     username: guest
     password: guest
-    publisher-confirms: true
+    publisher-confirms: true #消息发送到交换机确认机制,是否确认回调
     virtual-host: /
     listener:
       simple:
-        concurrency: 3 # 并发消费者初始化值
-        max-concurrency: 20 # 并发消费者的最大值
-        prefetch: 5 # 每个消费者每次监听时可拉取处理的消息数量
+        concurrency: 3 #并发消费者初始化值
+        max-concurrency: 20 #并发消费者的最大值
+        prefetch: 5 #每个消费者每次监听时可拉取处理的消息数量
 
 
 mybatis:
@@ -55,7 +55,7 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     variables:
-      logTablename: log2019 # log 的表名
+      logTablename: log2019 #log 的表名
 
 # 显示 sql， 配置到 mapper 所在目录
 # 方式一：

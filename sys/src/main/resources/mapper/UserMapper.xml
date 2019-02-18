@@ -104,6 +104,20 @@
         </where>
     </select>
 
+    <select id="getByUid" resultType="com.sse.model.user.User">
+        SELECT
+        `uid`,
+        `username`,
+        `email`,
+        `telphone`,
+        `birthday`,
+        `createTime`,
+        `updatetime`
+        FROM
+        user_info
+        where uid = #{uid}
+    </select>
+
     <select id="getList" resultType="com.sse.model.user.User" parameterType="com.sse.model.user.User">
         SELECT
         `uid`,

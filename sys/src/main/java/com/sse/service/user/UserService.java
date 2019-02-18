@@ -141,11 +141,26 @@ public class UserService implements IUserService {
     public User get(User user) {
         User u;
         if ((u = userRedisService.get(User.getUserRedisKey(user))) != null) {
+
             return u;
         }
         u = userMapper.get(user);
         if (u == null) {
             throw new UserNotExistException("用户不存在。uid:" + user.getUid());
+        }
+        userRedisService.set(User.getUserRedisKey(u), u);
+        return u;
+    }
+
+    @Override
+    public User getByUid(long uid) {
+        User u;
+        if ((u = userRedisService.get(User.getUserRedisKey(uid))) != null) {
+            return u;
+        }
+        u = userMapper.getByUid(uid);
+        if (u == null) {
+            throw new UserNotExistException("用户不存在。uid:" + uid);
         }
         userRedisService.set(User.getUserRedisKey(u), u);
         return u;

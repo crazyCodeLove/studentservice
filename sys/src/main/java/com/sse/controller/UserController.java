@@ -113,7 +113,7 @@ public class UserController {
             throw new ParamNullException("请求参数为空");
         }
         UserGetParam getParam = param.getParam();
-        return ResponseResultHolder.setResult(userService.get(User.builder().uid(getParam.getUid()).build()));
+        return ResponseResultHolder.setResult(userService.getByUid(getParam.getUid()));
     }
 
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
