@@ -7,9 +7,11 @@ import com.sse.exception.user.UserExistException;
 import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
 import com.sse.model.user.UserListParam;
+import com.sse.service.mq.rabbit.RabbitProducer;
 import com.sse.service.redis.IRedisService;
 import com.sse.service.redis.RedisService;
 import com.sse.util.PageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +29,13 @@ import static com.sse.constant.ResponseConstant.Batch.FAILED;
  */
 
 @Service
+@Slf4j
 public class UserService implements IUserService {
 
     private UserMapper userMapper;
     private IRedisService<User> userRedisService;
+    @Autowired
+    private RabbitProducer mqProducer;
 
     @Autowired
     public UserService(UserMapper userMapper, RedisService<User> userRedisService) {
@@ -141,12 +146,11 @@ public class UserService implements IUserService {
     public User get(User user) {
         User u;
         if ((u = userRedisService.get(User.getUserRedisKey(user))) != null) {
-
             return u;
         }
         u = userMapper.get(user);
         if (u == null) {
-            throw new UserNotExistException("用户不存在。uid:" + user.getUid());
+            throw new UserNotExistException("user not exist. uid:" + user.getUid());
         }
         userRedisService.set(User.getUserRedisKey(u), u);
         return u;
@@ -156,12 +160,15 @@ public class UserService implements IUserService {
     public User getByUid(long uid) {
         User u;
         if ((u = userRedisService.get(User.getUserRedisKey(uid))) != null) {
+            log.info("in redis");
+            mqProducer.sendUser(u);
             return u;
         }
         u = userMapper.getByUid(uid);
         if (u == null) {
-            throw new UserNotExistException("用户不存在。uid:" + uid);
+            throw new UserNotExistException("user not exist. uid:" + uid);
         }
+        log.info("not in redis");
         userRedisService.set(User.getUserRedisKey(u), u);
         return u;
     }

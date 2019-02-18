@@ -3,6 +3,7 @@ package com.sse.model.user;
 import cn.hutool.crypto.SecureUtil;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User implements Serializable {
     private Long uid;
     private String username; // 用户名是唯一的，不可重复。创建后不可更改
     private String password;

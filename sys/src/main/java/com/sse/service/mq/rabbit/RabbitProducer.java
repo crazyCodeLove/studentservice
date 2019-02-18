@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * <p>
  * RabbitMQ 消息生产者
+ * 默认支持 String, byte[], Serializable
  * </p>
  * author pczhao  <br/>
  * date  2019-02-18 16:22
