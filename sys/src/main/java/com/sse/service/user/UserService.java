@@ -34,13 +34,13 @@ public class UserService implements IUserService {
 
     private UserMapper userMapper;
     private IRedisService<User> userRedisService;
-    @Autowired
     private RabbitProducer mqProducer;
 
     @Autowired
-    public UserService(UserMapper userMapper, RedisService<User> userRedisService) {
+    public UserService(UserMapper userMapper, RedisService<User> userRedisService, RabbitProducer mqProducer) {
         this.userMapper = userMapper;
         this.userRedisService = userRedisService;
+        this.mqProducer = mqProducer;
     }
 
     /**
