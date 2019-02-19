@@ -18,13 +18,36 @@ import org.springframework.stereotype.Service;
 public class RabbitConsumer {
 
     /**
-     * 消费消息
+     * 消费 userAdd 的队列的消息
+     *
      * @param user 接收到的消息
      */
     @RabbitListener(queues = RabbitConfig.DIRECT_QUEUE_NAME) //监听名 userAdd 的队列
     @RabbitHandler
     public void recived(User user) {
-        System.out.println("received user:" + user);
+        System.out.println("[direct MQ] received user:" + user);
     }
 
+    /**
+     * 消费 topicQueueA 队列中的消息
+     *
+     * @param message 接收到的消息
+     */
+    @RabbitListener(queues = RabbitConfig.TOPIC_QUEUE_A_NAME) //监听名 topicQueueA 的队列
+    @RabbitHandler
+    public void topicQueueAComsume(String message) {
+        System.out.println("[topic MQ A] received message:" + message);
+    }
+
+    @RabbitListener(queues = RabbitConfig.TOPIC_QUEUE_B_NAME) //监听名 topicQueueB 的队列
+    @RabbitHandler
+    public void topicQueueBComsume(String message) {
+        System.out.println("[topic MQ B] received message:" + message);
+    }
+
+    @RabbitListener(queues = RabbitConfig.TOPIC_QUEUE_C_NAME) //监听名 topicQueueC 的队列
+    @RabbitHandler
+    public void topicQueueCComsume(String message) {
+        System.out.println("[topic MQ C] received message:" + message);
+    }
 }

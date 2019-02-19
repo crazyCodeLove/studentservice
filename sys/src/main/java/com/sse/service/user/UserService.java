@@ -58,6 +58,8 @@ public class UserService implements IUserService {
         user.setCreateTime(now);
         user.setUpdateTime(now);
         userMapper.save(user);
+        // 按照 username 为 route key，消息内容为 email is + user.email
+        mqProducer.topicExchangeSend(user.getUsername(), "email is " + user.getEmail());
         return User.removePassword(userMapper.get(user));
     }
 
@@ -161,7 +163,7 @@ public class UserService implements IUserService {
         User u;
         if ((u = userRedisService.get(User.getUserRedisKey(uid))) != null) {
             log.info("in redis");
-            mqProducer.sendUser(u);
+            mqProducer.directSendUser(u);
             return u;
         }
         u = userMapper.getByUid(uid);
