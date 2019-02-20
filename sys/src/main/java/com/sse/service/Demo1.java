@@ -4,6 +4,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.DES;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Sets;
 import com.sse.util.ValidateUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -30,6 +31,14 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
+        fun12();
+    }
+
+    public static void fun12() {
+        Set<Integer> set1 = Sets.newHashSet(12, 45, 78, 1, 2, 4, 5, 7, 9, 8, 6, 3);
+        Set<Integer> set2 = Sets.newHashSet(12, 45, 78, 32, 65, 98);
+        Sets.SetView<Integer> intersection = Sets.intersection(set1, set2);
+        System.out.println(intersection);
 
     }
 
