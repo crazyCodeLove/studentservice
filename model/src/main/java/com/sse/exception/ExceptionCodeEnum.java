@@ -38,7 +38,7 @@ public enum ExceptionCodeEnum {
         this.note = message;
     }
 
-    private static Map<Integer, ExceptionCodeEnum> codeExceptionMap = new HashMap<Integer, ExceptionCodeEnum>(ExceptionCodeEnum.values().length);
+    private static Map<Integer, ExceptionCodeEnum> codeExceptionMap = new HashMap<Integer, ExceptionCodeEnum>();
 
     static {
         // codeExceptionMap 进行初始化
