@@ -52,7 +52,7 @@ public class UserService implements IUserService {
     @Transactional
     public User save(User user) {
         if (userMapper.get(User.builder().username(user.getUsername()).build()) != null) {
-            throw new UserExistException(user.getUsername() + " 已存在");
+            throw new UserExistException("username [" + user.getUsername() + "] already exist");
         }
         Date now = new Date();
         user.setCreateTime(now);
@@ -132,7 +132,7 @@ public class UserService implements IUserService {
         User src = userMapper.get(User.builder().uid(user.getUid()).build());
         if (src == null) {
             // 用户不存在
-            throw new UserNotExistException("用户不存在。uid:" + user.getUid());
+            throw new UserNotExistException("user not exist, uid [" + user.getUid() + "]");
         }
         user.setUsername(src.getUsername());
         userMapper.update(User.encrypt(user));
@@ -152,7 +152,7 @@ public class UserService implements IUserService {
         }
         u = userMapper.get(user);
         if (u == null) {
-            throw new UserNotExistException("user not exist. uid:" + user.getUid());
+            throw new UserNotExistException("user not exist. uid [" + user.getUid() + "]");
         }
         userRedisService.set(User.getUserRedisKey(u), u);
         return u;
@@ -168,7 +168,7 @@ public class UserService implements IUserService {
         }
         u = userMapper.getByUid(uid);
         if (u == null) {
-            throw new UserNotExistException("user not exist. uid:" + uid);
+            throw new UserNotExistException("user not exist. uid [" + uid + "]");
         }
         log.info("not in redis");
         userRedisService.set(User.getUserRedisKey(u), u);
