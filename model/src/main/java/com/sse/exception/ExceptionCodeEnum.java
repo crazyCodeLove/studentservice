@@ -1,5 +1,8 @@
 package com.sse.exception;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * <p>
  * 异常错误码汇总
@@ -10,22 +13,22 @@ package com.sse.exception;
 
 public enum ExceptionCodeEnum {
     SUCCESS(200, "success"),
-    RUNTIME_EXCEPTION(500, "RuntimeException，The engineer is rushing to repair it. Please try again later..."),
-    RT_EXCEPTION(900, "custom exception base class"),
-    EXCEPTION_CODE_NOT_FOUND(901, " no code corresponding to this exception"),
-    PAGE_SIZE_OVERFLOW_EXCEPTION(902, " the number of single page exceeds the maximum"),
+    RUNTIME_EXCEPTION(10000000, "RuntimeException，The engineer is rushing to repair it. Please try again later..."),
+    RT_EXCEPTION(10000900, "custom exception base class"),
+    EXCEPTION_CODE_NOT_FOUND(10000901, " no code corresponding to this exception"),
+    PAGE_SIZE_OVERFLOW_EXCEPTION(10000902, " the number of single page exceeds the maximum"),
 
-    PARAM_RT_EXCEPTION(1000, "param exception"),
-    PARAM_NULL_EXCEPTION(1001, "param is null"),
-    REQUEST_ATTRIBUTE_NULL_EXCEPTION(1200, "request properties null"),
+    PARAM_RT_EXCEPTION(10001000, "param exception"),
+    PARAM_NULL_EXCEPTION(10001001, "param is null"),
+    REQUEST_ATTRIBUTE_NULL_EXCEPTION(10001200, "request properties null"),
 
-    JWT_PARSE_EXCEPTION(2000, "JWT parse exception"),
-    TOKEN_EXPIRE_EXCEPTION(2001, "token expired"),
-    USER_PARSE_EXCEPTION(2002, "user parse exception in token"),
+    JWT_PARSE_EXCEPTION(10002000, "JWT parse exception"),
+    TOKEN_EXPIRE_EXCEPTION(10002001, "token expired"),
+    USER_PARSE_EXCEPTION(10002002, "user parse exception in token"),
 
-    USER_EXCEPTION(3000, "user exception"),
-    USER_EXIST_EXCEPTION(3001, "user exist"),
-    USER_NOT_EXIST_EXCEPTION(3002, "user not exist");
+    USER_EXCEPTION(10003000, "user exception"),
+    USER_EXIST_EXCEPTION(10003001, "user exist"),
+    USER_NOT_EXIST_EXCEPTION(10003002, "user not exist");
 
     private int code;
     private String note;
@@ -35,13 +38,21 @@ public enum ExceptionCodeEnum {
         this.note = message;
     }
 
-    public static ExceptionCodeEnum getExceptionEnumByCode(int code) {
+    private static Map<Integer, ExceptionCodeEnum> codeExceptionMap = new HashMap<Integer, ExceptionCodeEnum>(ExceptionCodeEnum.values().length);
+
+    static {
+        // codeExceptionMap 进行初始化
         for (ExceptionCodeEnum e : values()) {
-            if (e.getCode() == code) {
-                return e;
-            }
+            codeExceptionMap.put(e.getCode(), e);
         }
-        throw new ExceptionCodeNotFound(code + " exception code not found in ExceptionCodeEnum");
+    }
+
+    public static ExceptionCodeEnum getExceptionEnumByCode(int code) {
+        if (!codeExceptionMap.containsKey(code)) {
+            throw new ExceptionCodeNotFound("exception code [" + code + "] not found in ExceptionCodeEnum");
+        }
+        //返回 code 对应的 Exception
+        return codeExceptionMap.get(code);
     }
 
     public int getCode() {
