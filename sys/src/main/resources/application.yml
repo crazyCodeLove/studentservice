@@ -6,6 +6,7 @@ server:
   tomcat:
     max-connections: 5000 #最大连接数
     max-threads: 100  #最大线程数
+    uri-encoding: utf-8
 
 spring:
   application:
