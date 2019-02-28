@@ -19,6 +19,14 @@ public class ExceptionCodeEnumTest {
         System.out.println(codeEnum);
     }
 
+    @Test
+    public void equalTest() {
+        int code = 10003000;
+        ExceptionCodeEnum exceptionEnum = ExceptionCodeEnum.getExceptionEnumByCode(code);
+        System.out.println(ExceptionCodeEnum.USER_EXCEPTION == exceptionEnum);
+        Assert.assertEquals(exceptionEnum, ExceptionCodeEnum.USER_EXCEPTION);
+    }
+
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 

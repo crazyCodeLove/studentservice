@@ -36,7 +36,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public ResponseResultHolder<User> save(@RequestBody RequestParamHolder<UserSaveParam> param) {
         if (param.getParam() == null) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         UserSaveParam saveParam = param.getParam();
         User user = User.builder()
@@ -52,7 +52,7 @@ public class UserController {
     @RequestMapping(value = "/user/batch", method = RequestMethod.POST)
     public ResponseResultHolder<Map<String, Object>> saveBatch(@RequestBody RequestParamHolder<List<UserSaveParam>> param) {
         if (param.getParam() == null || param.getParam().isEmpty()) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         List<UserSaveParam> listSaveParam = param.getParam();
         List<User> users = new ArrayList<>(listSaveParam.size() * 2);
@@ -72,7 +72,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.PUT)
     public ResponseResultHolder<User> update(@RequestBody RequestParamHolder<UserUpdateParam> param) {
         if (param.getParam() == null) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         UserUpdateParam updateParam = param.getParam();
         User user = User.builder()
@@ -87,7 +87,7 @@ public class UserController {
     @RequestMapping(value = "/user/password", method = RequestMethod.PUT)
     public ResponseResultHolder changePassword(@RequestBody RequestParamHolder<UserChangePasswordParam> param) {
         if (param.getParam() == null) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         UserChangePasswordParam updateParam = param.getParam();
         User user = User.builder()
@@ -101,7 +101,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)
     public ResponseResultHolder delete(@RequestBody RequestParamHolder<UserDeleteParam> param) {
         if (param.getParam() == null) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         userService.delete(param.getParam().getUids());
         return ResponseResultHolder.ok();
@@ -110,7 +110,7 @@ public class UserController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseResultHolder<User> getUser(@RequestBody RequestParamHolder<UserGetParam> param) {
         if (param.getParam() == null) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         UserGetParam getParam = param.getParam();
         return ResponseResultHolder.setResult(userService.getByUid(getParam.getUid()));
@@ -119,7 +119,7 @@ public class UserController {
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     public ResponseResultHolder<Map<String, Object>> userList(@RequestBody RequestParamHolder<UserListParam> param) {
         if (param.getParam() == null) {
-            throw new ParamNullException("请求参数为空");
+            throw new ParamNullException("request param is null");
         }
         UserListParam listParam = param.getParam();
         return ResponseResultHolder.setResult(userService.getList(listParam));
