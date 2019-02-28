@@ -114,10 +114,10 @@ public class LogParamAspect {
     private void validParam(Object param) {
         // 对参数进行校验
         ValidateUtil.validate(param);
-        // 对参数进行对象内执行 预处理和验证
+        // 对参数进行对象内执行 验证和预处理
         if (param instanceof RequestParamBase) {
-            ((RequestParamBase) param).preHandle();
             ((RequestParamBase) param).validParamInParam();
+            ((RequestParamBase) param).preHandle();
         }
     }
 
