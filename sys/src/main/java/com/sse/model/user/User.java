@@ -3,7 +3,6 @@ package com.sse.model.user;
 import cn.hutool.crypto.SecureUtil;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements Serializable {
+public class User {
     private Long uid;
     private String username; // 用户名是唯一的，不可重复。创建后不可更改
     private String password;
@@ -91,6 +90,7 @@ public class User implements Serializable {
 
     /**
      * 根据用户 uid 生成在 redis 中缓存的 key
+     *
      * @param user 含有 uid 的 用户信息
      */
     public static String getUserRedisKey(User user) {
@@ -102,6 +102,7 @@ public class User implements Serializable {
 
     /**
      * 根据用户 uid 生成在 redis 中缓存的 key
+     *
      * @param uid 用户在数据库中的 uid
      */
     public static String getUserRedisKey(long uid) {
@@ -110,6 +111,7 @@ public class User implements Serializable {
 
     /**
      * 根据 uid 列表生成 redis 缓存中的 key
+     *
      * @param uids 待缓存的 uid 列表
      */
     public static List<String> getUserRedisKeyList(List<Long> uids) {

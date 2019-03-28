@@ -4,6 +4,7 @@ import com.sse.config.RabbitConfig;
 import com.sse.model.user.User;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,25 +20,31 @@ import org.springframework.stereotype.Service;
 public class RabbitProducer {
 
     private AmqpTemplate mqTemplate;
+    private RabbitConfig rabbitConfig;
 
     @Autowired
-    public RabbitProducer(AmqpTemplate mqTemplate) {
+    public RabbitProducer(@Qualifier("jsonRabbitTemplate") AmqpTemplate mqTemplate, RabbitConfig rabbitConfig) {
         this.mqTemplate = mqTemplate;
+        this.rabbitConfig = rabbitConfig;
+    }
+
+    public <T> void send(String exchangeName, String routingKey, T message) {
+        mqTemplate.convertAndSend(exchangeName, routingKey, message);
     }
 
     public void directSendUser(User user) {
-        //第一个参数是对列名
-        mqTemplate.convertAndSend(RabbitConfig.DIRECT_QUEUE_NAME, user);
+        mqTemplate.convertAndSend(RabbitConfig.DIRECT_EXCHANGE_NAME, RabbitConfig.DIRECT_ROUTING_KEY, user);
     }
 
     /**
      * 向 topic 交换机发送消息
+     *
      * @param routeKey 路由键
-     * @param message 消息
+     * @param message  消息
      */
     public void topicExchangeSend(String routeKey, String message) {
         // 注意 第一个参数是我们交换机的名称 ，第二个参数是 routerKey topic.msg，第三个是你要发送的消息
-        mqTemplate.convertAndSend(RabbitConfig.TOPIC_EXCHANGE_NAME, routeKey, message);
+        send(RabbitConfig.TOPIC_EXCHANGE_NAME, routeKey, message);
     }
 
 }

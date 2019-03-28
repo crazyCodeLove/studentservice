@@ -19,13 +19,14 @@ public class RabbitConsumer {
 
     /**
      * 消费 userAdd 的队列的消息
-     *
-     * @param user 接收到的消息
+     * <p>
+     * 接收到的消息
      */
     @RabbitListener(queues = RabbitConfig.DIRECT_QUEUE_NAME) //监听名 userAdd 的队列
     @RabbitHandler
-    public void recived(User user) {
-        System.out.println("[direct MQ] received user:" + user);
+    public void recived(User message) {
+        System.out.println("[direct MQ] received user:" + message);
+        System.out.println();
     }
 
     /**

@@ -31,7 +31,8 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-
+        String[] split = "nice to  meet   you".split("\\s+");
+        System.out.println(Arrays.toString(split));
     }
 
     public static void fun12() {
@@ -39,7 +40,6 @@ public class Demo1 {
         Set<Integer> set2 = Sets.newHashSet(12, 45, 78, 32, 65, 98);
         Sets.SetView<Integer> intersection = Sets.intersection(set1, set2);
         System.out.println(intersection);
-
     }
 
     private static void fun11() {
