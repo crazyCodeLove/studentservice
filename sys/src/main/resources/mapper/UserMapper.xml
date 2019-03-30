@@ -24,6 +24,50 @@
         );
     </insert>
 
+    <insert id="saveInLog1">
+        INSERT INTO user_info (
+        username,
+        password,
+        email,
+        telphone,
+        birthday,
+        createTime,
+        updateTime
+        )
+        VALUES
+        (
+        #{username},
+        #{password},
+        #{email},
+        #{telphone},
+        #{birthday, jdbcType=TIMESTAMP},
+        #{createTime, jdbcType=TIMESTAMP},
+        #{updateTime, jdbcType=TIMESTAMP}
+        );
+    </insert>
+
+    <insert id="saveInLog2">
+        INSERT INTO user_info (
+        username,
+        password,
+        email,
+        telphone,
+        birthday,
+        createTime,
+        updateTime
+        )
+        VALUES
+        (
+        #{username},
+        #{password},
+        #{email},
+        #{telphone},
+        #{birthday, jdbcType=TIMESTAMP},
+        #{createTime, jdbcType=TIMESTAMP},
+        #{updateTime, jdbcType=TIMESTAMP}
+        );
+    </insert>
+
     <insert id="saveBatch" parameterType="com.sse.model.user.User">
         INSERT INTO user_info
         (
@@ -102,6 +146,38 @@
             <include refid="condUsername"/>
             <include refid="condPassword"/>
         </where>
+    </select>
+
+    <select id="getInLog1" resultType="com.sse.model.user.User" parameterType="com.sse.model.user.User">
+        SELECT
+        `uid`,
+        `username`,
+        `email`,
+        `telphone`,
+        `birthday`,
+        `createTime`,
+        `updatetime`
+        FROM
+        user_info
+        <where>
+            <include refid="condUid"/>
+            <include refid="condUsername"/>
+            <include refid="condPassword"/>
+        </where>
+    </select>
+
+    <select id="getInLog2" resultType="com.sse.model.user.User" parameterType="com.sse.model.user.User">
+        SELECT
+        `uid`,
+        `username`,
+        `email`,
+        `telphone`,
+        `birthday`,
+        `createTime`,
+        `updatetime`
+        FROM
+        user_info
+        where uid = #{uid}
     </select>
 
     <select id="getByUid" resultType="com.sse.model.user.User">

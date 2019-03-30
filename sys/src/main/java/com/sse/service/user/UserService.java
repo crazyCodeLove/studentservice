@@ -63,6 +63,24 @@ public class UserService implements IUserService {
         return User.removePassword(userMapper.get(user));
     }
 
+    @Transactional
+    public User saveInLog1(User user) {
+        Date now = new Date();
+        user.setCreateTime(now);
+        user.setUpdateTime(now);
+        userMapper.saveInLog1(user);
+        return User.removePassword(userMapper.getInLog1(user));
+    }
+
+    @Transactional
+    public User saveInLog2(User user) {
+        Date now = new Date();
+        user.setCreateTime(now);
+        user.setUpdateTime(now);
+        userMapper.saveInLog2(user);
+        return User.removePassword(userMapper.getInLog2(user));
+    }
+
     /**
      * 批量保存用户数据。用户名已存在的到失败列表；重复的第一个添加成功。
      *

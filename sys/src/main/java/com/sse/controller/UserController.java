@@ -49,6 +49,38 @@ public class UserController {
         return ResponseResultHolder.setResult(userService.save(User.encrypt(user)));
     }
 
+    @RequestMapping(value = "/user/log1", method = RequestMethod.POST)
+    public ResponseResultHolder<User> saveInLog1(@RequestBody RequestParamHolder<UserSaveParam> param) {
+        if (param.getParam() == null) {
+            throw new ParamNullException("request param is null");
+        }
+        UserSaveParam saveParam = param.getParam();
+        User user = User.builder()
+                .username(saveParam.getUsername())
+                .password(saveParam.getPassword())
+                .email(saveParam.getEmail())
+                .telphone(saveParam.getTelphone())
+                .birthday(saveParam.getBirthday())
+                .build();
+        return ResponseResultHolder.setResult(userService.saveInLog1(User.encrypt(user)));
+    }
+
+    @RequestMapping(value = "/user/log2", method = RequestMethod.POST)
+    public ResponseResultHolder<User> saveInLog2(@RequestBody RequestParamHolder<UserSaveParam> param) {
+        if (param.getParam() == null) {
+            throw new ParamNullException("request param is null");
+        }
+        UserSaveParam saveParam = param.getParam();
+        User user = User.builder()
+                .username(saveParam.getUsername())
+                .password(saveParam.getPassword())
+                .email(saveParam.getEmail())
+                .telphone(saveParam.getTelphone())
+                .birthday(saveParam.getBirthday())
+                .build();
+        return ResponseResultHolder.setResult(userService.saveInLog2(User.encrypt(user)));
+    }
+
     @RequestMapping(value = "/user/batch", method = RequestMethod.POST)
     public ResponseResultHolder<Map<String, Object>> saveBatch(@RequestBody RequestParamHolder<List<UserSaveParam>> param) {
         if (param.getParam() == null || param.getParam().isEmpty()) {

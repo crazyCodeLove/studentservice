@@ -19,10 +19,20 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false #未定义的key不反序列化
   #对返回的时间进行格式化
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: root123
     driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      student:
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: root123
+      log1:
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/log1?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: root123
+      log2:
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/log2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: root123
 
   redis:
     database: 1 #Redis数据库索引（默认为0）
