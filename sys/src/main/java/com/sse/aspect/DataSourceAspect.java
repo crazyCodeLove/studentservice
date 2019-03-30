@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
 public class DataSourceAspect {
 
     //切入点，mapper 中所有注解方法
-    @Pointcut("execution(* com.sse.service..*.*(..))")
+    @Pointcut("execution(* com.sse.service..*.*(..)) && @annotation(com.sse.annotation.MultiDataSource)")
     public void mapperAspect() {
     }
 

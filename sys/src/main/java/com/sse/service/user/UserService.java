@@ -61,8 +61,9 @@ public class UserService implements IUserService {
         user.setUpdateTime(now);
         userMapper.save(user);
         // 按照 username 为 route key，消息内容为 email is + user.email
-        mqProducer.topicExchangeSend(user.getUsername(), "email is " + user.getEmail());
-        return User.removePassword(userMapper.get(user));
+//        mqProducer.topicExchangeSend(user.getUsername(), "email is " + user.getEmail());
+        User user1 = User.removePassword(user);
+        return user1;
     }
 
     @Transactional
@@ -73,7 +74,8 @@ public class UserService implements IUserService {
         user.setUpdateTime(now);
         user.setCreateTime(now);
         userMapper.saveInLog1(user);
-        return User.removePassword(userMapper.getInLog1(user));
+        User user1 = User.removePassword(user);
+        return user1;
     }
 
     @Transactional
@@ -82,7 +84,8 @@ public class UserService implements IUserService {
         Date now = new Date();
         user.setUpdateTime(now);
         userMapper.saveInLog2(user);
-        return User.removePassword(userMapper.getInLog2(user));
+        User user1 = User.removePassword(user);
+        return user1;
     }
 
     /**
