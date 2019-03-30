@@ -1,5 +1,7 @@
 package com.sse.annotation;
 
+import com.sse.config.datasource.DataSourceConfig;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,5 +16,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface MultiDataSource {
-    String value() default "student";
+    String value() default DataSourceConfig.DEFAULT_DATASOURCE_NAME;
 }

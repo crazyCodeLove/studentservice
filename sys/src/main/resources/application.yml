@@ -19,18 +19,18 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false #未定义的key不反序列化
   #对返回的时间进行格式化
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    hikari:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
       student:
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
         password: root123
       log1:
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/log1?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/log1?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
         password: root123
       log2:
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/log2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/log2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
         password: root123
 
@@ -65,7 +65,7 @@ rabbitmq:
       checkout-timeout: 4000
 
 mybatis:
-  mapper-locations: classpath*:mapper/*.xml
+#  mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

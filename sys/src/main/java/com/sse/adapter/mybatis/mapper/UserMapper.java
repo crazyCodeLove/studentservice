@@ -1,6 +1,7 @@
 package com.sse.adapter.mybatis.mapper;
 
 import com.sse.annotation.MultiDataSource;
+import com.sse.config.datasource.DataSourceConfig;
 import com.sse.model.user.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -16,29 +17,22 @@ import java.util.Set;
 @Repository
 public interface UserMapper {
 
-    @MultiDataSource("studentDataSource")
     void save(User user);
 
-    @MultiDataSource("log1DataSource")
     void saveInLog1(User user);
 
-    @MultiDataSource("log2DataSource")
     void saveInLog2(User user);
 
     void saveBatch(@Param("users") List<User> users);
-
 
     void update(User user);
 
     void delete(@Param("uids") List<Long> uids);
 
-    @MultiDataSource("studentDataSource")
     User get(User user);
 
-    @MultiDataSource("log1DataSource")
     User getInLog1(User user);
 
-    @MultiDataSource("log2DataSource")
     User getInLog2(User user);
 
     User getByUid(@Param("uid") long uid);

@@ -3,6 +3,8 @@ package com.sse.service.user;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sse.adapter.mybatis.mapper.UserMapper;
+import com.sse.annotation.MultiDataSource;
+import com.sse.config.datasource.DataSourceConfig;
 import com.sse.exception.user.UserExistException;
 import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
@@ -64,18 +66,20 @@ public class UserService implements IUserService {
     }
 
     @Transactional
+    @MultiDataSource(DataSourceConfig.LOG1_DATASOURCE_NAME)
     public User saveInLog1(User user) {
         Date now = new Date();
         user.setCreateTime(now);
         user.setUpdateTime(now);
+        user.setCreateTime(now);
         userMapper.saveInLog1(user);
         return User.removePassword(userMapper.getInLog1(user));
     }
 
     @Transactional
+    @MultiDataSource(DataSourceConfig.LOG2_DATASOURCE_NAME)
     public User saveInLog2(User user) {
         Date now = new Date();
-        user.setCreateTime(now);
         user.setUpdateTime(now);
         userMapper.saveInLog2(user);
         return User.removePassword(userMapper.getInLog2(user));
