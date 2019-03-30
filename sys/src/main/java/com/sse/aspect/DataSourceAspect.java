@@ -36,7 +36,6 @@ public class DataSourceAspect {
         Method method = signature.getMethod();
         MultiDataSource ds = method.getAnnotation(MultiDataSource.class);
         if (ds != null) {
-            log.info("before change, datasource name: {}", DynamicDataSource.getDataSourceName());
             DynamicDataSource.setDataSourceName(ds.value());
             log.info("after change, datasource name: {}", DynamicDataSource.getDataSourceName());
         }

@@ -73,17 +73,6 @@ public class DataSourceConfig {
         return dynamicDataSource;
     }
 
-    @Bean
-    @ConfigurationProperties(prefix = "mybatis")
-    public SqlSessionFactoryBean sqlSessionFactoryBean(@Qualifier("dynamicDataSource") DataSource dataSource, MybatisProperties properties) throws IOException {
-        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-        // 配置数据源，此处配置为关键配置，如果没有将 dynamicDataSource 作为数据源则不能实现切换
-        sqlSessionFactoryBean.setDataSource(dataSource);
-        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*.xml"));
-        sqlSessionFactoryBean.setConfiguration(properties.getConfiguration());
-        return sqlSessionFactoryBean;
-    }
-
     /**
      * 配置@Transactional注解事物
      *
