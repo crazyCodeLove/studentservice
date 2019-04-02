@@ -37,7 +37,6 @@ public class DataSourceAspect {
         MultiDataSource ds = method.getAnnotation(MultiDataSource.class);
         if (ds != null) {
             DynamicDataSource.setDataSourceName(ds.value());
-            log.info("after change, datasource name: {}", DynamicDataSource.getDataSourceName());
         }
         try {
             return joinPoint.proceed();

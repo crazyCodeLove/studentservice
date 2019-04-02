@@ -46,8 +46,12 @@ public class LogParamAspect {
     /**
      * 只记录请求的参数
      */
-    @Pointcut("execution(* com.sse.controller..*.* (..)) " +
-            "&& @annotation(org.springframework.web.bind.annotation.RequestMapping)")
+    @Pointcut("execution(* com.sse..controller..*.* (..)) && (" +
+            "   @annotation(org.springframework.web.bind.annotation.RequestMapping) " +
+            "|| @annotation(org.springframework.web.bind.annotation.PostMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.PutMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+            "|| @annotation(org.springframework.web.bind.annotation.GetMapping))")
     public void controllerPoint() {
     }
 
