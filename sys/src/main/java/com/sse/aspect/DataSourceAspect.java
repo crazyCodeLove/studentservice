@@ -31,7 +31,7 @@ public class DataSourceAspect {
     }
 
     @Around("mapperAspect()")
-    public void around(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         MultiDataSource ds = method.getAnnotation(MultiDataSource.class);
@@ -40,7 +40,7 @@ public class DataSourceAspect {
             log.info("after change, datasource name: {}", DynamicDataSource.getDataSourceName());
         }
         try {
-            joinPoint.proceed();
+            return joinPoint.proceed();
         } finally {
             DynamicDataSource.clearDataSource();
         }
