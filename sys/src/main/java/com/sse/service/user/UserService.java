@@ -1,5 +1,6 @@
 package com.sse.service.user;
 
+import com.alibaba.druid.sql.PagerUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sse.adapter.mybatis.mapper.UserMapper;
@@ -216,8 +217,13 @@ public class UserService implements IUserService {
                 .build();
 
         try {
-            PageHelper.startPage(listParam.getCurrentPage(), listParam.getPageSize(), listParam.getSort());
-            Page<User> r = (Page<User>) userMapper.getList(user);
+            PageHelper.startPage(listParam.getPageNum(), listParam.getPageSize(), listParam.getSort());
+            Page<User> r;
+            try {
+                r = (Page<User>) userMapper.getList(user);
+            } finally {
+                PageHelper.clearPage();
+            }
             result = PageUtil.toResultMap(r);
         } finally {
             PageHelper.clearPage();

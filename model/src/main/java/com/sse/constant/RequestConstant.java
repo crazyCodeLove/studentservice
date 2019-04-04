@@ -23,7 +23,7 @@ public interface RequestConstant {
         /**
          * 默认当前页
          */
-        public static final int DEFAULT_CURRENT_PAGE = 1;
+        public static final int DEFAULT_PAGE_NUM = 1;
 
         /**
          * 默认单页数量

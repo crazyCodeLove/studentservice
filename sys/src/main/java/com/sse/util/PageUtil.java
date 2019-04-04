@@ -1,7 +1,6 @@
 package com.sse.util;
 
 import com.github.pagehelper.Page;
-import com.sse.model.page.PageResult;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,14 +19,22 @@ public class PageUtil {
      *
      * @param page PageHelper 请求返回结果
      * @return <code>
-     * Map<String, Object> map. map 当中必含有 page 和 list字段 <br/>
-     * page 字段表示分页信息， list 字段表示当前页数据
      * <code/>
      */
     public static Map<String, Object> toResultMap(Page<?> page) {
-        Map<String, Object> resultMap = new LinkedHashMap<>(4);
-        resultMap.put("page", PageResult.builder().currentPage(page.getPageNum()).pageSize(page.size()).total(page.getTotal()).build());
-        resultMap.put("list", page.getResult());
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        // 页码
+        resultMap.put("pageNum", page.getPageNum());
+        // 页面大小
+        resultMap.put("pageSize", page.getPageSize());
+        // 当前页数量
+        resultMap.put("size", page.size());
+        // 结果集数量
+        resultMap.put("total", page.getTotal());
+        // 总页数
+        resultMap.put("pages", page.getPages());
+        // 当前页结果
+        resultMap.put("result", page.getResult());
         return resultMap;
     }
 

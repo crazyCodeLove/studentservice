@@ -23,7 +23,7 @@ public class PageSortParam extends RequestParamBase {
     /**
      * 页号
      */
-    protected int currentPage;
+    protected int pageNum;
 
     /**
      * 每页条数
@@ -38,8 +38,8 @@ public class PageSortParam extends RequestParamBase {
     public PageSortParam() {
     }
 
-    public PageSortParam(int currentPage, int pageSize, String sort) {
-        this.currentPage = currentPage;
+    public PageSortParam(int pageNum, int pageSize, String sort) {
+        this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.sort = sort;
     }
@@ -58,8 +58,8 @@ public class PageSortParam extends RequestParamBase {
         if (pageSize <= 0) {
             this.pageSize = DEFAULT_PAGE_SIZE;
         }
-        if (currentPage <= 0) {
-            this.currentPage = DEFAULT_CURRENT_PAGE;
+        if (pageNum <= 0) {
+            this.pageNum = DEFAULT_PAGE_NUM;
         }
     }
 }

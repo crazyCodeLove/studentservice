@@ -42,7 +42,7 @@ public class UserListParam extends PageSortParam {
         this.birthday = birthday;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.currentPage = currentPage;
+        this.pageNum = currentPage;
         this.pageSize = pageSize;
         this.sort = sort;
     }
