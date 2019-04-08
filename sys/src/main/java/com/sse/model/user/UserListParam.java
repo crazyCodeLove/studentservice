@@ -32,7 +32,7 @@ public class UserListParam extends PageSortParam {
                          Date birthday,
                          Date createTime,
                          Date updateTime,
-                         int currentPage,
+                         int pageNum,
                          int pageSize,
                          String sort) {
         this.uid = uid;
@@ -42,7 +42,7 @@ public class UserListParam extends PageSortParam {
         this.birthday = birthday;
         this.createTime = createTime;
         this.updateTime = updateTime;
-        this.pageNum = currentPage;
+        this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.sort = sort;
     }
