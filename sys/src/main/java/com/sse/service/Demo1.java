@@ -18,8 +18,12 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * author pczhao <br/>
@@ -31,8 +35,10 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        String[] split = "nice to  meet   you".split("\\s+");
-        System.out.println(Arrays.toString(split));
+        String s = "12345678";
+        Pattern compile = Pattern.compile("\\d[8]");
+        Matcher matcher = compile.matcher(s);
+        System.out.println(matcher.find());
     }
 
     public static void fun12() {

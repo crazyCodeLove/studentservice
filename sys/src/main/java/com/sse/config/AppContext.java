@@ -22,8 +22,11 @@ public class AppContext implements ApplicationContextAware {
      * 从静态变量 appContext 中取得 Bean, 自动转型为所赋值对象的类型.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getBean(String name) {
-        return (T) appContext.getBean(name);
+    public static <T> T getBean(String beanName) {
+        if (!appContext.containsBean(beanName)) {
+            return null;
+        }
+        return (T) appContext.getBean(beanName);
     }
 
     /**
@@ -33,4 +36,12 @@ public class AppContext implements ApplicationContextAware {
     public static <T> T getBean(Class<T> clazz) {
         return (T) appContext.getBeansOfType(clazz);
     }
+
+    public static <T> T getBean(String beanName, Class<T> clazz) {
+        if (!appContext.containsBean(beanName)) {
+            return null;
+        }
+        return appContext.getBean(beanName, clazz);
+    }
+
 }

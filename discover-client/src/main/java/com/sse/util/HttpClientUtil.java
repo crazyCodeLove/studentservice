@@ -3,9 +3,7 @@ package com.sse.util;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.domain.EurekaApplication;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +18,7 @@ import java.util.regex.Pattern;
 
 public class HttpClientUtil {
     private static final ObjectMapper mapper = new ObjectMapper();
+    public static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json;charset=utf-8");
 
     static {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -28,8 +27,8 @@ public class HttpClientUtil {
     /**
      * 获取服务的所有地址（注册在 eureka server 上的服务）
      *
-     * @param eurekaIp ip
-     * @param eurekaPort port
+     * @param eurekaIp    ip
+     * @param eurekaPort  port
      * @param servicename name
      * @return 服务列表
      */
@@ -39,7 +38,7 @@ public class HttpClientUtil {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)//请求接口。如果需要传参拼接到接口后面。
-                .addHeader("Content-Type", "application/json")
+                .addHeader("Content-Type", "application/json;charset:utf-8")
                 .addHeader("Accept", "application/xml")
                 .get()
                 .build();//创建Request 对象
@@ -65,13 +64,13 @@ public class HttpClientUtil {
      * @param servicename
      * @return
      */
-    public static List<String> getAllServiceAddr(String defaultZone, String servicename) {
+    public static List<String> getAllServiceAddr(String defaultZone, String servicename) throws IOException {
         List<String> result = new ArrayList<>();
         String url = defaultZone + "apps/" + servicename;
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)//请求接口。如果需要传参拼接到接口后面。
-                .addHeader("Content-Type", "application/json")
+                .addHeader("Content-Type", "application/json;charset:utf-8")
                 .addHeader("Accept", "application/json")
                 .get()
                 .build();//创建Request 对象
@@ -90,6 +89,24 @@ public class HttpClientUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            throw e;
+        }
+        return result;
+    }
+
+    public static <T> T postForEntity(String url, Object param, Class<T> responseType) throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(JSON_MEDIA_TYPE, mapper.writeValueAsString(param));
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .addHeader("Content-Type", "application/json;charset:utf-8")
+                .addHeader("Accept", "application/json")
+                .build();
+        Response response = okHttpClient.newCall(request).execute();
+        T result = null;
+        if (response.isSuccessful()) {
+            result = mapper.readValue(response.body().toString(), responseType);
         }
         return result;
     }
@@ -168,7 +185,7 @@ public class HttpClientUtil {
         }
     }
 
-    public static void getMethod2() {
+    public static void getMethod2() throws IOException {
         List<String> allServiceAddr = getAllServiceAddr("http://127.0.0.1:8010/eureka/", "SERVICE-PROVIDER");
         for (String url : allServiceAddr) {
             System.out.println(url);
@@ -176,6 +193,10 @@ public class HttpClientUtil {
     }
 
     public static void main(String[] args) {
-        getMethod2();
+        try {
+            getMethod2();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
