@@ -47,7 +47,6 @@ public class RedisConfig {
         // value序列化采用 jackson2JsonRedisSerializer
         redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;

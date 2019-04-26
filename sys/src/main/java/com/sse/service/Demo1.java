@@ -35,10 +35,7 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        String s = "12345678";
-        Pattern compile = Pattern.compile("\\d[8]");
-        Matcher matcher = compile.matcher(s);
-        System.out.println(matcher.find());
+
     }
 
     public static void fun12() {
