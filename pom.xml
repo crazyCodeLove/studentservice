@@ -27,6 +27,7 @@
         <jjwt.version>0.9.1</jjwt.version>
         <okhttp.version>3.11.0</okhttp.version>
         <pagehelper.version>1.2.10</pagehelper.version>
+        <jsckson.version>2.9.7</jsckson.version>
         <guava.version>27.0.1-jre</guava.version>
     </properties>
 
@@ -48,6 +49,17 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
             <dependency>
