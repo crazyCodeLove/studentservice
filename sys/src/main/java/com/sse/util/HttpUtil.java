@@ -53,6 +53,21 @@ public class HttpUtil {
     /**
      * 请求失败会返回 null
      *
+     * @param url           请求的 url
+     * @param headers       请求头参数， key:value 对
+     * @param params        请求参数， key:value 对
+     * @param typeReference 返回对象类型
+     */
+    public static <T> T getForType(String url, Map<String, String> headers, Map<String, String> params, TypeReference<T> typeReference) {
+        OkHttpClient okHttpClient = buildHttpClient();
+        Request request = buildGetRequestBuilder(url, headers, params).build();
+        Call call = okHttpClient.newCall(request);
+        return executeCall(call, typeReference);
+    }
+
+    /**
+     * 请求失败会返回 null
+     *
      * @param url     请求的 url
      * @param headers 请求头参数， key:value 对
      * @param param   请求体对象

@@ -5,7 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.crypto.symmetric.DES;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * <p></p>
@@ -14,29 +14,28 @@ import java.nio.charset.Charset;
  */
 
 public class EncryptUtil {
-    public static final String CHARSET_NAME = "UTF-8";
 
     public static String desEncrypt(String content, String key) {
         Assert.isTrue(key != null && key.length() > 8, "key length should more than 8");
         DES des = SecureUtil.des(key.getBytes());
-        return des.encryptHex(content, CHARSET_NAME);
+        return des.encryptHex(content, StandardCharsets.UTF_8.name());
     }
 
     public static String desDecrypt(String encryptContent, String key) {
         Assert.isTrue(key != null && key.length() > 8, "key length should more than 8");
         DES des = SecureUtil.des(key.getBytes());
-        return des.decryptStr(encryptContent, Charset.forName(CHARSET_NAME));
+        return des.decryptStr(encryptContent, StandardCharsets.UTF_8);
     }
 
     public static String aesEncrypt(String content, String key) {
         Assert.isTrue(key != null && key.length() % 16 == 0, "key length should be multiples of the number 16");
         AES aes = SecureUtil.aes(key.getBytes());
-        return aes.encryptHex(content, CHARSET_NAME);
+        return aes.encryptHex(content, StandardCharsets.UTF_8.name());
     }
 
     public static String aesDecrypt(String encryptContent, String key) {
         Assert.isTrue(key != null && key.length() % 16 == 0, "key length should be multiples of the number 16");
         AES aes = SecureUtil.aes(key.getBytes());
-        return aes.decryptStr(encryptContent, Charset.forName(CHARSET_NAME));
+        return aes.decryptStr(encryptContent, StandardCharsets.UTF_8);
     }
 }
