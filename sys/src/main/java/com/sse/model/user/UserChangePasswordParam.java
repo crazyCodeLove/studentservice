@@ -26,12 +26,10 @@ public class UserChangePasswordParam extends RequestParamBase {
 
     @Override
     public void validParamInParam() {
-        super.validParamInParam();
     }
 
     @Override
     public void preHandle() {
-        super.preHandle();
         password = password.trim();
     }
 }

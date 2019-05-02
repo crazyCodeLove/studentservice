@@ -28,12 +28,10 @@ public class UserSaveParam extends RequestParamBase {
 
     @Override
     public void validParamInParam() {
-        super.validParamInParam();
     }
 
     @Override
     public void preHandle() {
-        super.preHandle();
         username = username.trim();
         password = password.trim();
         if (email != null) {

@@ -34,7 +34,6 @@ public class StudentParam extends RequestParamBase {
 
     @Override
     public void validParamInParam() {
-        super.validParamInParam();
         if (id == 12) {
             throw new RTException("test case");
         }
@@ -42,6 +41,5 @@ public class StudentParam extends RequestParamBase {
 
     @Override
     public void preHandle() {
-        super.preHandle();
     }
 }

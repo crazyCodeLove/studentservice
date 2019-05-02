@@ -46,7 +46,6 @@ public class PageSortParam extends RequestParamBase {
 
     @Override
     public void validParamInParam() {
-        super.validParamInParam();
         if (pageSize > MAX_PAGE_SIZE) {
             throw new PageSizeOverFlowException("The number of single page exceeds the maximum:" + MAX_PAGE_SIZE);
         }
@@ -54,7 +53,6 @@ public class PageSortParam extends RequestParamBase {
 
     @Override
     public void preHandle() {
-        super.preHandle();
         if (pageSize <= 0) {
             this.pageSize = DEFAULT_PAGE_SIZE;
         }

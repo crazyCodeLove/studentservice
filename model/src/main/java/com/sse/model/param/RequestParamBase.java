@@ -5,17 +5,15 @@ package com.sse.model.param;
  * date 2018-12-26 11:18
  */
 
-public class RequestParamBase {
+public abstract class RequestParamBase {
 
     /**
      * 逻辑校验
      */
-    public void validParamInParam() {
-    }
+    public abstract void validParamInParam();
 
     /**
      * 请求参数预处理
      */
-    public void preHandle(){
-    }
+    public abstract void preHandle();
 }

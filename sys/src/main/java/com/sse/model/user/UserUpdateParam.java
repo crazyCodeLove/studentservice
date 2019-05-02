@@ -26,12 +26,10 @@ public class UserUpdateParam extends RequestParamBase {
 
     @Override
     public void validParamInParam() {
-        super.validParamInParam();
     }
 
     @Override
     public void preHandle() {
-        super.preHandle();
         if (email != null) {
             email = email.trim();
         }

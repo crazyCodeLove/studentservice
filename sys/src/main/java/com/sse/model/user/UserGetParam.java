@@ -17,17 +17,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserGetParam extends RequestParamBase {
+public class UserGetParam {
     @NotNull(message = "uid 不能为 null")
     private Long uid;
-
-    @Override
-    public void validParamInParam() {
-        super.validParamInParam();
-    }
-
-    @Override
-    public void preHandle() {
-        super.preHandle();
-    }
 }

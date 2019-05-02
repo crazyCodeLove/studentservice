@@ -17,17 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDeleteParam extends RequestParamBase {
+public class UserDeleteParam {
     @NotEmpty(message = "uid 列表不能为空")
     List<Long> uids;
-
-    @Override
-    public void validParamInParam() {
-        super.validParamInParam();
-    }
-
-    @Override
-    public void preHandle() {
-        super.preHandle();
-    }
 }
