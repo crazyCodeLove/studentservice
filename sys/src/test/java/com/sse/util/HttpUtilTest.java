@@ -35,9 +35,17 @@ public class HttpUtilTest {
         String url = "http://localhost:8060/student-service-provider/user";
         Map<String, String> headers = new HashMap<>();
         RequestParamHolder<UserSaveParam> param = RequestParamHolder.<UserSaveParam>builder().param(UserSaveParam.builder().username("test2").password("pass2").build()).build();
-        ResponseResultHolder<User> resultHolder = HttpUtil.postForType(url, headers, param, new TypeReference<ResponseResultHolder<User>>() {});
+        ResponseResultHolder<User> resultHolder = HttpUtil.postForType(url, headers, param, new TypeReference<ResponseResultHolder<User>>() {
+        });
         log.info("response success. resultHolder: {}, result: {}", resultHolder, resultHolder.getResult());
     }
 
-
+    @Test
+    public void downloadTest() {
+        String url = "http://www.csindex.com.cn/uploads/file/autofile/cons/000001cons.xls";
+        Map<String, String> headers = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
+        String saveFilename = "D:\\logs\\000001cons.xls";
+        HttpUtil.downloadFile(url, headers, params, saveFilename, null);
+    }
 }
