@@ -3,6 +3,8 @@ package com.sse.config;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * author pczhao <br/>
@@ -44,4 +46,7 @@ public class AppContext implements ApplicationContextAware {
         return appContext.getBean(beanName, clazz);
     }
 
+    public static ServletRequestAttributes getServletRequests() {
+        return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    }
 }
