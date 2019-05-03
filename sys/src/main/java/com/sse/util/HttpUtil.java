@@ -20,7 +20,6 @@ import static okhttp3.Request.Builder;
 
 /**
  * author pczhao
- * email pczhao@sse.com.cn
  * date  2019-04-26 13:50
  */
 
@@ -243,7 +242,6 @@ public class HttpUtil {
             IOUtil.closeSilently(is);
             IOUtil.closeSilently(fos);
         }
-
     }
 
     private static void executeDownloadAsync(Call call, String saveFilename, DownloadListener listener) {

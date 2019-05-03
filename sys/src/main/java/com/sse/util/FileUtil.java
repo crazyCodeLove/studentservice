@@ -6,9 +6,8 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-10-11 17:13
+ * author pczhao
+ * date 2018-10-11 17:13
  */
 
 public class FileUtil {

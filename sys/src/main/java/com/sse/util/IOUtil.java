@@ -3,9 +3,8 @@ package com.sse.util;
 import java.io.*;
 
 /**
- * @author pczhao
- * @email
- * @date 2018-10-11 14:09
+ * author pczhao
+ * date 2018-10-11 14:09
  */
 
 public class IOUtil {

@@ -6,7 +6,6 @@ import java.sql.*;
 
 /**
  * author pczhao
- * email pczhao@sse.com.cn
  * date  2019-04-17 15:51
  */
 
