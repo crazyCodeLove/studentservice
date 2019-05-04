@@ -82,6 +82,14 @@ public class HttpUtil {
         return executeCall(call, clazz);
     }
 
+    /**
+     * 请求失败会返回 null
+     *
+     * @param url           请求的 url
+     * @param headers       请求头参数， key:value 对
+     * @param param         请求体对象
+     * @param typeReference 返回对象类型
+     */
     public static <T> T postForType(String url, Map<String, String> headers, Object param, TypeReference<T> typeReference) {
         OkHttpClient okHttpClient = buildHttpClient();
         Request request = buildPostRequestBuilder(url, headers, param).build();
@@ -203,6 +211,15 @@ public class HttpUtil {
         return requestBuilder;
     }
 
+    /**
+     * 同步下载文件到本地
+     *
+     * @param url          请求的 url
+     * @param headers      请求头参数， key:value 对
+     * @param params       请求参数， key:value 对
+     * @param saveFilename 保存文件目标全路径，默认为临时目录
+     * @param listener     监听下载任务进度
+     */
     public static void downloadFile(String url, Map<String, String> headers, Map<String, String> params, String saveFilename, DownloadListener listener) {
         OkHttpClient okHttpClient = buildHttpClient();
         Request request = buildGetRequestBuilder(url, headers, params).build();
