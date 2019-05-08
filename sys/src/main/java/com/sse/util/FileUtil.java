@@ -30,9 +30,6 @@ public class FileUtil {
 
     /**
      * 读取文件内容，返回文件字符串
-     *
-     * @param filename
-     * @return
      */
     public static String getFileContentStr(final String filename) {
         StringBuilder sb = new StringBuilder();
@@ -44,8 +41,6 @@ public class FileUtil {
                 sb.append(line);
                 sb.append("\n");
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,8 +61,6 @@ public class FileUtil {
                 outputStream.write(buf, 0, bytesRead);
             }
             inputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,8 +70,6 @@ public class FileUtil {
     /**
      * 将内容写到文件中，文件已存在就追加。否则就新建。
      *
-     * @param filename
-     * @param content
      * @return 成功返回 true，否则返回 false
      */
     public static boolean appendStr2File(final String filename, final String content) {
@@ -113,10 +104,6 @@ public class FileUtil {
 
     /**
      * 将字符串写到文件中。如果文件已存在就删除再写入；
-     *
-     * @param filename
-     * @param content
-     * @return
      */
     public static boolean writeStr2File(final String filename, final String content) {
         boolean result = false;
@@ -127,10 +114,6 @@ public class FileUtil {
             writer.write(content);
             writer.close();
             result = true;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,8 +127,6 @@ public class FileUtil {
             fileOutputStream.write(content);
             fileOutputStream.close();
             return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,8 +137,7 @@ public class FileUtil {
         boolean result = false;
         File file = new File(filename);
         if (file.exists() && file.isFile()) {
-            file.delete();
-            result = true;
+            result = file.delete();
         }
         return result;
     }

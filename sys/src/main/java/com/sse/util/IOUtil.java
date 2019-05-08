@@ -15,7 +15,7 @@ public class IOUtil {
                 writer.close();
             }
         } catch (IOException ioe) {
-            ;
+            ioe.printStackTrace();
         }
     }
 
@@ -25,7 +25,7 @@ public class IOUtil {
                 reader.close();
             }
         } catch (IOException ioe) {
-            ;
+            ioe.printStackTrace();
         }
     }
 
@@ -35,7 +35,7 @@ public class IOUtil {
                 is.close();
             }
         } catch (IOException ioe) {
-            ;
+            ioe.printStackTrace();
         }
     }
 
@@ -45,7 +45,7 @@ public class IOUtil {
                 os.close();
             }
         } catch (IOException ioe) {
-            ;
+            ioe.printStackTrace();
         }
     }
 
