@@ -67,6 +67,16 @@ public class FileUtil {
         return outputStream.toByteArray();
     }
 
+    public static InputStream getInputStream(final String filename) {
+        BufferedInputStream bufferedInputStream = null;
+        try {
+            bufferedInputStream = new BufferedInputStream(new FileInputStream(filename));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return bufferedInputStream;
+    }
+
     /**
      * 将内容写到文件中，文件已存在就追加。否则就新建。
      *
