@@ -1,11 +1,17 @@
 package com.sse.service.mq.rabbit;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sse.config.RabbitConfig;
 import com.sse.model.user.User;
-import org.springframework.amqp.core.AmqpTemplate;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * <p>
@@ -16,20 +22,28 @@ import org.springframework.stereotype.Service;
  * date  2019-02-18 16:22
  */
 
+@Slf4j
 @Service
 public class RabbitProducer {
 
-    private AmqpTemplate mqTemplate;
+    private final RabbitTemplate mqTemplate;
     private RabbitConfig rabbitConfig;
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    public RabbitProducer(@Qualifier("jsonRabbitTemplate") AmqpTemplate mqTemplate, RabbitConfig rabbitConfig) {
+    public RabbitProducer(@Qualifier("jsonRabbitTemplate") RabbitTemplate mqTemplate, RabbitConfig rabbitConfig) {
         this.mqTemplate = mqTemplate;
         this.rabbitConfig = rabbitConfig;
     }
 
     public <T> void send(String exchangeName, String routingKey, T message) {
-        mqTemplate.convertAndSend(exchangeName, routingKey, message);
+        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+        try {
+            log.info("start convert and send. correlationData: {}, message: {}", correlationData, mapper.writeValueAsString(message));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        mqTemplate.convertAndSend(exchangeName, routingKey, message, correlationData);
     }
 
     public void directSendUser(User user) {

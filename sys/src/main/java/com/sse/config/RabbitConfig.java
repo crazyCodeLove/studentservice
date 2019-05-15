@@ -1,6 +1,7 @@
 package com.sse.config;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -21,6 +22,7 @@ import org.springframework.messaging.handler.annotation.support.MessageHandlerMe
  * date  2019-02-15 15:49
  */
 
+@Slf4j
 @Getter
 @Configuration
 public class RabbitConfig implements RabbitListenerConfigurer {
@@ -56,6 +58,8 @@ public class RabbitConfig implements RabbitListenerConfigurer {
         factory.setVirtualHost(virtualHost);
         factory.setChannelCacheSize(channelCacheSize);
         factory.setChannelCheckoutTimeout(channelCheckTimeout);
+        factory.setPublisherConfirms(true);
+        factory.setPublisherReturns(true);
         return factory;
     }
 
@@ -63,6 +67,25 @@ public class RabbitConfig implements RabbitListenerConfigurer {
     public RabbitTemplate jsonRabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(new Jackson2JsonMessageConverter());
+        template.setMandatory(true);
+        template.setConfirmCallback((correlationData, ack, cause) -> {
+            if (!ack) {
+                log.error("confirm message error! correlationData: {}, cause: {}", correlationData, cause);
+            }
+        });
+
+        /*
+         * 失败后隔 30 s 进行重试
+         */
+        template.setReturnCallback((message, replyCode, replyText, exchage, routingKey) -> {
+            try {
+                Thread.sleep(30000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.error("exchange: {}, routingKey: {}, message: {}, replyCode: {}, replyText: {}", exchage, routingKey, message, replyCode, replyText);
+            template.send(exchage, routingKey, message);
+        });
         return template;
     }
 
