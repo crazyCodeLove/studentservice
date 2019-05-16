@@ -1,5 +1,6 @@
 package com.sse.service.quartz;
 
+import com.sse.service.quartz.job.JobDemo;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
@@ -129,6 +130,20 @@ public class QuartzManager {
         } catch (SchedulerException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void main(String[] args) throws SchedulerException {
+        JobDetail jobDetail = JobBuilder.newJob(JobDemo.class).withIdentity("job1", "jobgroup1")
+                .usingJobData("message", "job message")
+                .build();
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("trigger1", "triggerGroup1")
+                .usingJobData("message","triggerMessage")
+                .withSchedule(SimpleScheduleBuilder.simpleSchedule().withRepeatCount(3).withIntervalInSeconds(3))
+                .startNow().build();
+        Scheduler scheduler = schedulerFactory.getScheduler();
+        scheduler.scheduleJob(jobDetail,trigger);
+        scheduler.start();
     }
 
 }
