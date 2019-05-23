@@ -14,8 +14,8 @@ public class IOUtil {
             if (writer != null) {
                 writer.close();
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -24,8 +24,8 @@ public class IOUtil {
             if (reader != null) {
                 reader.close();
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -34,8 +34,8 @@ public class IOUtil {
             if (is != null) {
                 is.close();
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -44,8 +44,8 @@ public class IOUtil {
             if (os != null) {
                 os.close();
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
