@@ -1,7 +1,6 @@
 package com.sse.util.ftp;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
@@ -11,7 +10,6 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
  * date  2019-05-23 20:45
  */
 
-@Setter
 @Getter
 public class FtpClientPool {
     /**
@@ -24,7 +22,6 @@ public class FtpClientPool {
      */
     private FtpClientFactory clientFactory;
 
-
     /**
      * 构造函数中 注入一个bean
      */
@@ -32,7 +29,6 @@ public class FtpClientPool {
         this.clientFactory = clientFactory;
         pool = new GenericObjectPool<>(clientFactory, clientFactory.getFtpPoolConfig());
     }
-
 
     /**
      * 获取一个连接对象

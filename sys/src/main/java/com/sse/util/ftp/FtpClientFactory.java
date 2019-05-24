@@ -1,7 +1,6 @@
 package com.sse.util.ftp;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -18,10 +17,13 @@ import java.io.IOException;
  */
 
 @Slf4j
-@Setter
 @Getter
 public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
     private FtpPoolConfig ftpPoolConfig;
+
+    public FtpClientFactory(FtpPoolConfig ftpPoolConfig) {
+        this.ftpPoolConfig = ftpPoolConfig;
+    }
 
     /**
      * 新建对象
@@ -33,12 +35,12 @@ public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
         try {
             log.info("connect to ftp server:" + ftpPoolConfig.getHost() + ":" + ftpPoolConfig.getPort());
             ftpClient.connect(ftpPoolConfig.getHost(), ftpPoolConfig.getPort());
-
-            int reply = ftpClient.getReplyCode();
-            if (!FTPReply.isPositiveCompletion(reply)) {
+            // 检验登陆操作的返回码是否正确
+            if (!FTPReply.isPositiveCompletion(ftpClient.getReplyCode())) {
                 ftpClient.disconnect();
-                log.error("FTPServer reject connection");
-                return null;
+                String errorMsg = "FTPServer reject connection";
+                log.error(errorMsg);
+                throw new Exception(errorMsg);
             }
             boolean result = ftpClient.login(ftpPoolConfig.getUsername(), ftpPoolConfig.getPassword());
             if (!result) {
@@ -57,6 +59,7 @@ public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
             }
         } catch (IOException e) {
             log.error("FTP connect failed：", e);
+            throw new Exception("FTP connect failed, " + e.getMessage());
         }
         return ftpClient;
     }
