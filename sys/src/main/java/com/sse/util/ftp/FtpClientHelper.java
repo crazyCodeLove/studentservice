@@ -4,11 +4,13 @@ import com.sse.util.IOUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 /**
+ * todo:中文编码问题
  * <p></p>
  * author pczhao  <br/>
  * date  2019-05-23 20:51
@@ -65,7 +67,7 @@ public class FtpClientHelper {
         try {
             client = ftpClientPool.getFtpClient();
             log.info("start upload file to {}", remotePath);
-            return client.storeFile(remotePath, localInputStream);
+            return client.storeFile(new String(remotePath.getBytes(FtpClientFactory.LOCAL_CHARSET), FtpClientFactory.SERVER_CHARSET), localInputStream);
         } finally {
             ftpClientPool.returnClient(client);
         }
@@ -155,6 +157,24 @@ public class FtpClientHelper {
     public boolean pathExist(String remotePath) throws Exception {
         String[] names = listNames(remotePath);
         return names != null && names.length >= 1;
+    }
+
+    /**
+     * 列出目录中所有文件
+     *
+     * @param remotePath ftp 服务器目录
+     */
+    public FTPFile[] listFiles(String remotePath) throws Exception {
+        FTPClient client = null;
+        try {
+            client = ftpClientPool.getFtpClient();
+            if (remotePath != null) {
+                return client.listFiles(remotePath);
+            }
+            return client.listFiles();
+        } finally {
+            ftpClientPool.returnClient(client);
+        }
     }
 
     /**

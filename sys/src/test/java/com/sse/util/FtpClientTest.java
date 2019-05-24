@@ -1,8 +1,10 @@
 package com.sse.util;
 
+import com.sse.util.ftp.FtpClientFactory;
 import com.sse.util.ftp.FtpClientHelper;
 import com.sse.util.ftp.FtpPoolConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.net.ftp.FTPFile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +36,7 @@ public class FtpClientTest {
 
     @Test
     public void addDirectoryTest() throws Exception {
-        String path = "work1";
+        String path = "中国目录";
         ftpClient.makeDirectory(path);
     }
 
@@ -48,7 +50,7 @@ public class FtpClientTest {
 
     @Test
     public void listNamesTest() throws Exception {
-        String remotePath = "work1/demo2.txt";
+        String remotePath = null;
         String[] names = ftpClient.listNames(remotePath);
         System.out.println(Arrays.asList(names));
     }
@@ -58,6 +60,18 @@ public class FtpClientTest {
         String path = "work1";
         boolean exist = ftpClient.pathExist(path);
         System.out.println(path + " exist:" + exist);
+    }
+
+    @Test
+    public void listFileTest() throws Exception {
+        String path = "work";
+        FTPFile[] ftpFiles = ftpClient.listFiles(path);
+        System.out.println("total size:" + ftpFiles.length);
+        String filename;
+        for (FTPFile f : ftpFiles) {
+            filename = new String(f.getName().getBytes(FtpClientFactory.SERVER_CHARSET), FtpClientFactory.LOCAL_CHARSET);
+            log.info("filename: {}, isFile: {}, size: {}(KB)", filename, f.isFile(), (f.getSize() >> 10));
+        }
     }
 
 }

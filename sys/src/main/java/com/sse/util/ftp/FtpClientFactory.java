@@ -19,6 +19,10 @@ import java.io.IOException;
 @Slf4j
 @Getter
 public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
+
+    // FTP协议里面，规定文件名编码为iso-8859-1
+    public static final String SERVER_CHARSET = "ISO-8859-1";
+    public static String LOCAL_CHARSET = "GBK";
     private FtpPoolConfig ftpPoolConfig;
 
     public FtpClientFactory(FtpPoolConfig ftpPoolConfig) {
@@ -48,7 +52,12 @@ public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
                 throw new Exception("ftpClient login failed! userName:" + ftpPoolConfig.getUsername()
                         + ", password:" + ftpPoolConfig.getPassword());
             }
-            ftpClient.setControlEncoding(ftpPoolConfig.getControlEncoding());
+            // 开启服务器对UTF-8的支持，如果服务器支持就用UTF-8编码，否则就使用本地编码（GBK）.
+            if (FTPReply.isPositiveCompletion(ftpClient.sendCommand("OPTS UTF8", "ON"))) {
+                LOCAL_CHARSET = "UTF-8";
+            }
+            log.info("local charset is " + LOCAL_CHARSET);
+            ftpClient.setControlEncoding(LOCAL_CHARSET);
             ftpClient.setBufferSize(ftpPoolConfig.getBufferSize());
             ftpClient.setFileType(ftpPoolConfig.getFileType());
             ftpClient.setDataTimeout(ftpPoolConfig.getDataTimeout());

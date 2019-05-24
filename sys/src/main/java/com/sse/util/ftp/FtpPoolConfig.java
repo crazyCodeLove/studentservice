@@ -23,7 +23,6 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
     private String password;//密码
 
     private int connectTimeOut = 5000;//ftp 连接超时时间 毫秒
-    private String controlEncoding = "utf-8";
     private int bufferSize = 1024;//缓冲区大小
     private int fileType = 2;//  传输数据格式   2表binary二进制数据
     private int dataTimeout = 120000;
