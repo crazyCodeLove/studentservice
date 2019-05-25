@@ -11,6 +11,7 @@ import java.io.InputStream;
 
 /**
  * todo:中文编码问题
+ * 英文和数字没有问题
  * <p></p>
  * author pczhao  <br/>
  * date  2019-05-23 20:51
@@ -67,7 +68,7 @@ public class FtpClientHelper {
         try {
             client = ftpClientPool.getFtpClient();
             log.info("start upload file to {}", remotePath);
-            return client.storeFile(new String(remotePath.getBytes(FtpClientFactory.LOCAL_CHARSET), FtpClientFactory.SERVER_CHARSET), localInputStream);
+            return client.storeFile(remotePath, localInputStream);
         } finally {
             ftpClientPool.returnClient(client);
         }

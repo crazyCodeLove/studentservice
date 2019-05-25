@@ -1,6 +1,5 @@
 package com.sse.util;
 
-import com.sse.util.ftp.FtpClientFactory;
 import com.sse.util.ftp.FtpClientHelper;
 import com.sse.util.ftp.FtpPoolConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileInputStream;
-import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * <p></p>
@@ -24,9 +23,9 @@ public class FtpClientTest {
 
     @Before
     public void init() {
-        String host = "127.0.0.1";//主机名
-        String username = "user1";//用户名
-        String password = "123456Sse";//密码
+        String host = "45.78.33.187";//主机名
+        String username = "allen";//用户名
+        String password = "1128zpc@";//密码
         config = new FtpPoolConfig();
         config.setHost(host);
         config.setUsername(username);
@@ -36,8 +35,25 @@ public class FtpClientTest {
 
     @Test
     public void addDirectoryTest() throws Exception {
-        String path = "中国目录";
-        ftpClient.makeDirectory(path);
+        String workDir = "work";
+        log.info("current work directory: {}", ftpClient.getCurrentWorkingDirectory());
+        if (!ftpClient.pathExist(workDir)) {
+            ftpClient.makeDirectory(workDir);
+        }
+        ftpClient.setWorkingDirectory(workDir);
+        log.info("change to work directory: {}", ftpClient.getCurrentWorkingDirectory());
+        String path = UUID.randomUUID().toString();
+        boolean result = ftpClient.makeDirectory(path);
+        log.info("add directory: {}, result: {}", path, result);
+        listNamesTest();
+    }
+
+    @Test
+    public void deleteDirectoryTest() throws Exception {
+        String path = "天天";
+        boolean result = ftpClient.deleteFile(path);
+        System.out.println("delete " + path + ":" + result);
+        listNamesTest();
     }
 
     @Test
@@ -52,7 +68,11 @@ public class FtpClientTest {
     public void listNamesTest() throws Exception {
         String remotePath = null;
         String[] names = ftpClient.listNames(remotePath);
-        System.out.println(Arrays.asList(names));
+        System.out.println("size:" + names.length);
+        for (String s : names) {
+            System.out.println(s);
+            System.out.println();
+        }
     }
 
     @Test
@@ -64,13 +84,11 @@ public class FtpClientTest {
 
     @Test
     public void listFileTest() throws Exception {
-        String path = "work";
+        String path = null;
         FTPFile[] ftpFiles = ftpClient.listFiles(path);
         System.out.println("total size:" + ftpFiles.length);
-        String filename;
         for (FTPFile f : ftpFiles) {
-            filename = new String(f.getName().getBytes(FtpClientFactory.SERVER_CHARSET), FtpClientFactory.LOCAL_CHARSET);
-            log.info("filename: {}, isFile: {}, size: {}(KB)", filename, f.isFile(), (f.getSize() >> 10));
+            log.info("filename: {}, isFile: {}, size: {}(KB)", f.getName(), f.isFile(), (f.getSize() >> 10));
         }
     }
 
