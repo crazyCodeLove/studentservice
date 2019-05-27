@@ -6,8 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * todo:中文编码问题
@@ -44,13 +43,34 @@ public class FtpClientHelper {
         try {
             client = ftpClientPool.getFtpClient();
             log.info("get download file input stream");
-            inputStream = client.retrieveFileStream(remotePath);
+            inputStream = client.retrieveFileStream(toFtpServerCharsetFormat(remotePath));
             IOUtil.copy(inputStream, outputStream);
             return outputStream.toByteArray();
         } finally {
             if (inputStream != null) {
                 inputStream.close();
             }
+            if (!client.completePendingCommand()) {
+                client.logout();
+                client.disconnect();
+                ftpClientPool.getPool().invalidateObject(client);
+            }
+            ftpClientPool.returnClient(client);
+        }
+    }
+
+    public void downloadFile(String remotePath, String localPath) throws Exception {
+        FTPClient client = null;
+        InputStream inputStream = null;
+        OutputStream outputStream = new FileOutputStream(localPath);
+        try {
+            client = ftpClientPool.getFtpClient();
+            log.info("get download file input stream");
+            inputStream = client.retrieveFileStream(toFtpServerCharsetFormat(remotePath));
+            IOUtil.copy(inputStream, outputStream);
+        } finally {
+            IOUtil.closeSilently(inputStream);
+            IOUtil.closeSilently(outputStream);
             if (!client.completePendingCommand()) {
                 client.logout();
                 client.disconnect();
@@ -68,7 +88,7 @@ public class FtpClientHelper {
         try {
             client = ftpClientPool.getFtpClient();
             log.info("start upload file to {}", remotePath);
-            return client.storeFile(remotePath, localInputStream);
+            return client.storeFile(toFtpServerCharsetFormat(remotePath), localInputStream);
         } finally {
             ftpClientPool.returnClient(client);
         }
@@ -83,7 +103,7 @@ public class FtpClientHelper {
         FTPClient client = null;
         try {
             client = ftpClientPool.getFtpClient();
-            return client.makeDirectory(remotePath);
+            return client.makeDirectory(toFtpServerCharsetFormat(remotePath));
         } finally {
             ftpClientPool.returnClient(client);
         }
@@ -98,7 +118,7 @@ public class FtpClientHelper {
         FTPClient client = null;
         try {
             client = ftpClientPool.getFtpClient();
-            return client.changeWorkingDirectory(remotePath);
+            return client.changeWorkingDirectory(toFtpServerCharsetFormat(remotePath));
         } finally {
             ftpClientPool.returnClient(client);
         }
@@ -111,7 +131,8 @@ public class FtpClientHelper {
         FTPClient client = null;
         try {
             client = ftpClientPool.getFtpClient();
-            return client.printWorkingDirectory();
+            String workingDirectory = client.printWorkingDirectory();
+            return toLocalCharsetFormat(workingDirectory);
         } finally {
             ftpClientPool.returnClient(client);
         }
@@ -120,13 +141,13 @@ public class FtpClientHelper {
     /**
      * 删除目录，单个不可递归 (if empty).
      *
-     * @param pathname 目录名
+     * @param remotePath 目录名
      */
-    public boolean removeDirectory(String pathname) throws Exception {
+    public boolean removeDirectory(String remotePath) throws Exception {
         FTPClient client = null;
         try {
             client = ftpClientPool.getFtpClient();
-            return client.removeDirectory(pathname);
+            return client.removeDirectory(toFtpServerCharsetFormat(remotePath));
         } finally {
             ftpClientPool.returnClient(client);
         }
@@ -142,7 +163,7 @@ public class FtpClientHelper {
         try {
             client = ftpClientPool.getFtpClient();
             if (remotePath != null) {
-                return client.listNames(remotePath);
+                return client.listNames(toFtpServerCharsetFormat(remotePath));
             }
             return client.listNames();
         } finally {
@@ -170,7 +191,7 @@ public class FtpClientHelper {
         try {
             client = ftpClientPool.getFtpClient();
             if (remotePath != null) {
-                return client.listFiles(remotePath);
+                return client.listFiles(toFtpServerCharsetFormat(remotePath));
             }
             return client.listFiles();
         } finally {
@@ -181,15 +202,23 @@ public class FtpClientHelper {
     /**
      * 删除文件 单个 ，不可递归
      *
-     * @param pathname 文件名
+     * @param remotePath 文件名
      */
-    public boolean deleteFile(String pathname) throws Exception {
+    public boolean deleteFile(String remotePath) throws Exception {
         FTPClient client = null;
         try {
             client = ftpClientPool.getFtpClient();
-            return client.deleteFile(pathname);
+            return client.deleteFile(toFtpServerCharsetFormat(remotePath));
         } finally {
             ftpClientPool.returnClient(client);
         }
+    }
+
+    private String toFtpServerCharsetFormat(String remotePath) throws UnsupportedEncodingException {
+        return new String(remotePath.getBytes(FtpClientFactory.LOCAL_CHARSET), FtpClientFactory.SERVER_CHARSET);
+    }
+
+    private String toLocalCharsetFormat(String remoteString) throws UnsupportedEncodingException {
+        return new String(remoteString.getBytes(FtpClientFactory.SERVER_CHARSET), FtpClientFactory.LOCAL_CHARSET);
     }
 }

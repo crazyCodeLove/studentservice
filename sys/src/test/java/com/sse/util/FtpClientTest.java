@@ -23,9 +23,9 @@ public class FtpClientTest {
 
     @Before
     public void init() {
-        String host = "45.78.33.187";//主机名
-        String username = "allen";//用户名
-        String password = "1128zpc@";//密码
+        String host = "127.0.0.1";//主机名
+        String username = "user1";//用户名
+        String password = "123456Sse";//密码
         config = new FtpPoolConfig();
         config.setHost(host);
         config.setUsername(username);
@@ -35,10 +35,11 @@ public class FtpClientTest {
 
     @Test
     public void addDirectoryTest() throws Exception {
-        String workDir = "work";
+        String workDir = "中国";
         log.info("current work directory: {}", ftpClient.getCurrentWorkingDirectory());
         if (!ftpClient.pathExist(workDir)) {
-            ftpClient.makeDirectory(workDir);
+            boolean makeDirectoryResult = ftpClient.makeDirectory(workDir);
+            log.info("make directory {} result: {}", workDir, makeDirectoryResult);
         }
         ftpClient.setWorkingDirectory(workDir);
         log.info("change to work directory: {}", ftpClient.getCurrentWorkingDirectory());
@@ -77,7 +78,7 @@ public class FtpClientTest {
 
     @Test
     public void pathExistTest() throws Exception {
-        String path = "work1";
+        String path = "中国";
         boolean exist = ftpClient.pathExist(path);
         System.out.println(path + " exist:" + exist);
     }
