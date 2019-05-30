@@ -37,6 +37,10 @@ public class HttpUtil {
         mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
     }
 
+    public static void get(String url, Map<String, String> headers, Map<String, String> params) {
+        getForType(url, headers, params, (Class) null);
+    }
+
     /**
      * 请求失败会返回 null
      *
@@ -65,6 +69,10 @@ public class HttpUtil {
         Request request = buildGetRequestBuilder(url, headers, params).build();
         Call call = okHttpClient.newCall(request);
         return executeCall(call, typeReference);
+    }
+
+    public static void post(String url, Map<String, String> headers, Object param) {
+        postForType(url, headers, param, (Class) null);
     }
 
     /**
