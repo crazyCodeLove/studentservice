@@ -49,6 +49,15 @@ public class UserController {
         return ResponseResultHolder.setResult(userService.save(User.encrypt(user)));
     }
 
+    @RequestMapping(value = "/user/test", method = RequestMethod.POST)
+    public ResponseResultHolder<User> savetest(@RequestBody RequestParamHolder<UserSaveParam> param) {
+        if (param.getParam() == null) {
+            throw new ParamNullException("request param is null");
+        }
+        System.out.println(param.getParam());
+        return ResponseResultHolder.ok();
+    }
+
     @RequestMapping(value = "/user/log1", method = RequestMethod.POST)
     public ResponseResultHolder<User> saveInLog1(@RequestBody RequestParamHolder<UserSaveParam> param) {
         if (param.getParam() == null) {

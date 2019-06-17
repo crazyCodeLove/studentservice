@@ -7,10 +7,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +35,8 @@ public class HttpUtil {
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static final int CONNECT_TIME_OUT_IN_SEC = 30;
-    private static final int READ_TIME_OUT_IN_SEC = 60;
-    private static final int WRITE_TIME_OUT_IN_SEC = 60;
+    private static final int READ_TIME_OUT_IN_SEC = 30;
+    private static final int WRITE_TIME_OUT_IN_SEC = 30;
 
     static {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -173,6 +179,53 @@ public class HttpUtil {
         rb = buildHeader(rb, headers);
         rb = buildBody(rb, param);
         return rb;
+    }
+
+    public static <T> T postForTypeHttps(String url, Map<String, String> headers, Object param, Class<T> clazz) {
+        OkHttpClient okHttpClient = buildHttpsClient();
+        Request request = buildPostRequestBuilder(url, headers, param).build();
+        Call call = okHttpClient.newCall(request);
+        return executeCall(call, clazz);
+    }
+
+    public static OkHttpClient buildHttpsClient() {
+        OkHttpClient.Builder builder;
+        try {
+            TrustManager[] trustAllCerts = buildTrustManagers();
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+            builder = new OkHttpClient.Builder();
+            builder.connectTimeout(CONNECT_TIME_OUT_IN_SEC, TimeUnit.SECONDS);
+            builder.readTimeout(READ_TIME_OUT_IN_SEC, TimeUnit.SECONDS);
+            builder.writeTimeout(WRITE_TIME_OUT_IN_SEC, TimeUnit.SECONDS);
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier((hostname, session) -> true);
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
+            e.printStackTrace();
+            builder = new OkHttpClient.Builder();
+        }
+        return builder.build();
+    }
+
+    private static TrustManager[] buildTrustManagers() {
+        return new TrustManager[]{
+                new X509TrustManager() {
+                    @Override
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                    }
+
+                    @Override
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) {
+                    }
+
+                    @Override
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[]{};
+                    }
+                }
+        };
     }
 
     private static String buildUrl(String url, Map<String, String> params) {

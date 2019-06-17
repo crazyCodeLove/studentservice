@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 /**
  * author ZHAOPENGCHENG <br/>
@@ -25,6 +26,7 @@ public class UserSaveParam extends RequestParamBase {
     private String email;
     private String telphone;
     private Date birthday;
+    private List<String> names;
 
     @Override
     public void validParamInParam() {
