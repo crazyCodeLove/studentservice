@@ -16,5 +16,4 @@ public interface LogMapper {
      * @param logInfo 请求信息
      */
     void save(LogInfo logInfo);
-
 }
