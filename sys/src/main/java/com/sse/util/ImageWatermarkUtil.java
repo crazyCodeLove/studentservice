@@ -1,19 +1,23 @@
 package com.sse.util;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * date  2019-03-01 10:57
  */
 
+@Slf4j
 public class ImageWatermarkUtil {
     // 水印透明度
     private static final float ALPHA = 0.26f;
@@ -23,7 +27,7 @@ public class ImageWatermarkUtil {
     private static final int LINE_WIDTH = 210;
     private static final Font FONT = new Font("仿宋", Font.PLAIN, FOUNT_SIZE);
     // 水印文字颜色
-    private static final Color COLOR = new Color(190,190,190);
+    private static final Color COLOR = new Color(190, 190, 190);
 
     /**
      * 将图片内容(byte[])转换成 BufferedImage
@@ -96,5 +100,75 @@ public class ImageWatermarkUtil {
         graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, ALPHA));
         //设置旋转
         graphics.rotate(-Math.PI * 0.21);
+    }
+
+    /**
+     * 将 pdf 文件每页转换成png图片到 imageDirPath 路径中，文件名是 pdfPath 文件名
+     *
+     * @param pdfPath      pdf 文件名
+     * @param imageDirPath 待保存图片路径
+     */
+    public static void convertPdf2Image(String pdfPath, String imageDirPath) {
+        log.info("start convert pdf file:[{}] to image path:[{}]", pdfPath, imageDirPath);
+        if (!new File(pdfPath).exists()) {
+            log.info("pdfFilename:[{}] not exist", pdfPath);
+            return;
+        }
+        if (!new File(imageDirPath).exists()) {
+            log.info("imageDir:[{}] not exist", imageDirPath);
+            return;
+        }
+        byte[] pdfContent = FileUtil.getFileContentByte(pdfPath);
+        String filename = FileUtil.getFilename(pdfPath);
+        float dpi = 150;
+        convertPdf2Image(pdfContent, filename, imageDirPath, dpi);
+        log.info("convert pdf file:[{}] to image success", filename);
+    }
+
+    /**
+     * 将 pdf 内容 每页转换成png图片到 imageDirPath 路径中，文件名是 pdfPath 文件名
+     *
+     * @param pdfContent   pdf文件内容
+     * @param pdfFilename  pdf 文件名
+     * @param imageDirPath 待保存图片路径
+     * @param dpi          转换成图片的清晰度
+     */
+    private static void convertPdf2Image(byte[] pdfContent, String pdfFilename, String imageDirPath, float dpi) {
+        log.info("convert pdfFilename:[{}] to imageDir:[{}] with dpi:[{}]", pdfFilename, imageDirPath, dpi);
+        if (ArrayUtils.isEmpty(pdfContent)) {
+            return;
+        }
+        // 为了保证显示清除，至少 90
+        if (dpi < 90) {
+            dpi = 90;
+        }
+        String baseSir = imageDirPath;
+        if (baseSir.endsWith("/") || baseSir.endsWith("\\")) {
+            baseSir += pdfFilename + "_";
+        } else {
+            baseSir += File.separator + pdfFilename + "_";
+        }
+        PDDocument document = null;
+        BufferedOutputStream outputStream = null;
+        try {
+            document = PDDocument.load(pdfContent);
+            int pageCount = document.getNumberOfPages();
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            String imgPath;
+            for (int i = 0; i < pageCount; i++) {
+                imgPath = baseSir + i + ".png";
+                outputStream = new BufferedOutputStream(new FileOutputStream(imgPath));
+                BufferedImage image = pdfRenderer.renderImageWithDPI(i, dpi, ImageType.RGB);
+                ImageIO.write(image, "png", outputStream);
+                outputStream.close();
+                log.info("convert to png, total[{}], now[{}], ori:[{}], des[{}]", pageCount, i + 1, pdfFilename, imgPath);
+            }
+        } catch (IOException e) {
+            log.error("convert pdf to image error, pdfFilename:" + pdfFilename, e);
+        } finally {
+            IOUtil.closeSilently(outputStream);
+            IOUtil.closeSilently(document);
+        }
+
     }
 }

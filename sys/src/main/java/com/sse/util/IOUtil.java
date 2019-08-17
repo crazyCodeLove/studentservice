@@ -10,42 +10,52 @@ import java.io.*;
 public class IOUtil {
 
     public static void closeSilently(Writer writer) {
-        try {
-            if (writer != null) {
+        if (writer != null) {
+            try {
                 writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     public static void closeSilently(Reader reader) {
-        try {
-            if (reader != null) {
+        if (reader != null) {
+            try {
                 reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     public static void closeSilently(InputStream is) {
-        try {
-            if (is != null) {
+        if (is != null) {
+            try {
                 is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     public static void closeSilently(OutputStream os) {
-        try {
-            if (os != null) {
+        if (os != null) {
+            try {
                 os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        }
+    }
+
+    public static void closeSilently(Closeable io) {
+        if (io != null) {
+            try {
+                io.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

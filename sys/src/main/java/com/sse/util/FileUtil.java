@@ -1,6 +1,7 @@
 package com.sse.util;
 
 import cn.hutool.core.io.IORuntimeException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -10,6 +11,7 @@ import java.nio.charset.Charset;
  * date 2018-10-11 17:13
  */
 
+@Slf4j
 public class FileUtil {
 
     public static String getPath(String filename) {
@@ -42,12 +44,13 @@ public class FileUtil {
                 sb.append("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("get file content str error:" + filename, e);
         }
         return sb.toString();
     }
 
     public static byte[] getFileContentByte(final String filename) {
+        log.info("get file:[{}] content byte[]", filename);
         long len = new File(filename).length();
         if (len >= Integer.MAX_VALUE) {
             throw new IORuntimeException("File is larger then max array size");
@@ -62,17 +65,18 @@ public class FileUtil {
             }
             inputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("get file:[" + filename + "] content error", e);
         }
         return outputStream.toByteArray();
     }
 
     public static InputStream getInputStream(final String filename) {
+        log.info("get file:[{}] imputstream", filename);
         BufferedInputStream bufferedInputStream = null;
         try {
             bufferedInputStream = new BufferedInputStream(new FileInputStream(filename));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error("get file [{}] inputStream error", filename);
         }
         return bufferedInputStream;
     }
@@ -144,10 +148,12 @@ public class FileUtil {
     }
 
     public static boolean deleteFile(String filename) {
+        log.info("try to delete file:[{}]", filename);
         boolean result = false;
         File file = new File(filename);
         if (file.exists() && file.isFile()) {
             result = file.delete();
+            log.info("delete file success:[{}]", filename);
         }
         return result;
     }
