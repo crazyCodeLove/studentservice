@@ -169,6 +169,5 @@ public class ImageWatermarkUtil {
             IOUtil.closeSilently(outputStream);
             IOUtil.closeSilently(document);
         }
-
     }
 }
