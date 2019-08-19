@@ -120,7 +120,7 @@ public class ImageWatermarkUtil {
         }
         byte[] pdfContent = FileUtil.getFileContentByte(pdfPath);
         String filename = FileUtil.getFilename(pdfPath);
-        float dpi = 150;
+        float dpi = 200;
         convertPdf2Image(pdfContent, filename, imageDirPath, dpi);
         log.info("convert pdf file:[{}] to image success", filename);
     }

@@ -13,7 +13,9 @@ public class ImageWatermarkUtilTest {
 
     @Test
     public void convert2imageTest() {
-        String pdfFilename = "D:\\logs\\temp\\背包问题九讲.pdf";
+//        String pdfFilename = "D:\\logs\\temp\\000208-p1.pdf";
+//        String pdfFilename = "D:\\logs\\temp\\001659-p14.pdf";
+        String pdfFilename = "D:\\logs\\temp\\main doc.pdf";
         String imageDirPath = "D:\\logs\\temp\\image";
         ImageWatermarkUtil.convertPdf2Image(pdfFilename,imageDirPath);
     }
