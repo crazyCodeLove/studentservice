@@ -13,6 +13,12 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.twelvemonkeys.imageio/imageio-jpeg -->
+        <dependency>
+            <groupId>com.twelvemonkeys.imageio</groupId>
+            <artifactId>imageio-jpeg</artifactId>
+            <version>3.4.2</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-core -->
         <dependency>
             <groupId>com.github.jai-imageio</groupId>
