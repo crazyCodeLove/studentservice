@@ -10,10 +10,8 @@ import java.util.Date;
 import java.util.Random;
 
 /**
- *
- * @author pczhao
- * @email
- * @date 2019-01-17 13:45
+ * author pczhao
+ * date 2019-01-17 13:45
  */
 
 public class TokenServiceTest {
