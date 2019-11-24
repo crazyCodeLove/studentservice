@@ -4,6 +4,8 @@ import cn.hutool.core.io.IORuntimeException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
 /**
@@ -164,4 +166,69 @@ public class FileUtil {
     public static String getSystemTempDir() {
         return System.getProperty("java.io.tmpdir");
     }
+
+    public static void appendByteToFileNio(final String filename, byte[] content) {
+        if (content == null || content.length == 0) {
+            return;
+        }
+        int buffLength = 1024;
+        ByteBuffer buffer = ByteBuffer.allocate(buffLength);
+        FileOutputStream outputStream = null;
+        FileChannel channel = null;
+        try {
+            outputStream = new FileOutputStream(filename, true);
+            channel = outputStream.getChannel();
+            int startIndex = 0;
+            int length;
+            while (startIndex < content.length) {
+                length = startIndex + buffLength <= content.length ? buffLength : content.length - startIndex;
+                buffer.put(content, startIndex, length);
+                buffer.flip();
+                channel.write(buffer);
+                buffer.clear();
+                startIndex += length;
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            IOUtil.closeSilently(channel);
+            IOUtil.closeSilently(outputStream);
+        }
+    }
+
+    public static byte[] getFileContentByteNio(final String filename) {
+        File file = new File(filename);
+        if (file.length() > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("file is to large");
+        }
+        byte[] result = new byte[(int) file.length()];
+        if (file.length() == 0) {
+            return result;
+        }
+        int startIndex = 0;
+        FileInputStream inputStream = null;
+        FileChannel channel = null;
+        try {
+            inputStream = new FileInputStream(file);
+            channel = inputStream.getChannel();
+            int buffLength = 1024;
+            ByteBuffer buffer = ByteBuffer.allocate(buffLength);
+            while (startIndex < result.length) {
+                channel.read(buffer);
+                buffer.flip();
+                while (buffer.hasRemaining()) {
+                    result[startIndex++] = buffer.get();
+                }
+                buffer.clear();
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            IOUtil.closeSilently(channel);
+            IOUtil.closeSilently(inputStream);
+        }
+        return result;
+    }
+
+
 }

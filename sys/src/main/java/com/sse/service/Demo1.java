@@ -14,10 +14,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.pdfbox.pdmodel.PDDocument;
 
 import javax.validation.constraints.NotNull;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,7 +34,48 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
+        System.out.println(UUID.randomUUID().toString());
+    }
 
+    public static void determinePdfFile() {
+        String filename1 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\慈溪市国有资产投资公司债券2018年报.pdf";
+        String filename2 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\testpassword.pdf";
+        String filename3 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\000208.pdf";
+        String filename4 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\testonlyread.pdf";
+        String filename5 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\000208.pdf";
+        String filename6 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\001659p14.pdf";
+        String filename7 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\069020.pdf";
+        String filename8 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\573636.pdf";
+        String filename9 = "D:\\chengxu\\java\\idea\\mvn\\studentservice\\sys\\src\\main\\resources\\pdffile\\maindoc.pdf";
+
+        readPdfFile(filename1);
+        readPdfFile(filename2);
+        readPdfFile(filename3);
+        readPdfFile(filename4);
+        readPdfFile(filename5);
+        readPdfFile(filename6);
+        readPdfFile(filename7);
+        readPdfFile(filename8);
+        readPdfFile(filename9);
+    }
+
+    private static void readPdfFile(String filename) {
+        PDDocument pdDocument = null;
+        try {
+            pdDocument = PDDocument.load(new File(filename));
+            System.out.println("pdf open success. " + filename);
+        } catch (IOException e) {
+            System.out.println("pdf open failed. " + filename);
+            e.printStackTrace();
+        } finally {
+            if (pdDocument != null) {
+                try {
+                    pdDocument.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void fun12() {

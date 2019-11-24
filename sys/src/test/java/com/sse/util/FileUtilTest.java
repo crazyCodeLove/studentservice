@@ -1,11 +1,13 @@
 package com.sse.util;
 
+import com.google.common.base.Charsets;
 import org.junit.Test;
 
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.Random;
 
 /**
  * <p>
@@ -27,10 +29,60 @@ public class FileUtilTest {
         long startTime = System.currentTimeMillis();
         String path = "D:\\logs\\temp1.txt";
         BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path));
-        for (int i=0;i<Integer.MAX_VALUE;i++) {
+        for (int i = 0; i < Integer.MAX_VALUE; i++) {
             outputStream.write("nice to meet you".getBytes());
         }
         outputStream.close();
         System.out.println("finished. cost time:" + (System.currentTimeMillis() - startTime));
     }
+
+    @Test
+    public void appendByteToFileTest() {
+        String filename = "D:\\logs\\testnio1.txt";
+        String content = "0";
+        FileUtil.appendByteToFileNio(filename, content.getBytes(Charsets.UTF_8));
+    }
+
+    @Test
+    public void getFileContentByteNioTest() {
+        String filename = "D:\\logs\\testnio1.txt";
+        byte[] fileContent = FileUtil.getFileContentByteNio(filename);
+        System.out.println(new String(fileContent));
+    }
+
+    @Test
+    public void agzhzTest() {
+        Random random = new Random();
+        String filename = "D:\\logs\\agzhzTest1.txt";
+        int totalNum = 200000000;
+//        int totalNum = 10;
+
+        int groupIndex = 1;
+        String line = "";
+        StringBuilder sb = new StringBuilder(1000000);
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < totalNum; i++) {
+            // 同一账户组，账户
+            line = formatAGZHZ(groupIndex, i + 1);
+            sb.append(line);
+            if ((i + 1) % 100000 == 0) {
+                FileUtil.appendByteToFileNio(filename, sb.toString().getBytes(Charset.forName("GB18030")));
+                sb = new StringBuilder(1000000);
+            }
+            if (random.nextBoolean()) {
+                groupIndex++;
+            }
+        }
+        if (sb.length() > 0) {
+            FileUtil.appendByteToFileNio(filename, sb.toString().getBytes(Charset.forName("GB18030")));
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("cost time: ms " + (endTime - startTime));
+    }
+
+    public static String formatAGZHZ(int groupIndex, int accountNo) {
+        return String.format("%10d|A%09d\n", groupIndex, accountNo);
+    }
+
+
 }
