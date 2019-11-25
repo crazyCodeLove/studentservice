@@ -200,7 +200,7 @@ public class FileUtil {
         if (content == null || content.length == 0) {
             return;
         }
-        int buffLength = 1024;
+        int buffLength = 4096;
         ByteBuffer buffer = ByteBuffer.allocate(buffLength);
         int startIndex = 0;
         int length;

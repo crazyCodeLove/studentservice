@@ -10,6 +10,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jdk.nashorn.internal.ir.debug.ObjectSizeCalculator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +21,7 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * author pczhao <br/>
@@ -220,28 +219,10 @@ public class Demo1 {
     }
 
     public static void fun2() {
-        ArrayList<String> names = new ArrayList<>();
-        names.add("well");
-        names.add("nice");
-        names.add("haha");
-        System.out.println(names.get(3));
-    }
+        int n = 23;
 
-    public static String fun3() {
-        System.out.println("this is fun3");
-        try {
-            System.out.println("in try block");
-            return "done";
-        } finally {
-            System.out.println("in finally block");
-        }
-    }
-
-    public static void fun4() {
-        ConcurrentHashMap<String, String> dataMap = new ConcurrentHashMap<>();
-        dataMap.put("name", "well");
-        dataMap.put("age", "34");
-        System.out.println(dataMap.get("name"));
+        long size = ObjectSizeCalculator.getObjectSize(n);
+        System.out.println(size);
     }
 
     public static void fun5() {
@@ -254,10 +235,5 @@ public class Demo1 {
         System.out.println(nums.toString());
     }
 
-    public static void fun6() {
-        List<String> names = new ArrayList<>();
-        names.add("well");
-        System.out.println(names);
-    }
 
 }
