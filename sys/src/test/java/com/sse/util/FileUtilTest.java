@@ -4,8 +4,10 @@ import com.google.common.base.Charsets;
 import org.junit.Test;
 
 import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.Random;
 
@@ -76,6 +78,40 @@ public class FileUtilTest {
         if (sb.length() > 0) {
             FileUtil.appendByteToFileNio(filename, sb.toString().getBytes(Charset.forName("GB18030")));
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("cost time: ms " + (endTime - startTime));
+    }
+
+    @Test
+    public void agzhzNewTest() throws FileNotFoundException {
+        Random random = new Random();
+        String filename = "D:\\logs\\agzhzTest2.txt";
+        int totalNum = 100000000;
+//        int totalNum = 10;
+
+        int groupIndex = 1;
+        String line = "";
+        StringBuilder sb = new StringBuilder(10000000);
+        FileOutputStream outputStream = new FileOutputStream(filename, true);
+        FileChannel channel = outputStream.getChannel();
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < totalNum; i++) {
+            // 同一账户组，账户
+            line = formatAGZHZ(groupIndex, i + 1);
+            sb.append(line);
+            if ((i + 1) % 500000 == 0) {
+                FileUtil.appendByteToFileNio(channel, sb.toString().getBytes(Charset.forName("GB18030")));
+                sb = new StringBuilder(10000000);
+            }
+            if (random.nextBoolean()) {
+                groupIndex++;
+            }
+        }
+        if (sb.length() > 0) {
+            FileUtil.appendByteToFileNio(channel, sb.toString().getBytes(Charset.forName("GB18030")));
+        }
+        IOUtil.closeSilently(channel);
+        IOUtil.closeSilently(outputStream);
         long endTime = System.currentTimeMillis();
         System.out.println("cost time: ms " + (endTime - startTime));
     }

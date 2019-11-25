@@ -196,6 +196,28 @@ public class FileUtil {
         }
     }
 
+    public static void appendByteToFileNio(final FileChannel channel, byte[] content) {
+        if (content == null || content.length == 0) {
+            return;
+        }
+        int buffLength = 1024;
+        ByteBuffer buffer = ByteBuffer.allocate(buffLength);
+        int startIndex = 0;
+        int length;
+        while (startIndex < content.length) {
+            length = startIndex + buffLength <= content.length ? buffLength : content.length - startIndex;
+            buffer.put(content, startIndex, length);
+            buffer.flip();
+            try {
+                channel.write(buffer);
+            } catch (IOException e) {
+                log.info(e.getMessage(), e);
+            }
+            buffer.clear();
+            startIndex += length;
+        }
+    }
+
     public static byte[] getFileContentByteNio(final String filename) {
         File file = new File(filename);
         if (file.length() > Integer.MAX_VALUE) {
