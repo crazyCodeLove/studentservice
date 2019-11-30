@@ -252,5 +252,33 @@ public class FileUtil {
         return result;
     }
 
+    public static byte[] getFileContentByteBuffered(final String filename) {
+        File file = new File(filename);
+        if (file.length() > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("file is to large");
+        }
+        byte[] result = new byte[(int) file.length()];
+        if (file.length() == 0) {
+            return result;
+        }
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader(filename));
+            String line;
+            int startIndex = 0;
+            while ((line = reader.readLine()) != null) {
+                for (byte b : line.getBytes(Charset.forName("GB18030"))) {
+                    result[startIndex++] = b;
+                }
+                result[startIndex++] = '\n';
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            IOUtil.closeSilently(reader);
+        }
+        return result;
+    }
+
 
 }

@@ -21,6 +21,8 @@ import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 /**
@@ -33,7 +35,8 @@ public class Demo1 {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
-        System.out.println(UUID.randomUUID().toString());
+
+
     }
 
     public static void determinePdfFile() {

@@ -222,6 +222,25 @@ public class FileUtilTest {
     }
 
     @Test
+    public void getFileContentByteNioTest2() {
+        long startTime = System.currentTimeMillis();
+        String filename = "D:\\logs\\agzhzTest20.txt";
+        byte[] fileContent = FileUtil.getFileContentByteNio(filename);
+        long endTime = System.currentTimeMillis();
+        System.out.println("filesize:" + fileContent.length + ", cost time: ms " + (endTime - startTime));
+    }
+
+    @Test
+    public void getFileContentByteBufferedTest2() {
+        long startTime = System.currentTimeMillis();
+        String filename = "D:\\logs\\test.txt";
+        byte[] fileContent = FileUtil.getFileContentByteBuffered(filename);
+        long endTime = System.currentTimeMillis();
+        System.out.println("filesize:" + fileContent.length + ", cost time: ms " + (endTime - startTime));
+        System.out.println("[" + new String(fileContent) +"]");
+    }
+
+    @Test
     public void funTest() {
         HashMap<String, String> obj = new HashMap<>();
         for (int i = 0; i < 10000000; i++) {

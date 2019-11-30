@@ -1,8 +1,10 @@
 package com.sse.util;
 
+import sun.security.provider.SHA;
+
 import java.time.*;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 /**
@@ -12,8 +14,10 @@ import java.util.Date;
  */
 
 public class DateTimeUtil {
+
+    public static final String SHANGHAI_OFF_TIME = "GMT+8";
     // 默认使用系统当前时区
-    private static ZoneId ZONE = ZoneId.systemDefault();
+    private static ZoneId ZONE = ZoneId.of(SHANGHAI_OFF_TIME);
 
     public DateTimeUtil(ZoneId zone) {
         ZONE = zone;
@@ -28,21 +32,32 @@ public class DateTimeUtil {
         return null;
     }
 
-    /**
-     * 将Date转换成LocalDateTime
-     */
-    public static LocalDateTime date2LocalDateTime(Object d) {
-        Instant instant = getInstant(d);
-        return LocalDateTime.ofInstant(instant, ZONE);
+    public static LocalDate toLocalDate(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return date.toInstant().atZone(ZONE).toLocalDate();
+    }
+
+    public static Date toDate(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        return Date.from(date.atStartOfDay(ZONE).toInstant());
     }
 
     /**
-     * 将Date转换成LocalDate
+     * 将Date转换成LocalDateTime
      */
-    public static LocalDate date2LocalDate(Object d) {
-        Instant instant = getInstant(d);
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZONE);
-        return localDateTime.toLocalDate();
+    public static LocalDateTime toLocalDateTime(Date date) {
+        return LocalDateTime.ofInstant(date.toInstant(), ZONE);
+    }
+
+    /**
+     * 将LocalDateTime转换成Date
+     */
+    public static Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.toInstant(ZoneOffset.of(SHANGHAI_OFF_TIME)));
     }
 
     /**
@@ -52,22 +67,6 @@ public class DateTimeUtil {
         Instant instant = getInstant(d);
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZONE);
         return localDateTime.toLocalTime();
-    }
-
-    /**
-     * 将LocalDate转换成Date
-     */
-    public static Date localDate2Date(LocalDate localDate) {
-        Instant instant = localDate.atStartOfDay().atZone(ZONE).toInstant();
-        return Date.from(instant);
-    }
-
-    /**
-     * 将LocalDateTime转换成Date
-     */
-    public static Date localDateTime2Date(LocalDateTime localDateTime) {
-        Instant instant = localDateTime.atZone(ZONE).toInstant();
-        return Date.from(instant);
     }
 
     /**
@@ -114,30 +113,28 @@ public class DateTimeUtil {
      * 创建一个新的日期，它的值为当月的第一天
      */
     public static LocalDate getFirstDayOfMonth(LocalDate date) {
-        return date.with((temporal) -> temporal.with(ChronoField.DAY_OF_MONTH, 1));
+        return date.with(TemporalAdjusters.firstDayOfMonth());
     }
 
     /**
      * 创建一个新的日期，它的值为当月的最后一天
      */
     public static LocalDate getLastDayOfMonth(LocalDate date) {
-        return date.with((temporal) -> temporal.with(ChronoField.DAY_OF_MONTH,
-                temporal.range(ChronoField.DAY_OF_MONTH).getMaximum()));
+        return date.with(TemporalAdjusters.lastDayOfMonth());
     }
 
     /**
      * 创建一个新的日期，它的值为当年的第一天
      */
     public static LocalDate getFirstDayOfYear(LocalDate date) {
-        return date.with((temporal) -> temporal.with(ChronoField.DAY_OF_YEAR, 1));
+        return date.with(TemporalAdjusters.firstDayOfYear());
     }
 
     /**
      * 创建一个新的日期，它的值为今年的最后一天
      */
     public static LocalDate getLastDayOfYear(LocalDate date) {
-        return date.with(
-                (temporal) -> temporal.with(ChronoField.DAY_OF_YEAR, temporal.range(ChronoField.DAY_OF_YEAR).getMaximum()));
+        return date.with(TemporalAdjusters.lastDayOfYear());
     }
 
     /**
@@ -152,8 +149,8 @@ public class DateTimeUtil {
      */
     public static boolean isInRange(Date startTime, Date endTime) throws Exception {
         LocalDateTime now = getCurrentLocalDateTime();
-        LocalDateTime start = date2LocalDateTime(startTime);
-        LocalDateTime end = date2LocalDateTime(endTime);
+        LocalDateTime start = toLocalDateTime(startTime);
+        LocalDateTime end = toLocalDateTime(endTime);
         return start.isBefore(now) && end.isAfter(now) || start.isEqual(now) || end.isEqual(now);
     }
 }
