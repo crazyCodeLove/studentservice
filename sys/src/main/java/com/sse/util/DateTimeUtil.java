@@ -1,7 +1,5 @@
 package com.sse.util;
 
-import sun.security.provider.SHA;
-
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
@@ -30,6 +28,22 @@ public class DateTimeUtil {
             return new Date((Long) d).toInstant();
         }
         return null;
+    }
+
+    public static boolean isSameDay(Date d1, Date d2) {
+        if (d1 == null || d2 == null) {
+            return false;
+        }
+        LocalDate ld1 = toLocalDate(d1);
+        LocalDate ld2 = toLocalDate(d2);
+        return isSameDay(ld1, ld2);
+    }
+
+    public static boolean isSameDay(LocalDate ld1, LocalDate ld2) {
+        if (ld1 == null || ld2 == null) {
+            return false;
+        }
+        return ld1.getYear() == ld2.getYear() && ld1.getMonthValue() == ld2.getMonthValue() && ld1.getDayOfMonth() == ld2.getDayOfMonth();
     }
 
     public static LocalDate toLocalDate(Date date) {
