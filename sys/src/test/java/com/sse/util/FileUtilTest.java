@@ -237,7 +237,7 @@ public class FileUtilTest {
         byte[] fileContent = FileUtil.getFileContentByteBuffered(filename);
         long endTime = System.currentTimeMillis();
         System.out.println("filesize:" + fileContent.length + ", cost time: ms " + (endTime - startTime));
-        System.out.println("[" + new String(fileContent) +"]");
+        System.out.println("[" + new String(fileContent) + "]");
     }
 
     @Test
