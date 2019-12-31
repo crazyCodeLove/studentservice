@@ -1,5 +1,6 @@
 package com.sse.model.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sse.model.param.RequestParamBase;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class UserSaveParam extends RequestParamBase {
     private String password;
     private String email;
     private String telphone;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date birthday;
     private List<String> names;
 
