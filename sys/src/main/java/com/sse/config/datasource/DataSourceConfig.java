@@ -28,7 +28,6 @@ public class DataSourceConfig {
 
     public static final String STUDENT_DATASOURCE_NAME = "studentDataSource";
     public static final String LOG1_DATASOURCE_NAME = "log1DataSource";
-    public static final String LOG2_DATASOURCE_NAME = "log2DataSource";
 
     public static final String DEFAULT_DATASOURCE_NAME = STUDENT_DATASOURCE_NAME;
 
@@ -46,13 +45,6 @@ public class DataSourceConfig {
         return DruidDataSourceBuilder.create().build();
     }
 
-    // log2 数据源
-    @Bean
-    @ConfigurationProperties(prefix = "spring.datasource.druid.log2") // application.properteis中对应属性的前缀
-    public DataSource log2DataSource() {
-        return DruidDataSourceBuilder.create().build();
-    }
-
     /**
      * 动态数据源: 通过AOP在不同数据源之间动态切换
      *
@@ -67,8 +59,6 @@ public class DataSourceConfig {
         // 配置多数据源
         Map<Object, Object> dsMap = new HashMap();
         dsMap.put(STUDENT_DATASOURCE_NAME, studentDataSource());
-        dsMap.put(LOG1_DATASOURCE_NAME, log1DataSource());
-        dsMap.put(LOG2_DATASOURCE_NAME, log2DataSource());
         dynamicDataSource.setTargetDataSources(dsMap);
         return dynamicDataSource;
     }

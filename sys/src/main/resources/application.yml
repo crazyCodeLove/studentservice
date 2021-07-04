@@ -2,10 +2,8 @@ server:
   port: 8060
   servlet:
     context-path: /student-service-provider
-  connection-timeout: 2s #停止数据发送后多久断开连接
   tomcat:
     max-connections: 5000 #最大连接数
-    max-threads: 100  #最大线程数
     uri-encoding: utf-8
 
 spring:
@@ -45,23 +43,23 @@ spring:
     host: 127.0.0.1
     port: 6379
     timeout: 2s #此参数为设置客户端空闲超过timeout，服务端会断开连接
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: guest
-    password: guest
-    publisher-confirms: true #消息发送到交换机确认机制,是否确认回调
-    virtual-host: /seal
-    listener:
-      simple:
-        concurrency: 3 #并发消费者初始化值
-        max-concurrency: 20 #并发消费者的最大值
-        prefetch: 5 #每个消费者每次监听时可拉取处理的消息数量
-rabbitmq:
-  cache:
-    channel:
-      size: 100
-      checkout-timeout: 4000
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: guest
+#    password: guest
+#    virtual-host: /seal
+#    listener:
+#      simple:
+#        concurrency: 3 #并发消费者初始化值
+#        max-concurrency: 20 #并发消费者的最大值
+#        prefetch: 5 #每个消费者每次监听时可拉取处理的消息数量
+#    publisher-returns: true
+#rabbitmq:
+#  cache:
+#    channel:
+#      size: 100
+#      checkout-timeout: 4000
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

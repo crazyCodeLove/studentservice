@@ -24,7 +24,7 @@ import org.springframework.messaging.handler.annotation.support.MessageHandlerMe
 
 @Slf4j
 @Getter
-@Configuration
+//@Configuration
 public class RabbitConfig implements RabbitListenerConfigurer {
 
     @Value("${spring.rabbitmq.host}")
@@ -58,7 +58,7 @@ public class RabbitConfig implements RabbitListenerConfigurer {
         factory.setVirtualHost(virtualHost);
         factory.setChannelCacheSize(channelCacheSize);
         factory.setChannelCheckoutTimeout(channelCheckTimeout);
-        factory.setPublisherConfirms(true);
+        factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED);
         factory.setPublisherReturns(true);
         return factory;
     }
@@ -77,7 +77,7 @@ public class RabbitConfig implements RabbitListenerConfigurer {
         /*
          * 失败后隔 30 s 进行重试
          */
-        template.setReturnCallback((message, replyCode, replyText, exchage, routingKey) -> {
+        /*template.setReturnCallback((message, replyCode, replyText, exchage, routingKey) -> {
             try {
                 Thread.sleep(30000);
             } catch (InterruptedException e) {
@@ -85,7 +85,7 @@ public class RabbitConfig implements RabbitListenerConfigurer {
             }
             log.error("exchange: {}, routingKey: {}, message: {}, replyCode: {}, replyText: {}", exchage, routingKey, message, replyCode, replyText);
             template.send(exchage, routingKey, message);
-        });
+        });*/
         return template;
     }
 

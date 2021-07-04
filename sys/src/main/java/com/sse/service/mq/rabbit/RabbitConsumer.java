@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * date  2019-02-18 16:27
  */
 
-@Service
+//@Service
 public class RabbitConsumer {
 
     /**
