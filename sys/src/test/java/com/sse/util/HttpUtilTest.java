@@ -6,7 +6,7 @@ import com.sse.model.ResponseResultHolder;
 import com.sse.model.user.User;
 import com.sse.model.user.UserSaveParam;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;

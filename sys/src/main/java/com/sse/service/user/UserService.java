@@ -10,9 +10,6 @@ import com.sse.exception.user.UserExistException;
 import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
 import com.sse.model.user.UserListParam;
-import com.sse.service.mq.rabbit.RabbitProducer;
-import com.sse.service.redis.IRedisService;
-import com.sse.service.redis.RedisService;
 import com.sse.util.PageUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +33,10 @@ import static com.sse.constant.ResponseConstant.Batch.FAILED;
 public class UserService implements IUserService {
 
     private UserMapper userMapper;
-    private IRedisService<User> userRedisService;
-    private RabbitProducer mqProducer;
 
     @Autowired
-    public UserService(UserMapper userMapper, RedisService<User> userRedisService, RabbitProducer mqProducer) {
+    public UserService(UserMapper userMapper) {
         this.userMapper = userMapper;
-        this.userRedisService = userRedisService;
-        this.mqProducer = mqProducer;
     }
 
     /**
@@ -80,7 +73,7 @@ public class UserService implements IUserService {
     }
 
     @Transactional
-    @MultiDataSource(DataSourceConfig.LOG2_DATASOURCE_NAME)
+    @MultiDataSource(DataSourceConfig.LOG1_DATASOURCE_NAME)
     public User saveInLog2(User user) {
         Date now = new Date();
         user.setUpdateTime(now);
@@ -142,7 +135,6 @@ public class UserService implements IUserService {
         }
         userMapper.update(user);
         User.changeWithNonNull(src, user);
-        userRedisService.delete(User.getUserRedisKey(src));
         return src;
     }
 
@@ -168,36 +160,25 @@ public class UserService implements IUserService {
     @Transactional
     public void delete(List<Long> uids) {
         userMapper.delete(uids);
-        userRedisService.delete(User.getUserRedisKeyList(uids));
     }
 
     public User get(User user) {
         User u;
-        if ((u = userRedisService.get(User.getUserRedisKey(user))) != null) {
-            return u;
-        }
         u = userMapper.get(user);
         if (u == null) {
             throw new UserNotExistException("user not exist. uid [" + user.getUid() + "]");
         }
-        userRedisService.set(User.getUserRedisKey(u), u);
         return u;
     }
 
     @Override
     public User getByUid(long uid) {
         User u;
-        if ((u = userRedisService.get(User.getUserRedisKey(uid))) != null) {
-            log.info("in redis");
-            mqProducer.directSendUser(u);
-            return u;
-        }
         u = userMapper.getByUid(uid);
         if (u == null) {
             throw new UserNotExistException("user not exist. uid [" + uid + "]");
         }
         log.info("not in redis");
-        userRedisService.set(User.getUserRedisKey(u), u);
         return u;
     }
 

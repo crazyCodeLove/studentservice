@@ -38,7 +38,7 @@ public class LogService implements ILogService{
     @Async
     public void save(LogInfo logInfo) {
         log.info(logInfo.toString());
-        logMapper.save(toFixedLogInfo(logInfo));
+//        logMapper.save(toFixedLogInfo(logInfo));
     }
 
     /**

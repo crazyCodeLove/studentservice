@@ -1,6 +1,7 @@
 package com.sse.util;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * <p>

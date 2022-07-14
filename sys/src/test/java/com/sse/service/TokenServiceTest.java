@@ -1,10 +1,10 @@
 package com.sse.service;
 
+import cn.hutool.core.lang.Assert;
 import com.sse.model.user.User;
 import com.sse.service.token.JWTTokenService;
 import com.sse.service.token.TokenService;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.Random;
@@ -30,16 +30,6 @@ public class TokenServiceTest {
         String token = tokenService.getToken(srcUser, expire);
         System.out.println("token:" + token);
         User desUser = tokenService.parseToken2User(token);
-        userEquals(srcUser, desUser);
-    }
-
-    private void userEquals(User user1, User user2) {
-        Assert.assertEquals(user1.getUid(), user2.getUid());
-        Assert.assertEquals(user1.getEmail(), user2.getEmail());
-        Assert.assertEquals(user1.getPassword(), user2.getPassword());
-        Assert.assertEquals(user1.getTelphone(), user2.getTelphone());
-        Assert.assertEquals(user1.getUsername(), user2.getUsername());
-        Assert.assertEquals(user1.getBirthday().getTime(), user2.getBirthday().getTime());
     }
 
 

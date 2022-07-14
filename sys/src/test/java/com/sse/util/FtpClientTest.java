@@ -4,8 +4,8 @@ import com.sse.util.ftp.FtpClientHelper;
 import com.sse.util.ftp.FtpPoolConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPFile;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileInputStream;
 import java.util.UUID;
@@ -21,7 +21,7 @@ public class FtpClientTest {
     private FtpPoolConfig config;
     private FtpClientHelper ftpClient;
 
-    @Before
+    @BeforeEach
     public void init() {
         String host = "127.0.0.1";//主机名
         String username = "user1";//用户名

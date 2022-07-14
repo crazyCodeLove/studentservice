@@ -31,6 +31,8 @@ public class DataSourceConfig {
 
     public static final String DEFAULT_DATASOURCE_NAME = STUDENT_DATASOURCE_NAME;
 
+    public static int SHARD_MMS_DATASOURCE_TABLE_COUNT = 2;
+
     // student_service 数据源
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.druid.student") // application.properteis中对应属性的前缀
