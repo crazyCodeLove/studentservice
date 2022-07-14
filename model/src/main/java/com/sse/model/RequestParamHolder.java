@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RequestParamHolder<T> {
+    private String reqId;
     private T param;
 
     public static <T> RequestParamHolder<T> setRequestParam(T t) {

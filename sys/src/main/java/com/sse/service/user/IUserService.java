@@ -16,10 +16,6 @@ public interface IUserService {
 
     User save(User user);
 
-    User saveInLog1(User user);
-
-    User saveInLog2(User user);
-
     Map<String, Object> saveBatch(List<User> users);
 
     User update(User user);

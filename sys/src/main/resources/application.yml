@@ -15,49 +15,10 @@ spring:
       FAIL_ON_UNKNOWN_PROPERTIES: false #未定义的key不反序列化
   #对返回的时间进行格式化
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    druid:
-      student:
-        url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&useTimezone=true&serverTimezone=GMT%2
-        username: root
-        password: root123
-      log1:
-        url: jdbc:mysql://127.0.0.1:3306/log1?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: root
-        password: root123
-      log2:
-        url: jdbc:mysql://127.0.0.1:3306/log2?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-        username: root
-        password: root123
-
-  redis:
-    database: 1 #Redis数据库索引（默认为0）
-    lettuce:
-      pool:
-        max-active: 20 #连接池最大连接数（使用负值表示没有限制）
-        max-idle: 10 #连接池中的最大空闲连接
-        min-idle: 10 #连接池中的最小空闲连接
-        max-wait: 5s #连接池最大阻塞等待时间（使用负值表示没有限制）
-    host: 127.0.0.1
-    port: 6379
-    timeout: 2s #此参数为设置客户端空闲超过timeout，服务端会断开连接
-#  rabbitmq:
-#    host: 127.0.0.1
-#    port: 5672
-#    username: guest
-#    password: guest
-#    virtual-host: /seal
-#    listener:
-#      simple:
-#        concurrency: 3 #并发消费者初始化值
-#        max-concurrency: 20 #并发消费者的最大值
-#        prefetch: 5 #每个消费者每次监听时可拉取处理的消息数量
-#    publisher-returns: true
-#rabbitmq:
-#  cache:
-#    channel:
-#      size: 100
-#      checkout-timeout: 4000
+    url: jdbc:mysql://127.0.0.1:3306/student_service?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

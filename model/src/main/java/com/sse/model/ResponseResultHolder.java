@@ -18,6 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class ResponseResultHolder<T> {
+
+    private String reqId;
     /**
      * 响应状态码
      */
@@ -36,7 +38,7 @@ public class ResponseResultHolder<T> {
     /**
      * 处理时间，单位毫秒
      */
-    protected Long duration;
+    protected Long durationInMs;
 
     /**
      * 持有的响应结果
@@ -100,6 +102,10 @@ public class ResponseResultHolder<T> {
      */
     public void setResponseTime(Date responseTime, long duration) {
         this.responseTime = responseTime;
-        this.duration = duration;
+        this.durationInMs = duration;
+    }
+
+    public void setReqId(String reqId) {
+        this.reqId = reqId;
     }
 }

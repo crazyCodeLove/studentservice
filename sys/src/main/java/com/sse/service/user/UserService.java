@@ -1,11 +1,8 @@
 package com.sse.service.user;
 
-import com.alibaba.druid.sql.PagerUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sse.adapter.mybatis.mapper.UserMapper;
-import com.sse.annotation.MultiDataSource;
-import com.sse.config.datasource.DataSourceConfig;
 import com.sse.exception.user.UserExistException;
 import com.sse.exception.user.UserNotExistException;
 import com.sse.model.user.User;
@@ -56,28 +53,6 @@ public class UserService implements IUserService {
         userMapper.save(user);
         // 按照 username 为 route key，消息内容为 email is + user.email
 //        mqProducer.topicExchangeSend(user.getUsername(), "email is " + user.getEmail());
-        User user1 = User.removePassword(user);
-        return user1;
-    }
-
-    @Transactional
-    @MultiDataSource(DataSourceConfig.LOG1_DATASOURCE_NAME)
-    public User saveInLog1(User user) {
-        Date now = new Date();
-        user.setCreateTime(now);
-        user.setUpdateTime(now);
-        user.setCreateTime(now);
-        userMapper.saveInLog1(user);
-        User user1 = User.removePassword(user);
-        return user1;
-    }
-
-    @Transactional
-    @MultiDataSource(DataSourceConfig.LOG1_DATASOURCE_NAME)
-    public User saveInLog2(User user) {
-        Date now = new Date();
-        user.setUpdateTime(now);
-        userMapper.saveInLog2(user);
         User user1 = User.removePassword(user);
         return user1;
     }

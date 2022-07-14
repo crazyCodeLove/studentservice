@@ -13,31 +13,6 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.twelvemonkeys.imageio/imageio-jpeg -->
-        <!--<dependency>
-            <groupId>com.twelvemonkeys.imageio</groupId>
-            <artifactId>imageio-jpeg</artifactId>
-            <version>3.4.2</version>
-        </dependency>
-        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-core &ndash;&gt;
-        <dependency>
-            <groupId>com.github.jai-imageio</groupId>
-            <artifactId>jai-imageio-core</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-        &lt;!&ndash; https://mvnrepository.com/artifact/com.github.jai-imageio/jai-imageio-jpeg2000 &ndash;&gt;
-        <dependency>
-            <groupId>com.github.jai-imageio</groupId>
-            <artifactId>jai-imageio-jpeg2000</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.pdfbox/jbig2-imageio &ndash;&gt;
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>jbig2-imageio</artifactId>
-            <version>3.0.2</version>
-        </dependency>-->
-
         <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -57,10 +32,6 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
@@ -72,14 +43,13 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
@@ -90,13 +60,6 @@
             <groupId>org.openjdk.jol</groupId>
             <artifactId>jol-core</artifactId>
             <version>0.9</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.shardingsphere/sharding-jdbc-core -->
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>sharding-jdbc-core</artifactId>
-            <version>4.1.1</version>
         </dependency>
 
         <dependency>

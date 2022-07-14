@@ -1,7 +1,5 @@
 package com.sse.adapter.mybatis.mapper;
 
-import com.sse.annotation.MultiDataSource;
-import com.sse.config.datasource.DataSourceConfig;
 import com.sse.model.user.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
