@@ -29,7 +29,6 @@
         <jsckson.version>2.9.7</jsckson.version>
         <guava.version>27.0.1-jre</guava.version>
         <druid-spring.version>1.1.14</druid-spring.version>
-        <quartz.version>2.3.1</quartz.version>
         <easyexcel.version>1.1.2-beta5</easyexcel.version>
         <commons-net.version>3.6</commons-net.version>
     </properties>
@@ -82,20 +81,9 @@
                 <version>${guava.version}</version>
             </dependency>
             <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>2.9.0</version>
-            </dependency>
-            <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
-            <dependency>
-                <groupId>org.quartz-scheduler</groupId>
-                <artifactId>quartz</artifactId>
-                <version>${quartz.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
             <dependency>

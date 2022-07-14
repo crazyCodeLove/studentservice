@@ -22,7 +22,7 @@ public class ScheduleService extends ServiceBase {
     /**
      * 秒 分 时 天 月 星期 ，以下表示每天每隔2小时执行一次
      */
-    @Scheduled(cron = "0 0/10 * * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void writeTime() {
         System.out.println("thread ID:" + Thread.currentThread().getId() + ", time:" + sdf.format(new Date()));
         try {
