@@ -30,7 +30,7 @@
         <guava.version>27.0.1-jre</guava.version>
         <druid-spring.version>1.1.14</druid-spring.version>
         <easyexcel.version>1.1.2-beta5</easyexcel.version>
-        <commons-net.version>3.6</commons-net.version>
+        <commons-net.version>3.9.0</commons-net.version>
     </properties>
 
     <parent>
